@@ -26,7 +26,7 @@
     </el-menu-item>
     <el-menu-item index="/fetch">
       <i class="el-icon-present"></i>
-      <template #title>调取档案</template>
+      <template #title >调取档案</template>
     </el-menu-item>
   </el-menu>
 </template>

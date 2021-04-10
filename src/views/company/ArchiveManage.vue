@@ -1,12 +1,11 @@
 <template>
-  {{ archives }}
   <div>
     <el-tabs type="border-card">
       <el-tab-pane label="整体浏览">
-        <basic />
+        <basic :archive="archives"/>
       </el-tab-pane>
       <el-tab-pane label="具体信息">
-        <detail />
+        <detail :archive="archives"/>
       </el-tab-pane>
     </el-tabs>
   </div>
@@ -24,7 +23,7 @@ export default {
       archives: [],
     }
   },
-  created() {
+  mounted() {
     get_company_archive().then((res) => {
       this.archives = res.data.data
     })

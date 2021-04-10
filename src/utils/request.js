@@ -29,7 +29,7 @@ request.interceptors.response.use(
   (response) => {
     const res = response.data
     // 当结果的code是否为200的情况
-    if (res.code == '0') {
+    if (res.code === '0') {
       return response
     } else {
       // 弹窗异常信息
