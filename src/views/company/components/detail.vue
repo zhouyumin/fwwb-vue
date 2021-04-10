@@ -242,10 +242,7 @@ export default {
     /*【查看】点击事件*/
     employeeDetail(index, row) {
       this.employeeInfo = {}
-      console.log(row)
-      // getOneArchive(row.uid).then(result=>{
-        this.employeeInfo =row
-      // })
+      this.employeeInfo = JSON.parse(JSON.stringify(row));
       /*---转圈加载--*/
       this.dialogVisible = true
     },
@@ -283,6 +280,7 @@ export default {
             this.data["rate"] = this.employeeInfo["rate"]
             this.data["teamAbility"] = this.employeeInfo["teamAbility"]
             this.data["title"] = this.employeeInfo["title"]
+
             this.updateArchive(this.data)
             Msg(this.$message,'success','修改成功')
           }
