@@ -303,17 +303,7 @@ export default {
     },
     /*详情信息关闭二次确认*/
     handleClose(done) {
-      this.$confirm('确认关闭？', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'info'
-      }).then(_ => {
-        this.dialogVisible = false
-        done();
-      })
-          .catch(_ => {
-            // Msg(this.$message,'warning','发生错误')
-          });
+      this.dialogVisible = false
     }
   },
   updated() {
