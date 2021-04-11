@@ -1,5 +1,5 @@
 <template>
-  <el-container class="full-screen">
+  <el-container class="full-screen" v-loading="loading">
     <el-aside width="auto">
       <company-menu-side
         v-show="identity == 'Company'"
@@ -56,15 +56,16 @@ export default {
       .then((res) => {
         const data = res.data.data
         this.identity = data.business_number != null ? 'Company' : 'Employee'
+        this.loading = false
         this.title = data.name
-        if (this.identity == 'Company') {
+        if (this.identity === 'Company') {
           this.$store.commit('setCompany', data)
-        } else if (this.identity == 'Employee') {
+        } else if (this.identity === 'Employee') {
           this.$store.commit('setEmployee', data)
         }
       })
       .catch((err) => {
-        if (err.msg == '未审核') {
+        if (err.msg === '未审核') {
           this.$router.replace({
             name: 'authorization',
             params: { identity: err.data.identity },
@@ -77,6 +78,7 @@ export default {
       isCollapse: false,
       title: '',
       identity: '',
+      loading: true
     }
   },
   methods: {
