@@ -5,11 +5,39 @@
       element-loading-spinner="el-icon-loading">
     <el-row :gutter="10" class="w1000">
       <el-col :span="16" class="w600">
-        <el-card>
-          <div id="jobChart" class="jobChart"></div>
-        </el-card>
-      </el-col>
+        <el-tabs v-model="activeName" type="card">
+          <el-tab-pane class="w600" label="职位" name="first">
+            <el-card>
+              <div id="jobChart" class="jobChart"></div>
+            </el-card>
+          </el-tab-pane>
+          <el-tab-pane class="w600" label="部门" name="second">
+            <el-card>
+              <div id="departChart" class="jobChart"></div>
+            </el-card>
+          </el-tab-pane>
+          <el-tab-pane class="w600" label="评分情况" name="third">
+            <el-card>
+              <el-tabs tab-position="bottom" v-model="starChart" id="starTable">
+                <el-tab-pane label="综合等级" name="1">
+                  <div id="starChart1" class="starChart"></div>
+                </el-tab-pane>
+                <el-tab-pane label="团队能力" name="2">
+                  <div id="starChart2" class="starChart"></div>
+                </el-tab-pane>
+                <el-tab-pane label="表现情况" name="3">
+                  <div id="starChart3" class="starChart"></div>
+                </el-tab-pane>
+                <el-tab-pane label="工作态度" name="4">
+                  <div id="starChart4" class="starChart"></div>
+                </el-tab-pane>
+              </el-tabs>
+            </el-card>
 
+          </el-tab-pane>
+          <el-tab-pane class="w600" label="定时任务补偿" name="fourth">{{archive}}</el-tab-pane>
+        </el-tabs>
+      </el-col>
       <el-col :span="7" class="ml20 w320">
         <el-card>
           <div class="grid-content">
@@ -33,7 +61,7 @@
         <el-card class="sex-chart">
           <div>
             <div style="background-color:#fff;">
-              <div id="eduChart" class="right-chart2" ></div>
+              <div id="eduChart" class="right-chart2"></div>
             </div>
             <div class="sex-chart-title">员工受教育程度</div>
           </div>
@@ -44,21 +72,23 @@
 </template>
 
 <script>
-import {getWeight, initChart,getValue} from '/src/utils/pubMethod.js'
+import {getWeight, initChart, getValue} from '/src/utils/pubMethod.js'
 
 export default {
   name: "basic",
-  props:{
+  props: {
     archive: {
       required: true
     }
   },
   data() {
     return {
+      activeName: 'first',
+      starChart:"1",
       employeeCount: 0,    //员工总数
       sex: [],
       test: [],
-      employee:[],
+      employee: [],
       loading: true,
       //图表数据
       sexChartData: {
@@ -112,8 +142,8 @@ export default {
           }
         ]
       },
-      jobChartData: {
-        color: ['#3398DB'],
+      ChartData: {
+        color: ['#ff8c7d'],
         tooltip: {
           trigger: 'axis',
           axisPointer: {            // 坐标轴指示器，坐标轴触发有效
@@ -150,18 +180,20 @@ export default {
             data: []
           }
         ]
-      }
+      },
     }
   },
   methods: {
     //获取全部员工数据
     getData() {
       //获取全部数据并进行处理操作
-        let a = this.archive
-        this.employeeCount = a.length
-        this.getJob()
-        this.getSex()
-        this.getEdu()
+      let a = this.archive
+      this.employeeCount = a.length
+      this.getJob()
+      this.getSex()
+      this.getEdu()
+      this.getDepart()
+      this.getStar()
     },
     //性别比例
     getSex() {
@@ -183,13 +215,66 @@ export default {
     },
     getJob() {
       this.test = []
-      this.jobChartData.xAxis[0].data=[]
+      this.ChartData.color = ["#409eff"]
+      this.ChartData.xAxis[0].data = []
       getWeight(this.archive, this.test, 'title')
       for (let i in this.test) {
-        this.jobChartData.xAxis[0].data.push(this.test[i]['name'])
-        this.jobChartData.series[0].data.push(this.test[i]['value'])
+        this.ChartData.xAxis[0].data.push(this.test[i]['name'])
+        this.ChartData.series[0].data.push(this.test[i]['value'])
       }
-      initChart('jobChart', this.jobChartData)
+      initChart('jobChart', this.ChartData)
+    },
+    getDepart() {
+      this.test = []
+      this.ChartData.color = ["#e2a9f8"]
+      this.ChartData.xAxis[0].data = []
+      getWeight(this.archive, this.test, 'department')
+      for (let i in this.test) {
+        this.ChartData.xAxis[0].data.push(this.test[i]['name'])
+        this.ChartData.series[0].data.push(this.test[i]['value'])
+      }
+      initChart('departChart', this.ChartData)
+    },
+    getStar(){
+      this.test = []
+      this.ChartData.xAxis[0].data = []
+      this.ChartData.color = ["#67C23A"]
+      getWeight(this.archive, this.test, 'rate')
+      for (let i in this.test) {
+        this.ChartData.xAxis[0].data.push(this.test[i]['name'])
+        this.ChartData.series[0].data.push(this.test[i]['value'])
+      }
+      initChart('starChart1', this.ChartData)
+
+      this.test = []
+      this.ChartData.xAxis[0].data = []
+      this.ChartData.color = ["#E6A23C"]
+      getWeight(this.archive, this.test, 'teamAbility')
+      for (let i in this.test) {
+        this.ChartData.xAxis[0].data.push(this.test[i]['name'])
+        this.ChartData.series[0].data.push(this.test[i]['value'])
+      }
+      initChart('starChart2', this.ChartData)
+
+      this.test = []
+      this.ChartData.xAxis[0].data = []
+      this.ChartData.color = ["#F56C6C"]
+      getWeight(this.archive, this.test, 'performance')
+      for (let i in this.test) {
+        this.ChartData.xAxis[0].data.push(this.test[i]['name'])
+        this.ChartData.series[0].data.push(this.test[i]['value'])
+      }
+      initChart('starChart3', this.ChartData)
+
+      this.test = []
+      this.ChartData.xAxis[0].data = []
+      this.ChartData.color = ["#b6c4e7"]
+      getWeight(this.archive, this.test, 'attitude')
+      for (let i in this.test) {
+        this.ChartData.xAxis[0].data.push(this.test[i]['name'])
+        this.ChartData.series[0].data.push(this.test[i]['value'])
+      }
+      initChart('starChart4', this.ChartData)
     }
   },
   updated() {
@@ -260,7 +345,6 @@ export default {
 }
 
 .grid-cont-chart {
-
   min-width: 600px;
   height: 100%;
 }
@@ -269,7 +353,15 @@ export default {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  min-width: 600px;
-  min-height: 550px;
+  height: 500px;
+  width: 700px;
 }
+#starTable{
+
+}
+.starChart{
+  width: 700px;
+  height: 450px;
+}
+
 </style>

@@ -148,7 +148,7 @@
         </el-date-picker>
       </el-form-item>
       <!--可更改-->
-      <el-form-item label="等级">
+      <el-form-item label="综合等级">
         <el-rate v-model="employeeInfo.rate"
                  allow-half
                  show-score
@@ -166,7 +166,7 @@
                  score-template="{value}"/>
       </el-form-item>
       <!--可更改-->
-      <el-form-item label="表现">
+      <el-form-item label="表现情况">
         <el-rate v-model="employeeInfo.performance"
                  allow-half
                  show-score
@@ -175,7 +175,7 @@
                  score-template="{value}"/>
       </el-form-item>
       <!--可更改-->
-      <el-form-item label="态度">
+      <el-form-item label="工作态度">
         <el-rate v-model="employeeInfo.attitude"
                  allow-half
                  show-score
