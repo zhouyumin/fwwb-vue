@@ -85,6 +85,9 @@ export default {
             }
           }
         },
+        legend: {
+          left: 'center'
+        },
         series: [
           {
             name: '男女比例',
@@ -120,9 +123,12 @@ export default {
         tooltip: {
           trigger: 'item'
         },
+        legend: {
+          left: 'center'
+        },
         series: [
           {
-            name: '男女比例',
+            name: '教育程度',
             type: 'pie',
             radius: '70%',
             color: [
@@ -164,18 +170,20 @@ export default {
           bottom: '3%',
           containLabel: true
         },
+        // legend: {
+        //   left: 'center'
+        // },
         xAxis: [
           {
             type: 'category',
             data: [],
-            axisTick: {
-              alignWithLabel: true
-            }
+            // axisTick: {
+            //   alignWithLabel: true
+            // }
           }
         ],
         yAxis: [
           {
-
             minInterval: 1,
             type: 'value'
           }
