@@ -4,75 +4,47 @@
       element-loading-text="拼命加载中"
       element-loading-spinner="el-icon-loading">
     <el-row :gutter="10" class="w1000">
-      <el-col :span="16" class="w600">
-        <el-tabs v-model="activeName" type="card">
-          <el-tab-pane class="w600" label="职位" name="first">
-            <el-card>
-              <div id="jobChart" class="jobChart"></div>
-            </el-card>
-          </el-tab-pane>
-          <el-tab-pane class="w600" label="部门" name="second">
-            <el-card>
-              <div id="departChart" class="jobChart"></div>
-            </el-card>
-          </el-tab-pane>
-          <el-tab-pane class="w600" label="评分情况" name="third">
-            <el-card>
-              <el-tabs tab-position="bottom" v-model="starChart" id="starTable">
-                <el-tab-pane label="综合等级" name="1">
-                  <div id="starChart1" class="starChart"></div>
-                </el-tab-pane>
-                <el-tab-pane label="团队能力" name="2">
-                  <div id="starChart2" class="starChart"></div>
-                </el-tab-pane>
-                <el-tab-pane label="表现情况" name="3">
-                  <div id="starChart3" class="starChart"></div>
-                </el-tab-pane>
-                <el-tab-pane label="工作态度" name="4">
-                  <div id="starChart4" class="starChart"></div>
-                </el-tab-pane>
-              </el-tabs>
-            </el-card>
-
-          </el-tab-pane>
-          <el-tab-pane class="w600" label="定时任务补偿" name="fourth">{{archive}}</el-tab-pane>
-        </el-tabs>
-      </el-col>
-      <el-col :span="7" class="ml20 w320">
+      <el-card :span="5" class="ml10">
+        {{ employeeCount }}
+        <div>总员工人数</div>
+      </el-card>
+    </el-row>
+    <el-row :gutter="10" class="w1000 mt20">
+      <el-col :span="7" >
         <el-card>
-          <div class="grid-content">
-            <div class="grid-cont-center">
-              <div class="grid-cont-numb">
-                {{ employeeCount }}
-              </div>
-              <div>总员工人数</div>
-            </div>
-          </div>
+          <div id="eduChart" class="squareChart"></div>
         </el-card>
+      </el-col>
+      <el-col :span="7" class="ml10">
+        <el-card>
+          <div id="sexChart" class="squareChart"></div>
 
-        <el-card class="sex-chart">
-          <div>
-            <div style="background-color:#fff;">
-              <div id="sexChart" class="right-chart1"></div>
-            </div>
-            <div class="sex-chart-title">员工性别比例</div>
-          </div>
         </el-card>
-        <el-card class="sex-chart">
-          <div>
-            <div style="background-color:#fff;">
-              <div id="eduChart" class="right-chart2"></div>
-            </div>
-            <div class="sex-chart-title">员工受教育程度</div>
-          </div>
+      </el-col>
+      <el-col :span="9" class="ml10">
+        <el-card>
+          <div id="starChart" class="rectChart-s"></div>
         </el-card>
       </el-col>
     </el-row>
+    <el-row :gutter="10" class="w1000 mt50">
+     <el-col :span="11">
+       <el-card>
+         <div id="jobChart" class="rectChart"></div>
+       </el-card>
+     </el-col>
+    <el-col :span="11" class="ml40">
+      <el-card>
+        <div id="departChart" class="rectChart"></div>
+      </el-card>
+    </el-col>
+  </el-row>>
+
   </el-main>
 </template>
 
 <script>
-import {getWeight, initChart, getValue} from '/src/utils/pubMethod.js'
+import {getWeight, initChart, getValue,num} from '/src/utils/pubMethod.js'
 
 export default {
   name: "basic",
@@ -84,7 +56,6 @@ export default {
   data() {
     return {
       activeName: 'first',
-      starChart:"1",
       employeeCount: 0,    //员工总数
       sex: [],
       test: [],
@@ -93,14 +64,43 @@ export default {
       //图表数据
       sexChartData: {
         tooltip: {
-          trigger: 'item'
+          show: true,// 是否显示提示,true/false,默认true
+          trigger: "item",// 触发类型, item/axis/none
+          backgroundColor: 'rgba(0,0,0,.5)',// 提示框背景
+          borderWidth: 1, // 提示框边框大小
+          padding: 10,// 提示框内边距
+          borderColor: '#ff0000',// 提示框边框颜色
+          formatter: "{a} <br/>{b}: {c} ({d}%)",// 提示格式，支持回调函数
+          textStyle: {
+            color: '#0DB9DF', // 提示文字样式
+            fontStyle: 'normal', // 提示文字风格，normal,italic,oblique
+            fontWeight: 'normal', // 提示文字粗细， normal,bold,bolder,lighter,100~900
+            fontFamily: 'sans-serif', //提示文字字体， 'serif' , 'monospace', 'Arial', 'Courier New', 'Microsoft YaHei', ...
+            fontSize: 14, //字体大小
+            lineHeight: 28, //字体行高
+            rich: {
+              a: {
+                lineHeight: 28 // 没有设置则继承textStyle的 `lineHeight`，
+              }
+            }
+          }
         },
         series: [
           {
             name: '男女比例',
             type: 'pie',
-            radius: '90%',
+            radius: '70%',
             data: [],
+            color: [
+              // "#5ab1ef",
+              "#32dadd",
+              "#ffb980",
+              // "#c8b2f4",
+              // "#40c9c6",
+              // "#36a3f7",
+              // "#f4516c",
+
+            ],
             emphasis: {
               label: {
                 show: true,
@@ -125,6 +125,15 @@ export default {
             name: '男女比例',
             type: 'pie',
             radius: '70%',
+            color: [
+              "#5ab1ef",
+              "#32dadd",
+              "#ffb980",
+              "#c8b2f4",
+              "#40c9c6",
+              "#36a3f7",
+              "#f4516c",
+            ],
             emphasis: {
               label: {
                 show: true,
@@ -143,7 +152,6 @@ export default {
         ]
       },
       ChartData: {
-        color: ['#ff8c7d'],
         tooltip: {
           trigger: 'axis',
           axisPointer: {            // 坐标轴指示器，坐标轴触发有效
@@ -177,10 +185,81 @@ export default {
             name: '共有',
             type: 'bar',
             barWidth: '60%',
-            data: []
+            data: [],
+            color: [
+              "#5ab1ef",
+              "#32dadd",
+              "#ffb980",
+              "#c8b2f4",
+              "#40c9c6",
+              "#36a3f7",
+              "#f4516c",
+            ],
           }
         ]
       },
+      starData:{
+        tooltip: {
+          trigger: 'axis',
+          axisPointer: {            // 坐标轴指示器，坐标轴触发有效
+            type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+          }
+        },
+        legend: {
+          data: ['综合评价', '团队能力', '表现情况', '工作态度']
+        },
+        grid: {
+          left: '3%',
+          right: '4%',
+          bottom: '3%',
+          containLabel: true
+        },
+        xAxis: [
+          {
+            type: 'category',
+            data: ['很差', '差', '合格', '良好', '优秀']
+          }
+        ],
+        yAxis: [
+          {
+            type: 'value'
+          }
+        ],
+        series: [
+          {
+            name: '综合评价',
+            type: 'bar',
+            emphasis: {
+              focus: 'series'
+            },
+            data: [320, 332, 301, 334, 390]
+          },
+          {
+            name: '团队能力',
+            type: 'bar',
+            emphasis: {
+              focus: 'series'
+            },
+            data: [120, 132, 101, 134, 90]
+          },
+          {
+            name: '表现情况',
+            type: 'bar',
+            emphasis: {
+              focus: 'series'
+            },
+            data: [220, 182, 191, 234, 290]
+          },
+          {
+            name: '工作态度',
+            type: 'bar',
+            emphasis: {
+              focus: 'series'
+            },
+            data: [150, 232, 201, 154, 190]
+          }
+        ]
+      }
     }
   },
   methods: {
@@ -215,7 +294,6 @@ export default {
     },
     getJob() {
       this.test = []
-      this.ChartData.color = ["#409eff"]
       this.ChartData.xAxis[0].data = []
       getWeight(this.archive, this.test, 'title')
       for (let i in this.test) {
@@ -226,7 +304,6 @@ export default {
     },
     getDepart() {
       this.test = []
-      this.ChartData.color = ["#e2a9f8"]
       this.ChartData.xAxis[0].data = []
       getWeight(this.archive, this.test, 'department')
       for (let i in this.test) {
@@ -235,46 +312,27 @@ export default {
       }
       initChart('departChart', this.ChartData)
     },
-    getStar(){
+    getStar() {
       this.test = []
-      this.ChartData.xAxis[0].data = []
-      this.ChartData.color = ["#67C23A"]
       getWeight(this.archive, this.test, 'rate')
-      for (let i in this.test) {
-        this.ChartData.xAxis[0].data.push(this.test[i]['name'])
-        this.ChartData.series[0].data.push(this.test[i]['value'])
-      }
-      initChart('starChart1', this.ChartData)
+      this.test = num(this.test)
+      this.starData.series[0].data=this.test
 
       this.test = []
-      this.ChartData.xAxis[0].data = []
-      this.ChartData.color = ["#E6A23C"]
       getWeight(this.archive, this.test, 'teamAbility')
-      for (let i in this.test) {
-        this.ChartData.xAxis[0].data.push(this.test[i]['name'])
-        this.ChartData.series[0].data.push(this.test[i]['value'])
-      }
-      initChart('starChart2', this.ChartData)
+      this.test = num(this.test)
+      this.starData.series[1].data=this.test
 
       this.test = []
-      this.ChartData.xAxis[0].data = []
-      this.ChartData.color = ["#F56C6C"]
       getWeight(this.archive, this.test, 'performance')
-      for (let i in this.test) {
-        this.ChartData.xAxis[0].data.push(this.test[i]['name'])
-        this.ChartData.series[0].data.push(this.test[i]['value'])
-      }
-      initChart('starChart3', this.ChartData)
+      this.test = num(this.test)
+      this.starData.series[2].data=this.test
 
       this.test = []
-      this.ChartData.xAxis[0].data = []
-      this.ChartData.color = ["#b6c4e7"]
       getWeight(this.archive, this.test, 'attitude')
-      for (let i in this.test) {
-        this.ChartData.xAxis[0].data.push(this.test[i]['name'])
-        this.ChartData.series[0].data.push(this.test[i]['value'])
-      }
-      initChart('starChart4', this.ChartData)
+      this.test = num(this.test)
+      this.starData.series[3].data=this.test
+      initChart('starChart', this.starData)
     }
   },
   updated() {
@@ -285,83 +343,35 @@ export default {
 </script>
 
 <style scoped>
-.grid-content {
-  display: flex;
-  align-items: center;
-  height: 25px;
-}
-
-.grid-cont-center {
-  text-align: center;
-  flex: 1;
-  color: #7F7F7F;
-  font-size: 14px;
-}
-
-.grid-cont-numb {
-  font-size: 20px;
-  font-weight: bold;
-}
-
-.ml20 {
-  margin-left: 20px;
-}
-
-.w600 {
-  min-width: 600px;
-}
 
 .w1000 {
   min-width: 1100px;
 }
 
-.w320 {
-  min-width: 320px;
+.rectChart {
+  width: 500px;
+  height: 300px;
 }
 
-.sex-chart {
-  margin-top: 2px;
+.squareChart {
+  width: 300px;
+  height: 300px;
 }
 
-.sex-chart-title {
-  text-align: center;
-  font-size: 14px;
-  color: #7F7F7F;
-  font-weight: bolder;
+.rectChart-s {
+  width: 400px;
+  height: 300px;
 }
-
-.right-chart1 {
-  margin-left: -10px;
-  width: 320px;
-  height: 180px;
-
+.mt50{
+  margin-top: 50px;
 }
-
-.right-chart2 {
-  margin-left: -10px;
-  width: 320px;
-  height: 225px;
-  z-index: 999;
+.mt20{
+  margin-top: 20px;
 }
-
-.grid-cont-chart {
-  min-width: 600px;
-  height: 100%;
+.ml10{
+  margin-left: 10px;
 }
-
-.jobChart {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 500px;
-  width: 700px;
+.ml40{
+  margin-left: 20px;
 }
-#starTable{
-
-}
-.starChart{
-  width: 700px;
-  height: 450px;
-}
-
 </style>

@@ -1,4 +1,6 @@
-export {getWeight,getObj,initChart,Msg,getValue}
+import el from "element-plus/packages/locale/lang/el";
+
+export {getWeight,getObj,initChart,Msg,getValue,num}
 import * as echarts from 'echarts'
 /**
  * 抽取目的对象中某一属性不同值出现的次数，并以对象数组形式进行返回
@@ -59,9 +61,9 @@ function getObj(attr,newObj,obj){
 
 /***
  * 获取某一个属性的值
- * @param attr
- * @param newObj
- * @param obj
+ * @param attr 源对象
+ * @param newObj 目的对象
+ * @param obj 属性
  */
 function getValue(attr,newObj,obj){
     for (let item of attr){
@@ -88,4 +90,16 @@ function Msg(param,type,msg){
         message: msg,
         type: type
     });
+}
+//统计54321的次数，依次返回
+function num(param){
+    let a = []
+    let i;
+    for(i=0;i<5;i++){
+        if (param[i]){
+            a[param[i]['name']-1] = param[i]['value']
+        }
+    }
+    console.log(a)
+    return a
 }

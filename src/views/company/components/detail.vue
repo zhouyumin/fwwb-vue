@@ -95,29 +95,37 @@
       width="33%"
       :close-on-click-modal=false
       :before-close="handleClose"
-      >
+  >
     <el-form ref="form" :model="employeeInfo" label-width="80px">
       <el-form-item label="姓名">
-        <el-input v-model="employeeInfo.employee.name" ></el-input>
+        <span class="ml10">
+          {{ employeeInfo.employee.name }}
+        </span>
+
+
+        <!--        <el-input v-model="employeeInfo.employee.name" ></el-input>-->
       </el-form-item>
       <el-form-item label="性别">
         <span class="ml10">
-          {{employeeInfo.employee.sex}}
+          {{ employeeInfo.employee.sex }}
         </span>
-<!--        <el-input v-model="" :readonly="true"></el-input>-->
+        <!--        <el-input v-model="" :readonly="true"></el-input>-->
       </el-form-item>
       <el-form-item label="手机号码">
         <span class="ml10">
-          {{employeeInfo.employee.tel}}
+          {{ employeeInfo.employee.tel }}
       </span>
-<!--        <el-input v-model="" :readonly="true"></el-input>-->
+        <!--        <el-input v-model="" :readonly="true"></el-input>-->
       </el-form-item>
       <el-form-item label="身份证号">
-        <el-input v-model="employeeInfo.employee.idNumber" ></el-input>
+        <span class="ml10">
+          {{ employeeInfo.employee.idNumber }}
+        </span>
+<!--        <el-input v-model="employeeInfo.employee.idNumber"></el-input>-->
       </el-form-item>
       <el-form-item label="家庭住址">
         <span class="ml10">{{ employeeInfo.employee.address }}</span>
-<!--        <el-input v-model="employeeInfo.employee.address" :readonly="true"></el-input>-->
+        <!--        <el-input v-model="employeeInfo.employee.address" :readonly="true"></el-input>-->
       </el-form-item>
       <!--可更改-->
       <el-form-item label="职位">
@@ -198,19 +206,21 @@
     <template #footer>
     <span class="dialog-footer">
       <el-button @click="handleClose">取 消</el-button>
-      <el-button type="primary" @click="handlerChange">修改</el-button>
+      <el-button type="primary" @click="handlerChange" disabled="{{employeeInfo.departureDate}}"
+      >修改</el-button>
     </span>
     </template>
   </el-dialog>
 </template>
 <script>
-import { update_archive } from '/src/api/archive.js'
+import {update_archive} from '/src/api/archive.js'
 
-import {getObj,Msg,getValue} from '/src/utils/pubMethod'
+import {getObj, Msg, getValue} from '/src/utils/pubMethod'
 import moment from "moment";
+
 export default {
   name: "detail",
-  props:{
+  props: {
     archive: {
       required: true
     }
@@ -224,7 +234,7 @@ export default {
       sexFilter: [],
       employeeInfo: {},
       dialogVisible: false,
-      data:{}
+      data: {}
     };
   },
   methods: {
@@ -234,7 +244,7 @@ export default {
       this.sexFilter = []
       this.jobFilter = []
       this.eduFilter = []
-      getValue(this.archive,employee,'employee')
+      getValue(this.archive, employee, 'employee')
       getObj('education', this.eduFilter, employee)
       getObj('title', this.jobFilter, this.archive)
       getObj('sex', this.sexFilter, employee)
@@ -252,15 +262,15 @@ export default {
       return row[property] === value;
     },
     /*修改按钮二次确认*/
-    handlerChange(done){
+    handlerChange(done) {
       this.$confirm('确认修改？', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'success'
       }).then(_ => {
         /*表单的验证*/
-        this.$refs.form.validate((valid)=>{
-          if (valid){
+        this.$refs.form.validate((valid) => {
+          if (valid) {
             /*进行数据修改,并获取响应*/
             this.data["attendance"] = this.employeeInfo["attendance"]
             this.data["attitude"] = this.employeeInfo["attitude"]
@@ -282,21 +292,21 @@ export default {
             this.data["title"] = this.employeeInfo["title"]
 
             this.updateArchive(this.data)
-            Msg(this.$message,'success','修改成功')
+            Msg(this.$message, 'success', '修改成功')
           }
         })
         // done();
       }).catch(_ => {
-          Msg(this.$message,'warning','修改失败')
-        });
+        Msg(this.$message, 'warning', '修改失败')
+      });
     },
-    updateArchive(param){
+    updateArchive(param) {
       console.log(param)
-      update_archive(param).then(res=>{
+      update_archive(param).then(res => {
         console.log(res)
-      },err=>{
+      }, err => {
         console.log(err)
-        Msg(this.$message,'warning','修改失败')
+        Msg(this.$message, 'warning', '修改失败')
       })
     },
     /*详情信息关闭二次确认*/
@@ -329,9 +339,11 @@ export default {
 .ml50 {
   padding-left: 150px;
 }
+
 .ml10 {
   margin-left: 10px;
 }
+
 .cancel {
   background-color: #fff;
 }
