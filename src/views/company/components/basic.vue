@@ -4,18 +4,50 @@
       element-loading-text="拼命加载中"
       element-loading-spinner="el-icon-loading">
     <el-row :gutter="10" class="w1000">
-      <el-card :span="5" class="ml10" id="count">
-        <div  id="countIcon">
-          <i class="el-icon-s-custom" id = "icon"></i>
-        </div>
-        <div :span = "3" id="countRight">
-          <div id="countHead">总员工人数</div>
-          <div id="countData">
-            {{ employeeCount }}
+      <el-col :span="6" class="ml40">
+        <el-card  class="ml10">
+          <div  class="countIcon">
+            <i class="el-icon-s-custom icon"></i>
           </div>
-        </div>
+          <div :span = "3" class="countRight ml40">
+            <div class="countHead">总员工人数</div>
+            <div class="countData">
+              {{ employeeCount }}
+            </div>
+          </div>
 
-      </el-card>
+        </el-card>
+      </el-col>
+      <el-col :span="6" class="ml60">
+        <el-card  class="ml10 count ml0" >
+          <div  class="zaizhiIcon">
+            <i class="el-icon-s-claim icon1 icon"></i>
+          </div>
+          <div  class="countRight">
+            <div class="countHead">在职人数</div>
+            <div class="countData">
+              {{ zaizhiCount }}
+            </div>
+          </div>
+
+        </el-card>
+
+      </el-col>
+      <el-col  :span="6" class="ml80">
+        <el-card class="ml10 count">
+          <div  class="departIcon">
+            <i class="el-icon-s-release icon2 icon"></i>
+          </div>
+          <div  class="countRight">
+            <div class="countHead">离职人数</div>
+            <div class="countData">
+              {{ departCount }}
+            </div>
+          </div>
+
+        </el-card>
+      </el-col>
+
     </el-row>
     <el-row :gutter="10" class="w1000 mt20">
       <el-col :span="7" >
@@ -66,6 +98,8 @@ export default {
     return {
       activeName: 'first',
       employeeCount: 0,    //员工总数
+      departCount: 0,
+      zaizhiCount: 0,
       sex: [],
       test: [],
       employee: [],
@@ -370,6 +404,14 @@ export default {
       //获取全部数据并进行处理操作
       let a = this.archive
       this.employeeCount = a.length
+      let b = 0
+      for(let item of a){
+        if (item.departureDate===''){
+          b = b+1
+        }
+      }
+      this.departCount = b
+      this.zaizhiCount = this.employeeCount - this.departCount
       this.getJob()
       this.getSex()
       this.getEdu()
@@ -392,7 +434,6 @@ export default {
       getValue(this.archive, this.test, 'employee')
       getWeight(this.test, this.eduChartData.series[0].data, 'education')
       this.test = []
-      console.log(this.eduChartData.series[0].data)
       let edu = ['博士','硕士','本科','专科','高中','初中']
       for(let i=0;i<6;i++){
         for (let item of this.eduChartData.series[0].data) {
@@ -402,7 +443,6 @@ export default {
         }
       }
       //初始化图表
-      console.log(this.test)
       this.eduChartData.series[0].data[0].value = this.test
       initChart('eduChart', this.eduChartData)
     },
@@ -491,7 +531,7 @@ export default {
 }
 
 .rectChart-s {
-  width: 400px;
+  width: 350px;
   height: 300px;
 }
 .mt50{
@@ -506,44 +546,88 @@ export default {
 .ml40{
   margin-left: 20px;
 }
-#countHead{
+.ml20{
+  margin-left: 40px;
+}
+.ml80{
+  margin-left: 80px;
+}
+.ml60{
+  margin-left: 60px;
+}
+.countHead{
   color: rgba(0,0,0,.45);
   font-size: 16px;
   font-weight: 700;
 }
-#countIcon{
+.countIcon{
   transition:all 0.7s linear 0s;
   float: left;
   margin-bottom: 20px;
   width: 80px;
   height: 80px;
   border-radius: 10px;
-  #icon{
+  .icon{
     color: #40c9c6;
   }
 }
-#countIcon:hover{
+.countIcon:hover{
   transition:all 0.7s linear 0s;
   background-color: #40c9c6;
-  #icon{
+  .icon{
     color: #fff;
   }
 }
 
-#icon{
+.departIcon{
+  transition:all 0.7s linear 0s;
+  float: left;
+  margin-bottom: 20px;
+  width: 80px;
+  height: 80px;
+  border-radius: 10px;
+  .icon2{
+    color: #f4516c;
+  }
+}
+.departIcon:hover{
+  transition:all 0.7s linear 0s;
+  background-color: #f4516c;
+  .icon2{
+    color: #fff;
+  }
+}
+
+.zaizhiIcon{
+  transition:all 0.7s linear 0s;
+  float: left;
+  margin-bottom: 20px;
+  width: 80px;
+  height: 80px;
+  border-radius: 10px;
+  .icon1{
+    color: #36a3f7;
+  }
+}
+.zaizhiIcon:hover{
+  transition:all 0.7s linear 0s;
+  background-color: #36a3f7;
+  .icon1{
+    color: #fff;
+  }
+}
+
+.icon{
   font-size: 60px;
   margin-top: 6px;
   margin-left: 10px;
 }
-#countData{
+.countData{
   font-weight: 700;
   color: #666;
 }
-#count{
-  width: 250px;
-}
-#countRight{
-  //height: 150px;
+
+.countRight{
   margin-top: 20px;
   width: 100px;
   float: left;
