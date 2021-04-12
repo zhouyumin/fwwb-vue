@@ -161,7 +161,7 @@ export default {
       },
       eduChartData: {
         tooltip: {
-          trigger: 'axis'
+          trigger: 'item'
         },
         radar: {
           // shape: 'circle',
@@ -434,21 +434,22 @@ export default {
     //教育程度比例
     getEdu() {
       this.test = []
-      this.eduChartData.series[0].data = []
+      this.eduChartData.series[0].data[0].value = []
+      let getEdu_a = []
       getValue(this.archive, this.test, 'employee')
-      getWeight(this.test, this.eduChartData.series[0].data, 'education')
+      getWeight(this.test, getEdu_a, 'education')
       this.test = []
       let edu = ['博士','硕士','本科','专科','高中','初中']
       for(let i=0;i<6;i++){
-        for (let item of this.eduChartData.series[0].data) {
+        for (let item of getEdu_a) {
           if (item['name'] === edu[i]){
             this.test[i]=item['value']
           }
         }
       }
-      console.log()
-      //初始化图表
-      this.eduChartData.series[0].data[0].value = this.test
+      for (let i=0;i<6;i++){
+          this.eduChartData.series[0].data[0].value.push(this.test[i])
+      }
       initChart('eduChart', this.eduChartData)
     },
     getJob() {

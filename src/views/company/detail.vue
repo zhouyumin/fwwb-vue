@@ -24,12 +24,12 @@
       <template #default="scope">
         <el-popover effect="light" trigger="hover" placement="top">
           <template #default>
-            <p class="employee-name">姓名: {{ scope.row.employee.name }}</p>
+            <p class="employee-name">姓名: {{ scope.row.name }}</p>
             <p>住址: {{ scope.row.employee.address }}</p>
           </template>
           <template #reference>
             <div class="name-wrapper">
-              <el-tag size="medium">{{ scope.row.employee.name }}</el-tag>
+              <el-tag size="medium">{{ scope.row.name }}</el-tag>
             </div>
           </template>
         </el-popover>
@@ -38,13 +38,12 @@
     <!--性别-->
     <el-table-column
         label="性别"
-        prop="employee.sex"
+        prop="sex"
         align="center"
         :filters="sexFilter"
         :filter-method="filterHandler"
         sortable
         width="150px">
-
     </el-table-column>
     <!--职位--><!--width="220px"-->
     <el-table-column
@@ -60,7 +59,7 @@
     <!--学历-->
     <el-table-column
         label="学历"
-        prop="employee.education"
+        prop="education"
         align="center"
         width="220px"
         :filters="eduFilter"
@@ -230,22 +229,24 @@ export default {
       sexFilter: [],
       employeeInfo: {},
       dialogVisible: false,
-      data: {}
+      form_data: {}
     };
   },
   methods: {
     /*获取数据*/
     getData() {
-
-        let employee = []
         this.sexFilter = []
         this.jobFilter = []
         this.eduFilter = []
-        getValue(this.archive, employee, 'employee')
-        getObj('education', this.eduFilter, employee)
+        for(let item in this.archive){
+          this.archive[item]["name"] = this.archive[item]["employee"]["name"]
+          this.archive[item]["education"] = this.archive[item]["employee"]["education"]
+          this.archive[item]["sex"] = this.archive[item]["employee"]["sex"]
+        }
+        console.log(this.archive)
+        getObj('education', this.eduFilter, this.archive)
         getObj('title', this.jobFilter, this.archive)
-        getObj('sex', this.sexFilter, employee)
-
+        getObj('sex', this.sexFilter, this.archive)
     },
     /*【查看】点击事件*/
     employeeDetail(index, row) {
@@ -270,26 +271,26 @@ export default {
         this.$refs.form.validate((valid) => {
           if (valid) {
             /*进行数据修改,并获取响应*/
-            this.data["attendance"] = this.employeeInfo["attendance"]
-            this.data["attitude"] = this.employeeInfo["attitude"]
-            this.data["bonusPenalty"] = this.employeeInfo["bonusPenalty"]
-            this.data["comment"] = this.employeeInfo["comment"]
+            this.form_data["attendance"] = this.employeeInfo["attendance"]
+            this.form_data["attitude"] = this.employeeInfo["attitude"]
+            this.form_data["bonusPenalty"] = this.employeeInfo["bonusPenalty"]
+            this.form_data["comment"] = this.employeeInfo["comment"]
 
-            this.data["department"] = this.employeeInfo["department"]
-            this.data.departureDate = moment(this.employeeInfo["departureDate"]).format(
+            this.form_data["department"] = this.employeeInfo["department"]
+            this.form_data.departureDate = moment(this.employeeInfo["departureDate"]).format(
                 'YYYY-MM-DD HH:mm:ss'
             )
-            this.data.hireDate = moment(this.employeeInfo["hireDate"]).format(
+            this.form_data.hireDate = moment(this.employeeInfo["hireDate"]).format(
                 'YYYY-MM-DD HH:mm:ss'
             )
-            this.data["idNumber"] = this.employeeInfo["employee"]["idNumber"]
-            this.data["name"] = this.employeeInfo["employee"]["name"]
-            this.data["performance"] = this.employeeInfo["performance"]
-            this.data["rate"] = this.employeeInfo["rate"]
-            this.data["teamAbility"] = this.employeeInfo["teamAbility"]
-            this.data["title"] = this.employeeInfo["title"]
+            this.form_data["idNumber"] = this.employeeInfo["employee"]["idNumber"]
+            this.form_data["name"] = this.employeeInfo["employee"]["name"]
+            this.form_data["performance"] = this.employeeInfo["performance"]
+            this.form_data["rate"] = this.employeeInfo["rate"]
+            this.form_data["teamAbility"] = this.employeeInfo["teamAbility"]
+            this.form_data["title"] = this.employeeInfo["title"]
 
-            this.updateArchive(this.data)
+            this.updateArchive(this.form_data)
             Msg(this.$message, 'success', '修改成功')
           }
         })
