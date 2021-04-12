@@ -213,7 +213,7 @@
   </el-dialog>
 </template>
 <script>
-import {update_archive} from '/src/api/archive.js'
+import {get_company_archive, update_archive} from '/src/api/archive.js'
 
 import {getObj, Msg, getValue} from '/src/utils/pubMethod'
 import moment from "moment";
@@ -236,16 +236,16 @@ export default {
   methods: {
     /*获取数据*/
     getData() {
-      this.archive = this.$store.getters.Archive
-      console.log( this.$store.getters.Archive)
-      let employee = []
-      this.sexFilter = []
-      this.jobFilter = []
-      this.eduFilter = []
-      getValue(this.archive, employee, 'employee')
-      getObj('education', this.eduFilter, employee)
-      getObj('title', this.jobFilter, this.archive)
-      getObj('sex', this.sexFilter, employee)
+
+        let employee = []
+        this.sexFilter = []
+        this.jobFilter = []
+        this.eduFilter = []
+        getValue(this.archive, employee, 'employee')
+        getObj('education', this.eduFilter, employee)
+        getObj('title', this.jobFilter, this.archive)
+        getObj('sex', this.sexFilter, employee)
+
     },
     /*【查看】点击事件*/
     employeeDetail(index, row) {
@@ -313,8 +313,12 @@ export default {
     }
   },
   created() {
-    this.getData()
-    this.loading = false
+    get_company_archive().then((res) => {
+      this.$store.commit('setArchive',res.data.data)
+      this.archive = this.$store.getters.Archive
+      this.getData()
+      this.loading = false
+    })
   }
 }
 </script>

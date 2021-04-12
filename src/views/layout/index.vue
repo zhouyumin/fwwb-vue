@@ -61,9 +61,7 @@ export default {
         this.title = data.name
         if (this.identity === 'Company') {
           this.$store.commit('setCompany', data)
-          get_company_archive().then((res) => {
-            this.$store.commit('setArchive',res.data.data)
-          })
+
         } else if (this.identity === 'Employee') {
           this.$store.commit('setEmployee', data)
         }

@@ -86,6 +86,7 @@
 
 <script>
 import {getWeight, initChart, getValue,num} from '/src/utils/pubMethod.js'
+import {get_company_archive} from "../../api/archive";
 
 export default {
   name: "basic",
@@ -397,25 +398,29 @@ export default {
   methods: {
     //获取全部员工数据
     getData() {
-      //获取全部数据并进行处理操作
-      console.log(this.$store.getters.Archive)
-      this.archive = this.$store.getters.Archive
-      console.log(this.archive)
-      let a = this.archive
-      this.employeeCount = a.length
-      let b = 0
-      for(let item of a){
-        if (item.departureDate===''){
-          b = b+1
+      get_company_archive().then((res) => {
+        this.$store.commit('setArchive',res.data.data)
+        //获取全部数据并进行处理操作
+        console.log(this.$store.getters.Archive)
+        this.archive = this.$store.getters.Archive
+        console.log(this.archive)
+        let a = this.archive
+        this.employeeCount = a.length
+        let b = 0
+        for(let item of a){
+          if (item.departureDate===''){
+            b = b+1
+          }
         }
-      }
-      this.departCount = b
-      this.zaizhiCount = this.employeeCount - this.departCount
-      this.getJob()
-      this.getSex()
-      this.getEdu()
-      this.getDepart()
-      this.getStar()
+        this.departCount = b
+        this.zaizhiCount = this.employeeCount - this.departCount
+        this.getJob()
+        this.getSex()
+        this.getEdu()
+        this.getDepart()
+        this.getStar()
+      })
+
     },
     //性别比例
     getSex() {
