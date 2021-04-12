@@ -12,14 +12,15 @@
     <el-row :gutter="10" class="w1000 mt20">
       <el-col :span="7" >
         <el-card>
-          <div id="eduChart" class="squareChart"></div>
+          <div id="sexChart" class="squareChart"></div>
+
         </el-card>
       </el-col>
       <el-col :span="7" class="ml10">
         <el-card>
-          <div id="sexChart" class="squareChart"></div>
-
+          <div id="eduChart" class="squareChart"></div>
         </el-card>
+
       </el-col>
       <el-col :span="9" class="ml10">
         <el-card>
@@ -121,47 +122,130 @@ export default {
       },
       eduChartData: {
         tooltip: {
-          trigger: 'item'
+          trigger: 'axis'
         },
-        legend: {
-          left: 'center'
+        radar: {
+          // shape: 'circle',
+          indicator: [
+            {text: '博士'},
+            {text: '硕士'},
+            {text: '本科'},
+            {text: '专科'},
+            {text: '高中'},
+            {text: '初中'}
+          ],
+          radius: 90,
+          center: ['47%', '50%']
         },
         series: [
           {
-            name: '教育程度',
-            type: 'pie',
-            radius: '70%',
-            color: [
-              "#5ab1ef",
-              "#32dadd",
-              "#ffb980",
-              "#c8b2f4",
-              "#40c9c6",
-              "#36a3f7",
-              "#f4516c",
-            ],
-            emphasis: {
-              label: {
-                show: true,
-                fontSize: '15',
-                fontWeight: 'bold'
+            name: '职员学历情况',
+            type: 'radar',
+            areaStyle: {
+              normal: {
+                color: '#5ab1ef',
               },
-              itemStyle: {
-                shadowBlur: 10,
-                shadowOffsetX: 0,
-                shadowColor: 'rgba(0, 0, 0, 0.5)'
-              }
+              emphasis: {
+                color: '#32dadd',
+              },
             },
+            itemStyle: {
+              normal: {
+                color: '#5ab1ef',
+              },
+              emphasis: {
+                color: '#32dadd',
+              },
+            },
+            data: [
+              {
+                value: [32, 43, 63, 67, 92, 35],
+              },
+            ],
+          },
+        ],
 
-            data: []
-          }
-        ]
+        // tooltip: {
+        //   show: true,// 是否显示提示,true/false,默认true
+        //   trigger: "item",// 触发类型, item/axis/none
+        //   backgroundColor: 'rgba(0,0,0,.5)',// 提示框背景
+        //   borderWidth: 1, // 提示框边框大小
+        //   padding: 10,// 提示框内边距
+        //   borderColor: '#ff0000',// 提示框边框颜色
+        //   formatter: "{a} <br/>{b}: {c} ({d}%)",// 提示格式，支持回调函数
+        //   textStyle: {
+        //     color: '#0DB9DF', // 提示文字样式
+        //     fontStyle: 'normal', // 提示文字风格，normal,italic,oblique
+        //     fontWeight: 'normal', // 提示文字粗细， normal,bold,bolder,lighter,100~900
+        //     fontFamily: 'sans-serif', //提示文字字体， 'serif' , 'monospace', 'Arial', 'Courier New', 'Microsoft YaHei', ...
+        //     fontSize: 14, //字体大小
+        //     lineHeight: 28, //字体行高
+        //     rich: {
+        //       a: {
+        //         lineHeight: 28 // 没有设置则继承textStyle的 `lineHeight`，
+        //       }
+        //     }
+        //   }
+        // },
+        // legend: {
+        //   left: 'center'
+        // },
+        // series: [
+        //   {
+        //     name: '教育程度',
+        //     type: 'pie',
+        //     radius: '70%',
+        //
+        //     color: [
+        //       "#5ab1ef",
+        //       "#32dadd",
+        //       "#ffb980",
+        //       "#c8b2f4",
+        //       "#40c9c6",
+        //       "#36a3f7",
+        //       "#f4516c",
+        //     ],
+        //     emphasis: {
+        //       label: {
+        //         show: true,
+        //         fontSize: '15',
+        //         fontWeight: 'bold'
+        //       },
+        //       itemStyle: {
+        //         shadowBlur: 10,
+        //         shadowOffsetX: 0,
+        //         shadowColor: 'rgba(0, 0, 0, 0.5)'
+        //       }
+        //     },
+        //
+        //     data: []
+        //   }
+        // ]
       },
       ChartData: {
         tooltip: {
           trigger: 'axis',
           axisPointer: {            // 坐标轴指示器，坐标轴触发有效
             type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+          },
+          show: true,// 是否显示提示,true/false,默认true
+          // trigger: "item",// 触发类型, item/axis/none
+          backgroundColor: 'rgba(0,0,0,.5)',// 提示框背景
+          borderWidth: 1, // 提示框边框大小
+          padding: 10,// 提示框内边距
+          borderColor: '#ff0000',// 提示框边框颜色
+          textStyle: {
+            color: '#0DB9DF', // 提示文字样式
+            fontStyle: 'normal', // 提示文字风格，normal,italic,oblique
+            fontWeight: 'normal', // 提示文字粗细， normal,bold,bolder,lighter,100~900
+            fontFamily: 'sans-serif', //提示文字字体， 'serif' , 'monospace', 'Arial', 'Courier New', 'Microsoft YaHei', ...
+            fontSize: 14, //字体大小
+            lineHeight: 28, //字体行高
+            rich: {
+              a: {
+                lineHeight: 28 // 没有设置则继承textStyle的 `lineHeight`，
+              }
+            }
           }
         },
         grid: {
@@ -237,6 +321,8 @@ export default {
           {
             name: '综合评价',
             type: 'bar',
+            minInterval: 1,
+
             emphasis: {
               focus: 'series'
             },
@@ -297,7 +383,19 @@ export default {
       this.eduChartData.series[0].data = []
       getValue(this.archive, this.test, 'employee')
       getWeight(this.test, this.eduChartData.series[0].data, 'education')
+      this.test = []
+      console.log(this.eduChartData.series[0].data)
+      let edu = ['博士','硕士','本科','专科','高中','初中']
+      for(let i=0;i<6;i++){
+        for (let item of this.eduChartData.series[0].data) {
+          if (item['name'] === edu[i]){
+            this.test[i]=item['value']
+          }
+        }
+      }
       //初始化图表
+      console.log(this.test)
+      this.eduChartData.series[0].data[0].value = this.test
       initChart('eduChart', this.eduChartData)
     },
     getJob() {
@@ -308,6 +406,15 @@ export default {
         this.ChartData.xAxis[0].data.push(this.test[i]['name'])
         this.ChartData.series[0].data.push(this.test[i]['value'])
       }
+      this.ChartData.series[0].color=
+          [
+            "#5ab1ef",
+            "#32dadd",
+        "#ffb980",
+        "#c8b2f4",
+        "#40c9c6",
+        "#36a3f7",
+        "#f4516c",]
       initChart('jobChart', this.ChartData)
     },
     getDepart() {
@@ -318,27 +425,36 @@ export default {
         this.ChartData.xAxis[0].data.push(this.test[i]['name'])
         this.ChartData.series[0].data.push(this.test[i]['value'])
       }
+      this.ChartData.series[0].color=
+          [
+            "#c8b2f4",
+            "#f4516c",
+            "#36a3f7",
+            "#32dadd",
+            "#ffb980",
+            "#40c9c6",
+            ,]
       initChart('departChart', this.ChartData)
     },
     getStar() {
       this.test = []
       getWeight(this.archive, this.test, 'rate')
-      this.test = num(this.test)
+      this.test = num(this.test,5)
       this.starData.series[0].data=this.test
 
       this.test = []
       getWeight(this.archive, this.test, 'teamAbility')
-      this.test = num(this.test)
+      this.test = num(this.test,5)
       this.starData.series[1].data=this.test
 
       this.test = []
       getWeight(this.archive, this.test, 'performance')
-      this.test = num(this.test)
+      this.test = num(this.test,5)
       this.starData.series[2].data=this.test
 
       this.test = []
       getWeight(this.archive, this.test, 'attitude')
-      this.test = num(this.test)
+      this.test = num(this.test,5)
       this.starData.series[3].data=this.test
       initChart('starChart', this.starData)
     }
@@ -357,7 +473,7 @@ export default {
 }
 
 .rectChart {
-  width: 500px;
+  width: 450px;
   height: 300px;
 }
 

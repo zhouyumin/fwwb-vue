@@ -92,14 +92,14 @@ function Msg(param,type,msg){
     });
 }
 //统计54321的次数，依次返回
-function num(param){
+function num(param,n){
     let a = []
     let i;
-    for(i=0;i<5;i++){
+    for(i=0;i<n;i++){
         if (param[i]){
             a[param[i]['name']-1] = param[i]['value']
         }
     }
-    console.log(a)
     return a
 }
+
