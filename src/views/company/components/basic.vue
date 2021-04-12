@@ -4,9 +4,17 @@
       element-loading-text="拼命加载中"
       element-loading-spinner="el-icon-loading">
     <el-row :gutter="10" class="w1000">
-      <el-card :span="5" class="ml10">
-        {{ employeeCount }}
-        <div>总员工人数</div>
+      <el-card :span="5" class="ml10" id="count">
+        <div  id="countIcon">
+          <i class="el-icon-s-custom" id = "icon"></i>
+        </div>
+        <div :span = "3" id="countRight">
+          <div id="countHead">总员工人数</div>
+          <div id="countData">
+            {{ employeeCount }}
+          </div>
+        </div>
+
       </el-card>
     </el-row>
     <el-row :gutter="10" class="w1000 mt20">
@@ -97,7 +105,7 @@ export default {
             data: [],
             color: [
               // "#5ab1ef",
-              "#32dadd",
+              "#5ab1ef",
               "#ffb980",
               // "#c8b2f4",
               // "#40c9c6",
@@ -466,7 +474,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang="less">
 
 .w1000 {
   min-width: 1100px;
@@ -497,5 +505,48 @@ export default {
 }
 .ml40{
   margin-left: 20px;
+}
+#countHead{
+  color: rgba(0,0,0,.45);
+  font-size: 16px;
+  font-weight: 700;
+}
+#countIcon{
+  transition:all 0.7s linear 0s;
+  float: left;
+  margin-bottom: 20px;
+  width: 80px;
+  height: 80px;
+  border-radius: 10px;
+  #icon{
+    color: #40c9c6;
+  }
+}
+#countIcon:hover{
+  transition:all 0.7s linear 0s;
+  background-color: #40c9c6;
+  #icon{
+    color: #fff;
+  }
+}
+
+#icon{
+  font-size: 60px;
+  margin-top: 6px;
+  margin-left: 10px;
+}
+#countData{
+  font-weight: 700;
+  color: #666;
+}
+#count{
+  width: 250px;
+}
+#countRight{
+  //height: 150px;
+  margin-top: 20px;
+  width: 100px;
+  float: left;
+  text-align: center;
 }
 </style>
