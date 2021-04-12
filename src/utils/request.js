@@ -61,6 +61,9 @@ request.interceptors.response.use(
     if (error.response.status === 400) {
       error.message = '请求错误'
     }
+    if (error.response.status === 500) {
+      error.message = '服务器内部错误'
+    }
     ElMessage({
       message: error.message,
       type: 'error',

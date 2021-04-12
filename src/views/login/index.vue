@@ -91,30 +91,23 @@ export default {
       this.loginLoading = true
       login(user)
         .then((res) => {
-          if (res.data.code === '-1') {
-            this.$message({
-              type: 'error',
-              message: '用户名或密码错误',
-            })
-          } else {
-            this.$message({
-              type: 'success',
-              message: '登录成功',
-            })
-            window.localStorage.setItem(
-              'authorization',
-              res.headers.authorization
-            )
-            this.$router.push({
-              name: 'home',
-            })
-          }
+          this.$message({
+            type: 'success',
+            message: '登录成功',
+          })
+          window.localStorage.setItem(
+            'authorization',
+            res.headers.authorization
+          )
+          this.$router.push({
+            name: 'home',
+          })
           this.loginLoading = false
         })
         .catch((err) => {
           this.$message({
             type: 'error',
-            message: '发生错误',
+            message: '用户名或密码错误',
           })
           this.loginLoading = false
         })
