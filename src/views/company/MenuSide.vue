@@ -59,7 +59,7 @@ export default {
 
 <style scoped lang="less">
 .el-menu-vertical:not(.el-menu--collapse) {
-  width: 180px;
+  width: 200px;
 }
 .brand {
   height: 60px;
