@@ -24,9 +24,9 @@
             <el-option label="女" value="女"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item prop="id_number">
+        <el-form-item prop="idNumber">
           <el-input
-            v-model="employee.id_number"
+            v-model="employee.idNumber"
             placeholder="身份证号"
           ></el-input>
         </el-form-item>
@@ -87,7 +87,7 @@ export default {
       employee: {
         name: '',
         sex: '',
-        id_number: '',
+        idNumber: '',
         tel: '',
         education: '',
       },
@@ -100,7 +100,7 @@ export default {
       employee_rule: {
         name: [{ required: true, message: '请输入姓名', trigger: 'blur' }],
         sex: [{ required: true, message: '请选择性别', trigger: 'change' }],
-        id_number: [
+        idNumber: [
           { required: true, message: '请输入身份证号', trigger: 'blur' },
         ],
         tel: [{ required: true, message: '请输入电话', trigger: 'blur' }],
