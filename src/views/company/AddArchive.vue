@@ -13,7 +13,7 @@
         </el-form-item>
         <el-form-item required>
           <el-col :span="11">
-            <el-form-item prop="hirdDate" style="width: 221.4px">
+            <el-form-item prop="hireDate" style="width: 221.4px">
               <el-date-picker
                 type="date"
                 placeholder="选择聘用时间"
@@ -81,6 +81,7 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           this.loading = true
+          console.log(this.form)
           add_archive(this.form)
             .then((res) => {
               this.loading = false

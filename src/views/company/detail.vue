@@ -220,13 +220,9 @@ import moment from "moment";
 
 export default {
   name: "detail",
-  props: {
-    archive: {
-      required: true
-    }
-  },
   data() {
     return {
+      archive:{},
       search: '',
       loading: true,
       eduFilter: [],
@@ -240,6 +236,8 @@ export default {
   methods: {
     /*获取数据*/
     getData() {
+      this.archive = this.$store.getters.Archive
+      console.log( this.$store.getters.Archive)
       let employee = []
       this.sexFilter = []
       this.jobFilter = []
@@ -314,7 +312,7 @@ export default {
       this.dialogVisible = false
     }
   },
-  updated() {
+  created() {
     this.getData()
     this.loading = false
   }

@@ -89,13 +89,9 @@ import {getWeight, initChart, getValue,num} from '/src/utils/pubMethod.js'
 
 export default {
   name: "basic",
-  props: {
-    archive: {
-      required: true
-    }
-  },
   data() {
     return {
+      archive:{},
       activeName: 'first',
       employeeCount: 0,    //员工总数
       departCount: 0,
@@ -402,6 +398,9 @@ export default {
     //获取全部员工数据
     getData() {
       //获取全部数据并进行处理操作
+      console.log(this.$store.getters.Archive)
+      this.archive = this.$store.getters.Archive
+      console.log(this.archive)
       let a = this.archive
       this.employeeCount = a.length
       let b = 0
@@ -442,6 +441,7 @@ export default {
           }
         }
       }
+      console.log()
       //初始化图表
       this.eduChartData.series[0].data[0].value = this.test
       initChart('eduChart', this.eduChartData)
@@ -458,11 +458,11 @@ export default {
           [
             "#5ab1ef",
             "#32dadd",
-        "#ffb980",
-        "#c8b2f4",
-        "#40c9c6",
-        "#36a3f7",
-        "#f4516c",]
+            "#ffb980",
+            "#c8b2f4",
+            "#40c9c6",
+            "#36a3f7",
+            "#f4516c",]
       initChart('jobChart', this.ChartData)
     },
     getDepart() {
@@ -507,7 +507,7 @@ export default {
       initChart('starChart', this.starData)
     }
   },
-  updated() {
+  mounted() {
     this.getData()
     this.loading = false
   }

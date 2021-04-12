@@ -4,6 +4,7 @@ const store = createStore({
     identify: '',
     company: {},
     employee: {},
+    archive:{}
   },
   mutations: {
     setIdentify(state, identify) {
@@ -14,6 +15,9 @@ const store = createStore({
     },
     setEmployee(state, employee) {
       state.employee = employee
+    },
+    setArchive(state, archive) {
+      state.archive = archive
     },
   },
   getters: {
@@ -26,6 +30,9 @@ const store = createStore({
     Employee(state) {
       return state.employee
     },
+    Archive(state){
+      return state.archive
+    }
   },
   actions: {},
 })

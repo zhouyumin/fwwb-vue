@@ -16,10 +16,17 @@
       <i class="el-icon-s-home"></i>
       <template #title>首页</template>
     </el-menu-item>
-    <el-menu-item index="/manage">
-      <i class="el-icon-document"></i>
-      <template #title>档案管理</template>
-    </el-menu-item>
+
+    <el-submenu index="/manage/basic">
+      <template #title>
+        <i class="el-icon-document"></i>
+        <span>档案管理</span>
+      </template>
+      <el-menu-item-group>
+        <el-menu-item index="/manage/basic">整体浏览</el-menu-item>
+        <el-menu-item index="/manage/detail">具体信息</el-menu-item>
+      </el-menu-item-group>
+    </el-submenu>
     <el-menu-item index="/add">
       <i class="el-icon-s-promotion"></i>
       <template #title>添加档案</template>
@@ -32,15 +39,21 @@
 </template>
 
 <script>
+import { get_company_archive } from '/src/api/archive.js'
+
 export default {
   props: {
     isCollapse: false,
   },
   data() {
-    return {}
+    return {
+      archives: [],
+    }
   },
   methods: {},
-  created() {},
+  created() {
+
+  },
 }
 </script>
 

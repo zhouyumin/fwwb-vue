@@ -21,8 +21,27 @@ const routes = [
         meta: {
           title: '档案管理',
         },
-        component: () => import('@/company/ArchiveManage.vue'),
+
+        component: () => import('@/company/basic.vue'),
+        redirect: '/manage/basic'
       },
+      {
+        path: '/manage/basic',
+        meta: {
+          title: '档案管理',
+        },
+        component: () => import('@/company/basic.vue')
+      },
+
+        {
+          path: '/manage/detail',
+          meta: {
+            title: '具体信息',
+          },
+          component: () => import('@/company/detail.vue'),
+        },
+
+
       {
         path: '/add',
         meta: {
