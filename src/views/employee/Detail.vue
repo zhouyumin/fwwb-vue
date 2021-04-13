@@ -162,7 +162,6 @@ export default {
     //   this.employeeInfo = res.data.data[0]
     //   console.log(res.data.data)
     // })
-    console.log(this.$store.getters.Employee)
     this.employee = this.$store.getters.Employee
     initChart('user-img', this.option)
   },

@@ -82,7 +82,7 @@ export default {
       }
     }
     const checkPassword = (rule, value, callback) => {
-      const patten = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,18}$/
+      const patten = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[a-zA-Z0-9]{6,18}$/
       if (!patten.test(value)) {
         callback(new Error('密码不符合要求'))
       } else {
