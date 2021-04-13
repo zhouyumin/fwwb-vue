@@ -3,13 +3,25 @@
     <el-card shadow="hover" class="card">
       <el-form :model="form" :rules="rules" ref="ruleForm">
         <el-form-item prop="name">
-          <el-input v-model="form.name" placeholder="姓名"></el-input>
+          <el-input
+            v-model="form.name"
+            placeholder="姓名"
+            prefix-icon="el-icon-s-custom"
+          ></el-input>
         </el-form-item>
         <el-form-item prop="idNumber">
-          <el-input v-model="form.idNumber" placeholder="身份证号"></el-input>
+          <el-input
+            v-model="form.idNumber"
+            placeholder="身份证号"
+            prefix-icon="el-icon-postcard"
+          ></el-input>
         </el-form-item>
         <el-form-item prop="tel">
-          <el-input v-model="form.tel" placeholder="手机号码"></el-input>
+          <el-input
+            v-model="form.tel"
+            placeholder="手机号码"
+            prefix-icon="el-icon-phone"
+          ></el-input>
         </el-form-item>
         <el-form-item required>
           <el-col :span="11">
@@ -25,10 +37,18 @@
           </el-col>
         </el-form-item>
         <el-form-item prop="title">
-          <el-input v-model="form.title" placeholder="所任职位"></el-input>
+          <el-input
+            v-model="form.title"
+            placeholder="所任职位"
+            prefix-icon="el-icon-collection-tag"
+          ></el-input>
         </el-form-item>
         <el-form-item prop="department">
-          <el-input v-model="form.department" placeholder="所在部门"></el-input>
+          <el-input
+            v-model="form.department"
+            placeholder="所在部门"
+            prefix-icon="el-icon-folder-opened"
+          ></el-input>
         </el-form-item>
         <el-form-item class="text-center">
           <el-button type="primary" @click="submitForm('ruleForm')"
@@ -42,6 +62,7 @@
 </template>
 <script>
 import { add_archive } from '/src/api/archive.js'
+import { checkIdNumber, checkTel } from '/src/utils/validator.js'
 import moment from 'moment'
 export default {
   data() {
@@ -62,9 +83,9 @@ export default {
         ],
         name: [{ required: true, message: '请输入员工姓名', trigger: 'blur' }],
         idNumber: [
-          { required: true, message: '请输入身份证号', trigger: 'blur' },
+          { required: true, validator: checkIdNumber, trigger: 'blur' },
         ],
-        tel: [{ required: true, message: '请输入手机号码', trigger: 'blur' }],
+        tel: [{ required: true, validator: checkTel, trigger: 'blur' }],
         hireDate: [
           {
             type: 'date',
@@ -86,11 +107,11 @@ export default {
             .then((res) => {
               this.loading = false
               this.$message.success(res.data.msg)
+              this.$refs[formName].resetFields()
             })
             .catch((err) => {
               this.loading = false
             })
-          this.$refs[formName].resetFields()
         }
       })
     },

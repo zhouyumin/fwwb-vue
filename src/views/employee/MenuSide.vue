@@ -17,15 +17,15 @@
       <template #title>首页</template>
     </el-menu-item>
     <el-menu-item index="/detail">
-      <i class="el-icon-document"></i>
+      <i class="el-icon-s-custom"></i>
       <template #title>个人信息</template>
     </el-menu-item>
     <el-menu-item index="/archive">
-      <i class="el-icon-s-promotion"></i>
+      <i class="el-icon-document"></i>
       <template #title>个人档案</template>
     </el-menu-item>
     <el-menu-item index="/setting">
-      <i class="el-icon-present"></i>
+      <i class="el-icon-key"></i>
       <template #title>授权码管理</template>
     </el-menu-item>
   </el-menu>

@@ -16,6 +16,7 @@
           <el-input
             prefix-icon="iconfont iconpassword"
             v-model="user.password"
+            type="password"
             placeholder="请输入密码"
           ></el-input>
         </el-form-item>
@@ -62,14 +63,15 @@ export default {
     }
     return {
       user: {
-        username: '10086',
-        password: '10086',
+        username: '',
+        password: '',
         agree: false,
       },
       loginLoading: false,
       rules: {
         username: [
           { required: true, message: '邮箱不能为空', trigger: 'blur' },
+          { type: 'email', message: '邮箱格式不正确', trigger: 'blur' },
         ],
         password: [
           { required: true, message: '密码不能为空', trigger: 'blur' },

@@ -23,17 +23,27 @@
         <span>档案管理</span>
       </template>
       <el-menu-item-group>
-        <el-menu-item index="/manage/basic">整体浏览</el-menu-item>
-        <el-menu-item index="/manage/detail">具体信息</el-menu-item>
+        <el-menu-item index="/manage/basic">
+          <template #title>
+            <i class="el-icon-s-data"></i>
+            <span>整体浏览</span>
+          </template>
+        </el-menu-item>
+        <el-menu-item index="/manage/detail">
+          <template #title>
+            <i class="el-icon-s-grid"></i>
+            <span>具体信息</span>
+          </template>
+        </el-menu-item>
       </el-menu-item-group>
     </el-submenu>
     <el-menu-item index="/add">
-      <i class="el-icon-s-promotion"></i>
+      <i class="el-icon-folder-add"></i>
       <template #title>添加档案</template>
     </el-menu-item>
     <el-menu-item index="/fetch">
-      <i class="el-icon-present"></i>
-      <template #title >调取档案</template>
+      <i class="el-icon-search"></i>
+      <template #title>调取档案</template>
     </el-menu-item>
   </el-menu>
 </template>
@@ -51,9 +61,7 @@ export default {
     }
   },
   methods: {},
-  created() {
-
-  },
+  created() {},
 }
 </script>
 

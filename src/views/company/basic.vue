@@ -1,100 +1,93 @@
 <template>
   <el-main
-      v-loading="loading"
-      element-loading-text="拼命加载中"
-      element-loading-spinner="el-icon-loading">
-    <el-row :gutter="10" class="w1000">
-      <el-col :span="6" class="ml40">
-        <el-card  class="ml10">
-          <div  class="countIcon">
+    v-loading="loading"
+    element-loading-text="拼命加载中"
+    element-loading-spinner="el-icon-loading"
+  >
+    <el-row>
+      <el-col :span="8">
+        <el-card>
+          <div class="countIcon">
             <i class="el-icon-s-custom icon"></i>
           </div>
-          <div :span = "3" class="countRight ml40">
-            <div class="countHead">总员工人数</div>
+          <div :span="3" class="countRight">
+            <div class="countHead">历史总人数</div>
             <div class="countData">
               {{ employeeCount }}
             </div>
           </div>
-
         </el-card>
       </el-col>
-      <el-col :span="6" class="ml60">
-        <el-card  class="ml10 count ml0" >
-          <div  class="zaizhiIcon">
+      <el-col :span="7" :offset="1">
+        <el-card>
+          <div class="zaizhiIcon">
             <i class="el-icon-s-claim icon1 icon"></i>
           </div>
-          <div  class="countRight">
+          <div class="countRight">
             <div class="countHead">在职人数</div>
             <div class="countData">
               {{ zaizhiCount }}
             </div>
           </div>
-
         </el-card>
-
       </el-col>
-      <el-col  :span="6" class="ml80">
-        <el-card class="ml10 count">
-          <div  class="departIcon">
+      <el-col :span="7" :offset="1">
+        <el-card>
+          <div class="departIcon">
             <i class="el-icon-s-release icon2 icon"></i>
           </div>
-          <div  class="countRight">
+          <div class="countRight">
             <div class="countHead">离职人数</div>
             <div class="countData">
               {{ departCount }}
             </div>
           </div>
-
         </el-card>
       </el-col>
-
     </el-row>
-    <el-row :gutter="10" class="w1000 mt20">
-      <el-col :span="7" >
+    <el-row style="margin-top: 18px">
+      <el-col :span="6">
         <el-card>
           <div id="sexChart" class="squareChart"></div>
-
         </el-card>
       </el-col>
-      <el-col :span="7" class="ml10">
+      <el-col :span="6" :offset="1">
         <el-card>
           <div id="eduChart" class="squareChart"></div>
         </el-card>
-
       </el-col>
-      <el-col :span="9" class="ml10">
+      <el-col :span="10" :offset="1">
         <el-card>
           <div id="starChart" class="rectChart-s"></div>
         </el-card>
       </el-col>
     </el-row>
-    <el-row :gutter="10" class="w1000 mt50">
-     <el-col :span="11">
-       <el-card>
-         <div id="jobChart" class="rectChart"></div>
-       </el-card>
-     </el-col>
-    <el-col :span="11" class="ml40">
-      <el-card>
-        <div id="departChart" class="rectChart"></div>
-      </el-card>
-    </el-col>
-  </el-row>>
-
+    <el-row style="margin-top: 18px">
+      <el-col :span="8">
+        <el-card>
+          <div id="jobChart" class="rectChart"></div>
+        </el-card>
+      </el-col>
+      <el-col :span="15" :offset="1">
+        <el-card>
+          <div id="departChart" class="rectChart"></div>
+        </el-card>
+      </el-col>
+    </el-row>
   </el-main>
 </template>
 
 <script>
-import {getWeight, initChart, getValue,num} from '/src/utils/pubMethod.js'
-import {get_company_archive} from "../../api/archive";
+import { getWeight, initChart, getValue, num } from '/src/utils/pubMethod.js'
+import { get_company_archive } from '../../api/archive'
 
 export default {
-  name: "basic",
+  name: 'basic',
   data() {
     return {
-      archive:{},
+      archive: {},
       activeName: 'first',
-      employeeCount: 0,    //员工总数
+      employeeCount: 0, //员工总数
       departCount: 0,
       zaizhiCount: 0,
       sex: [],
@@ -104,13 +97,13 @@ export default {
       //图表数据
       sexChartData: {
         tooltip: {
-          show: true,// 是否显示提示,true/false,默认true
-          trigger: "item",// 触发类型, item/axis/none
-          backgroundColor: 'rgba(0,0,0,.5)',// 提示框背景
+          show: true, // 是否显示提示,true/false,默认true
+          trigger: 'item', // 触发类型, item/axis/none
+          backgroundColor: 'rgba(0,0,0,.5)', // 提示框背景
           borderWidth: 1, // 提示框边框大小
-          padding: 10,// 提示框内边距
-          borderColor: '#ff0000',// 提示框边框颜色
-          formatter: "{a} <br/>{b}: {c} ({d}%)",// 提示格式，支持回调函数
+          padding: 10, // 提示框内边距
+          borderColor: '#ff0000', // 提示框边框颜色
+          formatter: '{a} <br/>{b}: {c} ({d}%)', // 提示格式，支持回调函数
           textStyle: {
             color: '#0DB9DF', // 提示文字样式
             fontStyle: 'normal', // 提示文字风格，normal,italic,oblique
@@ -120,13 +113,13 @@ export default {
             lineHeight: 28, //字体行高
             rich: {
               a: {
-                lineHeight: 28 // 没有设置则继承textStyle的 `lineHeight`，
-              }
-            }
-          }
+                lineHeight: 28, // 没有设置则继承textStyle的 `lineHeight`，
+              },
+            },
+          },
         },
         legend: {
-          left: 'center'
+          left: 'center',
         },
         series: [
           {
@@ -136,45 +129,44 @@ export default {
             data: [],
             color: [
               // "#5ab1ef",
-              "#5ab1ef",
-              "#ffb980",
+              '#5ab1ef',
+              '#ffb980',
               // "#c8b2f4",
               // "#40c9c6",
               // "#36a3f7",
               // "#f4516c",
-
             ],
             emphasis: {
               label: {
                 show: true,
                 fontSize: '15',
-                fontWeight: 'bold'
+                fontWeight: 'bold',
               },
               itemStyle: {
                 shadowBlur: 10,
                 shadowOffsetX: 0,
-                shadowColor: 'rgba(0, 0, 0, 0.5)'
-              }
-            }
-          }
-        ]
+                shadowColor: 'rgba(0, 0, 0, 0.5)',
+              },
+            },
+          },
+        ],
       },
       eduChartData: {
         tooltip: {
-          trigger: 'item'
+          trigger: 'item',
         },
         radar: {
           // shape: 'circle',
           indicator: [
-            {text: '博士'},
-            {text: '硕士'},
-            {text: '本科'},
-            {text: '专科'},
-            {text: '高中'},
-            {text: '初中'}
+            { text: '博士' },
+            { text: '硕士' },
+            { text: '本科' },
+            { text: '专科' },
+            { text: '高中' },
+            { text: '初中' },
           ],
           radius: 90,
-          center: ['47%', '50%']
+          center: ['47%', '50%'],
         },
         series: [
           {
@@ -264,15 +256,16 @@ export default {
       ChartData: {
         tooltip: {
           trigger: 'axis',
-          axisPointer: {            // 坐标轴指示器，坐标轴触发有效
-            type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+          axisPointer: {
+            // 坐标轴指示器，坐标轴触发有效
+            type: 'shadow', // 默认为直线，可选为：'line' | 'shadow'
           },
-          show: true,// 是否显示提示,true/false,默认true
+          show: true, // 是否显示提示,true/false,默认true
           // trigger: "item",// 触发类型, item/axis/none
-          backgroundColor: 'rgba(0,0,0,.5)',// 提示框背景
+          backgroundColor: 'rgba(0,0,0,.5)', // 提示框背景
           borderWidth: 1, // 提示框边框大小
-          padding: 10,// 提示框内边距
-          borderColor: '#ff0000',// 提示框边框颜色
+          padding: 10, // 提示框内边距
+          borderColor: '#ff0000', // 提示框边框颜色
           textStyle: {
             color: '#0DB9DF', // 提示文字样式
             fontStyle: 'normal', // 提示文字风格，normal,italic,oblique
@@ -282,16 +275,16 @@ export default {
             lineHeight: 28, //字体行高
             rich: {
               a: {
-                lineHeight: 28 // 没有设置则继承textStyle的 `lineHeight`，
-              }
-            }
-          }
+                lineHeight: 28, // 没有设置则继承textStyle的 `lineHeight`，
+              },
+            },
+          },
         },
         grid: {
           left: '3%',
           right: '4%',
           bottom: '3%',
-          containLabel: true
+          containLabel: true,
         },
         // legend: {
         //   left: 'center'
@@ -303,13 +296,13 @@ export default {
             // axisTick: {
             //   alignWithLabel: true
             // }
-          }
+          },
         ],
         yAxis: [
           {
             minInterval: 1,
-            type: 'value'
-          }
+            type: 'value',
+          },
         ],
         series: [
           {
@@ -318,43 +311,44 @@ export default {
             barWidth: '60%',
             data: [],
             color: [
-              "#5ab1ef",
-              "#32dadd",
-              "#ffb980",
-              "#c8b2f4",
-              "#40c9c6",
-              "#36a3f7",
-              "#f4516c",
+              '#5ab1ef',
+              '#32dadd',
+              '#ffb980',
+              '#c8b2f4',
+              '#40c9c6',
+              '#36a3f7',
+              '#f4516c',
             ],
-          }
-        ]
+          },
+        ],
       },
-      starData:{
+      starData: {
         tooltip: {
           trigger: 'axis',
-          axisPointer: {            // 坐标轴指示器，坐标轴触发有效
-            type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
-          }
+          axisPointer: {
+            // 坐标轴指示器，坐标轴触发有效
+            type: 'shadow', // 默认为直线，可选为：'line' | 'shadow'
+          },
         },
         legend: {
-          data: ['综合评价', '团队能力', '表现情况', '工作态度']
+          data: ['综合评价', '团队能力', '表现情况', '工作态度'],
         },
         grid: {
           left: '3%',
           right: '4%',
           bottom: '3%',
-          containLabel: true
+          containLabel: true,
         },
         xAxis: [
           {
             type: 'category',
-            data: ['很差', '差', '合格', '良好', '优秀']
-          }
+            data: ['很差', '差', '合格', '良好', '优秀'],
+          },
         ],
         yAxis: [
           {
-            type: 'value'
-          }
+            type: 'value',
+          },
         ],
         series: [
           {
@@ -363,43 +357,43 @@ export default {
             minInterval: 1,
 
             emphasis: {
-              focus: 'series'
+              focus: 'series',
             },
-            data: [320, 332, 301, 334, 390]
+            data: [320, 332, 301, 334, 390],
           },
           {
             name: '团队能力',
             type: 'bar',
             emphasis: {
-              focus: 'series'
+              focus: 'series',
             },
-            data: [120, 132, 101, 134, 90]
+            data: [120, 132, 101, 134, 90],
           },
           {
             name: '表现情况',
             type: 'bar',
             emphasis: {
-              focus: 'series'
+              focus: 'series',
             },
-            data: [220, 182, 191, 234, 290]
+            data: [220, 182, 191, 234, 290],
           },
           {
             name: '工作态度',
             type: 'bar',
             emphasis: {
-              focus: 'series'
+              focus: 'series',
             },
-            data: [150, 232, 201, 154, 190]
-          }
-        ]
-      }
+            data: [150, 232, 201, 154, 190],
+          },
+        ],
+      },
     }
   },
   methods: {
     //获取全部员工数据
     getData() {
       get_company_archive().then((res) => {
-        this.$store.commit('setArchive',res.data.data)
+        this.$store.commit('setArchive', res.data.data)
         //获取全部数据并进行处理操作
         console.log(this.$store.getters.Archive)
         this.archive = this.$store.getters.Archive
@@ -407,9 +401,9 @@ export default {
         let a = this.archive
         this.employeeCount = a.length
         let b = 0
-        for(let item of a){
-          if (item.departureDate===''){
-            b = b+1
+        for (let item of a) {
+          if (item.departureDate === '') {
+            b = b + 1
           }
         }
         this.departCount = b
@@ -420,7 +414,6 @@ export default {
         this.getDepart()
         this.getStar()
       })
-
     },
     //性别比例
     getSex() {
@@ -439,16 +432,16 @@ export default {
       getValue(this.archive, this.test, 'employee')
       getWeight(this.test, getEdu_a, 'education')
       this.test = []
-      let edu = ['博士','硕士','本科','专科','高中','初中']
-      for(let i=0;i<6;i++){
+      let edu = ['博士', '硕士', '本科', '专科', '高中', '初中']
+      for (let i = 0; i < 6; i++) {
         for (let item of getEdu_a) {
-          if (item['name'] === edu[i]){
-            this.test[i]=item['value']
+          if (item['name'] === edu[i]) {
+            this.test[i] = item['value']
           }
         }
       }
-      for (let i=0;i<6;i++){
-          this.eduChartData.series[0].data[0].value.push(this.test[i])
+      for (let i = 0; i < 6; i++) {
+        this.eduChartData.series[0].data[0].value.push(this.test[i])
       }
       initChart('eduChart', this.eduChartData)
     },
@@ -460,15 +453,15 @@ export default {
         this.ChartData.xAxis[0].data.push(this.test[i]['name'])
         this.ChartData.series[0].data.push(this.test[i]['value'])
       }
-      this.ChartData.series[0].color=
-          [
-            "#5ab1ef",
-            "#32dadd",
-            "#ffb980",
-            "#c8b2f4",
-            "#40c9c6",
-            "#36a3f7",
-            "#f4516c",]
+      this.ChartData.series[0].color = [
+        '#5ab1ef',
+        '#32dadd',
+        '#ffb980',
+        '#c8b2f4',
+        '#40c9c6',
+        '#36a3f7',
+        '#f4516c',
+      ]
       initChart('jobChart', this.ChartData)
     },
     getDepart() {
@@ -479,161 +472,134 @@ export default {
         this.ChartData.xAxis[0].data.push(this.test[i]['name'])
         this.ChartData.series[0].data.push(this.test[i]['value'])
       }
-      this.ChartData.series[0].color=
-          [
-            "#c8b2f4",
-            "#f4516c",
-            "#36a3f7",
-            "#32dadd",
-            "#ffb980",
-            "#40c9c6",
-            ,]
+      this.ChartData.series[0].color = [
+        '#c8b2f4',
+        '#f4516c',
+        '#36a3f7',
+        '#32dadd',
+        '#ffb980',
+        '#40c9c6',
+        ,
+      ]
       initChart('departChart', this.ChartData)
     },
     getStar() {
       this.test = []
       getWeight(this.archive, this.test, 'rate')
-      this.test = num(this.test,5)
-      this.starData.series[0].data=this.test
+      this.test = num(this.test, 5)
+      this.starData.series[0].data = this.test
 
       this.test = []
       getWeight(this.archive, this.test, 'teamAbility')
-      this.test = num(this.test,5)
-      this.starData.series[1].data=this.test
+      this.test = num(this.test, 5)
+      this.starData.series[1].data = this.test
 
       this.test = []
       getWeight(this.archive, this.test, 'performance')
-      this.test = num(this.test,5)
-      this.starData.series[2].data=this.test
+      this.test = num(this.test, 5)
+      this.starData.series[2].data = this.test
 
       this.test = []
       getWeight(this.archive, this.test, 'attitude')
-      this.test = num(this.test,5)
-      this.starData.series[3].data=this.test
+      this.test = num(this.test, 5)
+      this.starData.series[3].data = this.test
       initChart('starChart', this.starData)
-    }
+    },
   },
   mounted() {
     this.getData()
     this.loading = false
-  }
+  },
 }
 </script>
 
 <style scoped lang="less">
-
-.w1000 {
-  min-width: 1100px;
-}
-
 .rectChart {
-  width: 450px;
-  height: 300px;
+  height: 280px;
 }
 
 .squareChart {
-  width: 300px;
-  height: 300px;
+  width: 280px;
+  height: 280px;
 }
 
 .rectChart-s {
-  width: 350px;
-  height: 300px;
+  width: 500px;
+  height: 280px;
 }
-.mt50{
-  margin-top: 50px;
-}
-.mt20{
-  margin-top: 20px;
-}
-.ml10{
-  margin-left: 10px;
-}
-.ml40{
-  margin-left: 20px;
-}
-.ml20{
-  margin-left: 40px;
-}
-.ml80{
-  margin-left: 80px;
-}
-.ml60{
-  margin-left: 60px;
-}
-.countHead{
-  color: rgba(0,0,0,.45);
+.countHead {
+  color: rgba(0, 0, 0, 0.45);
   font-size: 16px;
   font-weight: 700;
 }
-.countIcon{
-  transition:all 0.7s linear 0s;
+.countIcon {
+  transition: all 0.7s linear 0s;
   float: left;
   margin-bottom: 20px;
   width: 80px;
   height: 80px;
   border-radius: 10px;
-  .icon{
+  .icon {
     color: #40c9c6;
   }
 }
-.countIcon:hover{
-  transition:all 0.7s linear 0s;
+.countIcon:hover {
+  transition: all 0.7s linear 0s;
   background-color: #40c9c6;
-  .icon{
+  .icon {
     color: #fff;
   }
 }
 
-.departIcon{
-  transition:all 0.7s linear 0s;
+.departIcon {
+  transition: all 0.7s linear 0s;
   float: left;
   margin-bottom: 20px;
   width: 80px;
   height: 80px;
   border-radius: 10px;
-  .icon2{
+  .icon2 {
     color: #f4516c;
   }
 }
-.departIcon:hover{
-  transition:all 0.7s linear 0s;
+.departIcon:hover {
+  transition: all 0.7s linear 0s;
   background-color: #f4516c;
-  .icon2{
+  .icon2 {
     color: #fff;
   }
 }
 
-.zaizhiIcon{
-  transition:all 0.7s linear 0s;
+.zaizhiIcon {
+  transition: all 0.7s linear 0s;
   float: left;
   margin-bottom: 20px;
   width: 80px;
   height: 80px;
   border-radius: 10px;
-  .icon1{
+  .icon1 {
     color: #36a3f7;
   }
 }
-.zaizhiIcon:hover{
-  transition:all 0.7s linear 0s;
+.zaizhiIcon:hover {
+  transition: all 0.7s linear 0s;
   background-color: #36a3f7;
-  .icon1{
+  .icon1 {
     color: #fff;
   }
 }
 
-.icon{
+.icon {
   font-size: 60px;
   margin-top: 6px;
   margin-left: 10px;
 }
-.countData{
+.countData {
   font-weight: 700;
   color: #666;
 }
 
-.countRight{
+.countRight {
   margin-top: 20px;
   width: 100px;
   float: left;

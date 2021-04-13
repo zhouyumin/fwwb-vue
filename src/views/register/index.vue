@@ -16,7 +16,8 @@
           <el-input
             prefix-icon="iconfont iconpassword"
             v-model="user.password"
-            placeholder="请输入密码"
+            type="password"
+            placeholder="请输入密码，必须包含大小写字母，长度为6-18"
           ></el-input>
         </el-form-item>
         <el-form-item prop="confirm">
@@ -24,6 +25,7 @@
             prefix-icon="iconfont iconpassword"
             v-model="user.confirm"
             placeholder="请确认密码"
+            type="password"
           ></el-input>
         </el-form-item>
         <el-form-item prop="identity" style="margin-bottom: 0px">
@@ -79,12 +81,20 @@ export default {
         callback()
       }
     }
+    const checkPassword = (rule, value, callback) => {
+      const patten = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,18}$/
+      if (!patten.test(value)) {
+        callback(new Error('密码不符合要求'))
+      } else {
+        callback()
+      }
+    }
     return {
       user: {
-        username: '1008611',
-        password: '1008611',
-        identity: 'Employee',
-        confirm: '1008611',
+        username: '',
+        password: '',
+        identity: '',
+        confirm: '',
       },
       registerLoading: false,
       options: [
@@ -100,9 +110,11 @@ export default {
       rules: {
         username: [
           { required: true, message: '邮箱不能为空', trigger: 'blur' },
+          { type: 'email', message: '邮箱格式不正确', trigger: 'blur' },
         ],
         password: [
           { required: true, message: '密码不能为空', trigger: 'blur' },
+          { validator: checkPassword, trigger: 'blur' },
         ],
         identity: [
           { required: true, message: '请选择身份', trigger: 'change' },
@@ -114,6 +126,7 @@ export default {
   methods: {
     onSubmit() {
       this.$refs.registerForm.validate((valid) => {
+        console.log('hover')
         if (valid) {
           this.register()
         }

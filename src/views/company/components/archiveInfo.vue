@@ -1,18 +1,18 @@
 <template>
-  <el-skeleton :rows="12" :loading="!employeeDetail(info)"/>
+  <el-skeleton :rows="12" :loading="!employeeDetail(info)" />
   <div v-if="employeeDetail(info)" class="info">
-    {{info}}
     <div class="base-info">
       <div class="base-info-left">
-        <img src="https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=115192914,1426049677&fm=26&gp=0.jpg"
-             class="image" alt="">
+        <img src="/img/user.jpg" class="image" alt="" />
         <el-tooltip content="综合评价" placement="bottom" effect="light">
-          <el-rate v-model="info.star"
-                   disabled
-                   show-score
-                   text-color="#ff9900"
-                   class="left-star"
-                   score-template="{value}"/>
+          <el-rate
+            v-model="info.star"
+            disabled
+            show-score
+            text-color="#ff9900"
+            class="left-star"
+            score-template="{value}"
+          />
         </el-tooltip>
       </div>
       <div class="base-info-right">
@@ -24,8 +24,7 @@
             {{ info.employee.sex }}
           </el-form-item>
           <el-form-item class="info-item-s" label="年龄:">
-            <!--            {{employeeInfo.age}}-->
-            22
+            {{ age }}
           </el-form-item>
           <el-form-item class="info-item-s" label="学历:">
             {{ info.employee.education }}
@@ -34,39 +33,39 @@
             {{ info.employee.address }}
           </el-form-item>
           <el-form-item class="info-item-xl" label="自我介绍:">
-<!--            {{ employeeInfo.introduce }}-->
+            <!--            {{ employeeInfo.introduce }}-->
           </el-form-item>
         </el-form>
       </div>
     </div>
-<!--    <div class="archive-info">-->
-<!--      <div class="time-line">-->
-<!--        <el-timeline>-->
-<!--          <el-timeline-item-->
-<!--              v-for="(activity, index) in activities"-->
-<!--              :key="index"-->
-<!--              :timestamp="activity.hire_data">-->
-<!--            {{ activity.company }}-->
-<!--          </el-timeline-item>-->
-<!--        </el-timeline>-->
-<!--      </div>-->
-<!--      <div class="archive-detail">-->
-<!--        <el-collapse>-->
-<!--          <el-collapse-item v-for="(activity, index) in activities"-->
-<!--                            :key="index"-->
-<!--                            :title=activity.company-->
-<!--                            :name=index>-->
-<!--            <div>{{activity.content}}</div>-->
-<!--          </el-collapse-item>-->
-<!--        </el-collapse>-->
-<!--      </div>-->
-<!--    </div>-->
+    <!--    <div class="archive-info">-->
+    <!--      <div class="time-line">-->
+    <!--        <el-timeline>-->
+    <!--          <el-timeline-item-->
+    <!--              v-for="(activity, index) in activities"-->
+    <!--              :key="index"-->
+    <!--              :timestamp="activity.hire_data">-->
+    <!--            {{ activity.company }}-->
+    <!--          </el-timeline-item>-->
+    <!--        </el-timeline>-->
+    <!--      </div>-->
+    <!--      <div class="archive-detail">-->
+    <!--        <el-collapse>-->
+    <!--          <el-collapse-item v-for="(activity, index) in activities"-->
+    <!--                            :key="index"-->
+    <!--                            :title=activity.company-->
+    <!--                            :name=index>-->
+    <!--            <div>{{activity.content}}</div>-->
+    <!--          </el-collapse-item>-->
+    <!--        </el-collapse>-->
+    <!--      </div>-->
+    <!--    </div>-->
   </div>
 </template>
 <script>
 // import {getInfo,myArchive} from '/src/api/employee/employee.js'
 export default {
-  name: "archiveInfo",
+  name: 'archiveInfo',
   data() {
     return {
       loading: true,
@@ -77,16 +76,24 @@ export default {
     info: {
       type: Object,
       required: true,
-    }
+    },
+  },
+  computed: {
+    age: function () {
+      let str = String(this.info.employee.idNumber)
+      let year = new Date().getFullYear() - parseInt(str.slice(6, 10))
+      return year
+    },
   },
   methods: {
     employeeDetail(info) {
-      if(!info.uid){
+      if (!info.uid) {
         return 0
+      } else {
+        return 1
       }
-      else {return 1}
-    }
-  }
+    },
+  },
 }
 </script>
 
@@ -135,13 +142,12 @@ export default {
   flex: 5;
 }
 
-
 .info-form {
   min-width: 700px;
   min-height: 230px;
   padding-bottom: 30px;
-  color: #7F7F7F;
-  background-color: rgba(182,255,245,0.1);
+  color: #7f7f7f;
+  background-color: rgba(182, 255, 245, 0.1);
   padding: 20px 0 20px 20px;
   margin-top: 20px;
   margin-left: 50px;

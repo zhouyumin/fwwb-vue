@@ -12,7 +12,11 @@
         v-show="identity == 'Employee'"
       >
         <el-form-item prop="name">
-          <el-input v-model="employee.name" placeholder="姓名"></el-input>
+          <el-input
+            v-model="employee.name"
+            placeholder="姓名"
+            prefix-icon="el-icon-s-custom"
+          ></el-input>
         </el-form-item>
         <el-form-item prop="sex">
           <el-select
@@ -27,15 +31,35 @@
         <el-form-item prop="idNumber">
           <el-input
             v-model="employee.idNumber"
+            prefix-icon="el-icon-postcard"
             placeholder="身份证号"
           ></el-input>
         </el-form-item>
         <el-form-item prop="tel">
-          <el-input v-model="employee.tel" placeholder="电话"></el-input>
+          <el-input
+            v-model="employee.tel"
+            placeholder="电话"
+            prefix-icon="el-icon-phone"
+          ></el-input>
+        </el-form-item>
+        <el-form-item prop="address">
+          <el-input
+            v-model="employee.address"
+            placeholder="地址"
+            prefix-icon="el-icon-location"
+          ></el-input>
+        </el-form-item>
+        <el-form-item prop="nation">
+          <el-input
+            v-model="employee.nation"
+            placeholder="民族"
+            prefix-icon="el-icon-user"
+          ></el-input>
         </el-form-item>
         <el-form-item prop="education">
           <el-input
             v-model="employee.education"
+            prefix-icon="el-icon-s-management"
             placeholder="教育背景"
           ></el-input>
         </el-form-item>
@@ -48,17 +72,30 @@
         :rules="company_rule"
       >
         <el-form-item prop="name">
-          <el-input v-model="company.name" placeholder="企业名称"></el-input>
+          <el-input
+            v-model="company.name"
+            placeholder="企业名称"
+            prefix-icon="el-icon-s-custom"
+          ></el-input>
         </el-form-item>
         <el-form-item prop="tel">
-          <el-input v-model="company.tel" placeholder="电话"></el-input>
+          <el-input
+            v-model="company.tel"
+            placeholder="电话"
+            prefix-icon="el-icon-phone"
+          ></el-input>
         </el-form-item>
         <el-form-item prop="address">
-          <el-input v-model="company.address" placeholder="地址"></el-input>
+          <el-input
+            v-model="company.address"
+            placeholder="地址"
+            prefix-icon="el-icon-location"
+          ></el-input>
         </el-form-item>
         <el-form-item prop="business_number">
           <el-input
             v-model="company.business_number"
+            prefix-icon="el-icon-s-check"
             placeholder="工商号"
           ></el-input>
         </el-form-item>
@@ -78,6 +115,7 @@
 <script>
 import { author_employee } from '/src/api/employee.js'
 import { author_company } from '/src/api/company.js'
+import { checkIdNumber, checkTel } from '/src/utils/validator.js'
 export default {
   name: '',
   components: {},
@@ -88,6 +126,8 @@ export default {
         name: '',
         sex: '',
         idNumber: '',
+        address: '',
+        nation: '',
         tel: '',
         education: '',
       },
@@ -101,14 +141,14 @@ export default {
         name: [{ required: true, message: '请输入姓名', trigger: 'blur' }],
         sex: [{ required: true, message: '请选择性别', trigger: 'change' }],
         idNumber: [
-          { required: true, message: '请输入身份证号', trigger: 'blur' },
+          { required: true, validator: checkIdNumber, trigger: 'blur' },
         ],
-        tel: [{ required: true, message: '请输入电话', trigger: 'blur' }],
+        tel: [{ required: true, validator: checkTel, trigger: 'blur' }],
         education: [{ required: true, message: '请输入学历', trigger: 'blur' }],
       },
       company_rule: {
         name: [{ required: true, message: '请输入企业名称', trigger: 'blur' }],
-        tel: [{ required: true, message: '请输入电话', trigger: 'blur' }],
+        tel: [{ required: true, validator: checkTel, trigger: 'blur' }],
         address: [{ required: true, message: '请输入地址', trigger: 'blur' }],
         business_number: [
           { required: true, message: '请输入工商号', trigger: 'blur' },
