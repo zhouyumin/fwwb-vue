@@ -116,13 +116,13 @@
         <el-input v-model="employee.age"></el-input>
       </el-form-item>
       <el-form-item label="学历">
-<!--        <el-input v-model="employee.education"></el-input>-->
+        <el-input v-model="employee.education"></el-input>
       </el-form-item>
       <el-form-item label="手机号码">
         <el-input v-model="employee.tel"></el-input>
       </el-form-item>
       <el-form-item label="身份证号">
-        <el-input v-model="employee.id_number"></el-input>
+        <el-input v-model="employee.idNumber"></el-input>
       </el-form-item>
       <el-form-item label="家庭住址">
         <el-input v-model="employee.address"></el-input>

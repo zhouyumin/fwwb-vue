@@ -43,7 +43,7 @@
         :filters="sexFilter"
         :filter-method="filterHandler"
         sortable
-        width="150px">
+        width="120px">
     </el-table-column>
     <!--职位--><!--width="220px"-->
     <el-table-column
@@ -52,7 +52,7 @@
         align="center"
         :filters="jobFilter"
         :filter-method="filterHandler"
-        width="250px"
+        width="150px"
         sortable
     >
     </el-table-column>
@@ -61,8 +61,18 @@
         label="学历"
         prop="education"
         align="center"
-        width="220px"
+        width="180px"
         :filters="eduFilter"
+        :filter-method="filterHandler"
+        sortable>
+    </el-table-column>
+    <!--情况-->
+    <el-table-column
+        label="情况"
+        prop="idDepart"
+        align="center"
+        width="120px"
+        :filters="departFilter"
         :filter-method="filterHandler"
         sortable>
     </el-table-column>
@@ -87,7 +97,6 @@
       </template>
     </el-table-column>
   </el-table>
-
   <!--详细信息-->
   <el-dialog
       v-model="dialogVisible"
@@ -205,7 +214,7 @@
     <template #footer>
     <span class="dialog-footer">
       <el-button @click="handleClose">取 消</el-button>
-      <el-button type="primary" @click="handlerChange" disabled="{{employeeInfo.departureDate}}"
+      <el-button type="primary" @click="handlerChange" :disabled="employeeInfo.departureDate"
       >修改</el-button>
     </span>
     </template>
@@ -227,6 +236,7 @@ export default {
       eduFilter: [],
       jobFilter: [],
       sexFilter: [],
+      departFilter: [{ text: '离职', value: '离职' }, { text: '在职', value: '在职' }],
       employeeInfo: {},
       dialogVisible: false,
       form_data: {}
@@ -242,8 +252,12 @@ export default {
           this.archive[item]["name"] = this.archive[item]["employee"]["name"]
           this.archive[item]["education"] = this.archive[item]["employee"]["education"]
           this.archive[item]["sex"] = this.archive[item]["employee"]["sex"]
+          if (this.archive[item]["departureDate"]===null){
+            this.archive[item]["idDepart"]="在职"
+          }else{
+            this.archive[item]["idDepart"]="离职"
+          }
         }
-        console.log(this.archive)
         getObj('education', this.eduFilter, this.archive)
         getObj('title', this.jobFilter, this.archive)
         getObj('sex', this.sexFilter, this.archive)
@@ -277,10 +291,10 @@ export default {
             this.form_data["comment"] = this.employeeInfo["comment"]
 
             this.form_data["department"] = this.employeeInfo["department"]
-            this.form_data.departureDate = moment(this.employeeInfo["departureDate"]).format(
+            this.form_data["departureDate"] = moment(this.employeeInfo["departureDate"]).format(
                 'YYYY-MM-DD HH:mm:ss'
             )
-            this.form_data.hireDate = moment(this.employeeInfo["hireDate"]).format(
+            this.form_data["hireDate"] = moment(this.employeeInfo["hireDate"]).format(
                 'YYYY-MM-DD HH:mm:ss'
             )
             this.form_data["idNumber"] = this.employeeInfo["employee"]["idNumber"]
