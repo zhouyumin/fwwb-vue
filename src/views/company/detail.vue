@@ -155,7 +155,7 @@
         <span class="ml10">{{ employeeInfo.hireDate }}</span>
       </el-form-item>
       <!--不可更改-->
-      <el-form-item label="离职日期">
+      <el-form-item label="离职日期" v-if="employeeInfo.departureDate!==null">
         <span class="ml10">{{ employeeInfo.departureDate }}</span>
       </el-form-item>
       <!--可更改-->
@@ -384,6 +384,7 @@ export default {
 }
 
 .left-star {
+  margin-left: 10px;
   margin-top: 10px;
 }
 .goTop {
