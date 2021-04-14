@@ -2,14 +2,14 @@
   <div class="container full-screen flex">
     <el-card class="card" shadow="hover">
       <div class="head primary text-center">
-        <h2>{{ identity == 'Company' ? '企业' : '个人' }}认证</h2>
+        <h2>{{ identity === 'Company' ? '企业' : '个人' }}认证</h2>
       </div>
       <el-form
         :model="employee"
         ref="employee"
         :rules="employee_rule"
         style="margin-top: 20px"
-        v-show="identity == 'Employee'"
+        v-show="identity === 'Employee'"
       >
         <el-form-item prop="name">
           <el-input
@@ -57,18 +57,26 @@
           ></el-input>
         </el-form-item>
         <el-form-item prop="education">
-          <el-input
+          <el-select
             v-model="employee.education"
             prefix-icon="el-icon-s-management"
             placeholder="教育背景"
-          ></el-input>
+            style="width: 100%"
+          >
+            <el-option label="博士" value="博士"></el-option>
+            <el-option label="硕士" value="硕士"></el-option>
+            <el-option label="本科" value="本科"></el-option>
+            <el-option label="专科" value="专科"></el-option>
+            <el-option label="高中" value="高中"></el-option>
+            <el-option label="初中" value="初中"></el-option>
+          </el-select>
         </el-form-item>
       </el-form>
       <el-form
         :model="company"
         ref="company"
         style="margin-top: 20px"
-        v-show="identity == 'Company'"
+        v-show="identity === 'Company'"
         :rules="company_rule"
       >
         <el-form-item prop="name">
