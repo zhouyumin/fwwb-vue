@@ -20,7 +20,7 @@
     <el-submenu index="/manage/basic">
       <template #title>
         <i class="el-icon-document"></i>
-        <span>档案管理</span>
+        <span>档案记录</span>
       </template>
       <el-menu-item-group>
         <el-menu-item index="/manage/basic">

@@ -90,6 +90,7 @@
 </template>
 <script>
 import { Msg, initChart } from '/src/utils/pubMethod.js'
+import { getUserProfile } from '/src/api/user.js'
 // import {getInfo} from 'src/api/employee/employee.js'
 export default {
   data() {
@@ -158,11 +159,21 @@ export default {
     },
   },
   mounted() {
-    // getInfo().then(res=>{
-    //   this.employeeInfo = res.data.data[0]
-    //   console.log(res.data.data)
-    // })
     this.employee = this.$store.getters.Employee
+    if (JSON.stringify(this.employee) == '{}') {
+      getUserProfile()
+        .then((res) => {
+          const data = res.data.data
+          this.$store.commit('setEmployee', data)
+        })
+        .then(() => {
+          this.employee = this.$store.getters.Employee
+        })
+        .catch((err) => {
+          this.$message.error('网络错误')
+        })
+    }
+
     initChart('user-img', this.option)
   },
 }

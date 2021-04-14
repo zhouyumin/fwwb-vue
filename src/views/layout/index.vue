@@ -46,7 +46,6 @@ import CompanyMenuSide from '@/company/MenuSide.vue'
 import EmployeeMenuSide from '@/employee/MenuSide.vue'
 import { logout } from '/src/api/user.js'
 import { getUserProfile } from '/src/api/user.js'
-import {get_company_archive} from "../../api/archive";
 export default {
   components: {
     CompanyMenuSide,
@@ -61,9 +60,6 @@ export default {
         this.title = data.name
         if (this.identity === 'Company') {
           this.$store.commit('setCompany', data)
-          get_company_archive().then((r) => {
-            this.$store.commit('setArchive', r.data.data)
-          })
         } else if (this.identity === 'Employee') {
           this.$store.commit('setEmployee', data)
         }
@@ -82,7 +78,7 @@ export default {
       isCollapse: false,
       title: '',
       identity: '',
-      loading: true
+      loading: true,
     }
   },
   methods: {
