@@ -1,7 +1,5 @@
 <template>
-  <div>
-    <h1>404努力开发中。。。</h1>
-  </div>
+  <div class="full-screen"></div>
 </template>
 
 <script>
@@ -15,4 +13,8 @@ export default {
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+.full-screen {
+  background-image: url(/img/404.png);
+}
+</style>

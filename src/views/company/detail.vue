@@ -220,12 +220,6 @@
           v-model="employeeInfo.bonusPenalty"
         ></el-input>
       </el-form-item>
-      <el-form-item label="一般评价">
-        <el-input
-          type="textarea"
-          v-model="employeeInfo.general_comment"
-        ></el-input>
-      </el-form-item>
       <!--可更改-->
       <el-form-item label="整体评价">
         <el-input type="textarea" v-model="employeeInfo.comment"></el-input>
