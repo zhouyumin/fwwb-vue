@@ -348,13 +348,14 @@ export default {
         yAxis: [
           {
             type: 'value',
+            minInterval: 1,
+
           },
         ],
         series: [
           {
             name: '综合评价',
             type: 'bar',
-            minInterval: 1,
 
             emphasis: {
               focus: 'series',
@@ -522,6 +523,7 @@ export default {
     },
   },
   activated() {
+    // 如果存在store，不存在重新请求
     if (this.$store.getters.Archive.length!==undefined){
       this.archive = this.$store.getters.Archive
       this.getData()
