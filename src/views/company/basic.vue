@@ -392,12 +392,12 @@ export default {
   methods: {
     //获取全部员工数据
     getData() {
-      this.archive = this.$store.getters.Archive
       let a = this.archive
       this.employeeCount = a.length
+      //离职人数
       let b = 0
       for (let item of a) {
-        if (item.departureDate === null) {
+        if (item.departureDate !== null) {
           b = b + 1
         }
       }
@@ -521,10 +521,22 @@ export default {
       initChart('starChart', this.starData)
     },
   },
-  mounted() {
-    this.getData()
-    this.loading = false
-  },
+  activated() {
+    if (this.$store.getters.Archive.length!==undefined){
+      this.archive = this.$store.getters.Archive
+      this.getData()
+      this.loading = false
+    }else {
+      get_company_archive().then(res=>{
+        this.$store.commit('setArchive', res.data.data)
+        this.archive =  this.$store.getters.Archive
+        this.getData()
+        this.loading = false
+      },err=>{})
+    }
+
+
+  }
 }
 </script>
 

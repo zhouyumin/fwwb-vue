@@ -129,7 +129,7 @@
         <span class="ml10">
           {{ employeeInfo.employee.idNumber }}
         </span>
-<!--        <el-input v-model="employeeInfo.employee.idNumber"></el-input>-->
+        <!--        <el-input v-model="employeeInfo.employee.idNumber"></el-input>-->
       </el-form-item>
       <el-form-item label="家庭住址">
         <span class="ml10">{{ employeeInfo.employee.address }}</span>
@@ -230,13 +230,13 @@ export default {
   name: "detail",
   data() {
     return {
-      archive:{},
+      archive: {},
       search: '',
       loading: true,
       eduFilter: [],
       jobFilter: [],
       sexFilter: [],
-      departFilter: [{ text: '离职', value: '离职' }, { text: '在职', value: '在职' }],
+      departFilter: [{text: '离职', value: '离职'}, {text: '在职', value: '在职'}],
       employeeInfo: {},
       dialogVisible: false,
       form_data: {}
@@ -245,22 +245,22 @@ export default {
   methods: {
     /*获取数据*/
     getData() {
-        this.sexFilter = []
-        this.jobFilter = []
-        this.eduFilter = []
-        for(let item in this.archive){
-          this.archive[item]["name"] = this.archive[item]["employee"]["name"]
-          this.archive[item]["education"] = this.archive[item]["employee"]["education"]
-          this.archive[item]["sex"] = this.archive[item]["employee"]["sex"]
-          if (this.archive[item]["departureDate"]===null){
-            this.archive[item]["idDepart"]="在职"
-          }else{
-            this.archive[item]["idDepart"]="离职"
-          }
+      this.sexFilter = []
+      this.jobFilter = []
+      this.eduFilter = []
+      for (let item in this.archive) {
+        this.archive[item]["name"] = this.archive[item]["employee"]["name"]
+        this.archive[item]["education"] = this.archive[item]["employee"]["education"]
+        this.archive[item]["sex"] = this.archive[item]["employee"]["sex"]
+        if (this.archive[item]["departureDate"] === null) {
+          this.archive[item]["idDepart"] = "在职"
+        } else {
+          this.archive[item]["idDepart"] = "离职"
         }
-        getObj('education', this.eduFilter, this.archive)
-        getObj('title', this.jobFilter, this.archive)
-        getObj('sex', this.sexFilter, this.archive)
+      }
+      getObj('education', this.eduFilter, this.archive)
+      getObj('title', this.jobFilter, this.archive)
+      getObj('sex', this.sexFilter, this.archive)
     },
     /*【查看】点击事件*/
     employeeDetail(index, row) {
@@ -328,12 +328,20 @@ export default {
     }
   },
   created() {
-    get_company_archive().then((res) => {
-      this.$store.commit('setArchive',res.data.data)
+    // alert(22)
+    if (this.$store.getters.Archive.length !== undefined) {
       this.archive = this.$store.getters.Archive
       this.getData()
       this.loading = false
-    })
+    } else {
+      get_company_archive().then(res => {
+        this.$store.commit('setArchive', res.data.data)
+        this.archive = this.$store.getters.Archive
+        this.getData()
+        this.loading = false
+      }, err => {
+      })
+    }
   }
 }
 </script>
