@@ -88,7 +88,7 @@
       <!--【查看】按钮-->
       <template #default="scope">
         <el-button size="mini" @click="employeeDetail(scope.$index, scope.row)">
-          查看
+          详情
         </el-button>
       </template>
     </el-table-column>
@@ -135,30 +135,12 @@
         <el-input v-model="employeeInfo.title"></el-input>
       </el-form-item>
       <!--可更改-->
-      <el-form-item label="出勤">
-        <el-input v-model="employeeInfo.attendance"></el-input>
-      </el-form-item>
-      <!--可更改-->
       <el-form-item label="部门">
         <el-input v-model="employeeInfo.department"></el-input>
       </el-form-item>
       <!--可更改-->
-      <el-form-item label="雇佣日期">
-        <el-date-picker
-          v-model="employeeInfo.hireDate"
-          type="datetime"
-          placeholder="选择日期时间"
-        >
-        </el-date-picker>
-      </el-form-item>
-      <!--可更改-->
-      <el-form-item label="离职日期">
-        <el-date-picker
-          v-model="employeeInfo.departureDate"
-          type="datetime"
-          placeholder="选择日期时间"
-        >
-        </el-date-picker>
+      <el-form-item label="入职日期">
+        <span class="ml10">{{ employeeInfo.hireDate }}</span>
       </el-form-item>
       <!--可更改-->
       <el-form-item label="综合等级">
@@ -205,6 +187,10 @@
         />
       </el-form-item>
       <!--可更改-->
+      <el-form-item label="出勤">
+        <el-input v-model="employeeInfo.attendance"></el-input>
+      </el-form-item>
+      <!--可更改-->
       <el-form-item label="奖惩信息">
         <el-input
           type="textarea"
@@ -228,7 +214,7 @@
         <el-button
           type="primary"
           @click="handlerChange"
-          :disabled="employeeInfo.departureDate"
+          :disabled="employeeInfo.departureDate != null"
           >修改</el-button
         >
       </span>
@@ -245,6 +231,7 @@ export default {
   name: 'detail',
   data() {
     return {
+      index: 0,
       archive: [],
       search: '',
       loading: true,
@@ -284,7 +271,7 @@ export default {
     },
     /*【查看】点击事件*/
     employeeDetail(index, row) {
-      this.employeeInfo = {}
+      this.index = index
       this.employeeInfo = JSON.parse(JSON.stringify(row))
       /*---转圈加载--*/
       this.dialogVisible = true
@@ -300,57 +287,34 @@ export default {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'success',
+      }).then(() => {
+        this.employeeInfo.departureDate =
+          this.employeeInfo.departureDate != null
+            ? moment(this.employeeInfo.departureDate).format(
+                'YYYY-MM-DD HH:mm:ss'
+              )
+            : null
+        this.updateArchive(this.employeeInfo)
       })
-        .then((_) => {
-          /*表单的验证*/
-          this.$refs.form.validate((valid) => {
-            if (valid) {
-              /*进行数据修改,并获取响应*/
-              this.form_data['attendance'] = this.employeeInfo['attendance']
-              this.form_data['attitude'] = this.employeeInfo['attitude']
-              this.form_data['bonusPenalty'] = this.employeeInfo['bonusPenalty']
-              this.form_data['comment'] = this.employeeInfo['comment']
-
-              this.form_data['department'] = this.employeeInfo['department']
-              this.form_data['departureDate'] = moment(
-                this.employeeInfo['departureDate']
-              ).format('YYYY-MM-DD HH:mm:ss')
-              this.form_data['hireDate'] = moment(
-                this.employeeInfo['hireDate']
-              ).format('YYYY-MM-DD HH:mm:ss')
-              this.form_data['idNumber'] = this.employeeInfo['employee'][
-                'idNumber'
-              ]
-              this.form_data['name'] = this.employeeInfo['employee']['name']
-              this.form_data['performance'] = this.employeeInfo['performance']
-              this.form_data['rate'] = this.employeeInfo['rate']
-              this.form_data['teamAbility'] = this.employeeInfo['teamAbility']
-              this.form_data['title'] = this.employeeInfo['title']
-
-              this.updateArchive(this.form_data)
-              Msg(this.$message, 'success', '修改成功')
-            }
-          })
-          // done();
+    },
+    updateArchive(data) {
+      update_archive(data)
+        .then((res) => {
+          this.archive[this.index] = JSON.parse(
+            JSON.stringify(this.employeeInfo)
+          )
+          Msg(this.$message, 'success', '修改成功')
         })
         .catch((_) => {
           Msg(this.$message, 'warning', '修改失败')
         })
-    },
-    updateArchive(param) {
-      console.log(param)
-      update_archive(param).then(
-        (res) => {
-          console.log(res)
-        },
-        (err) => {
-          console.log(err)
-          Msg(this.$message, 'warning', '修改失败')
-        }
-      )
+        .then(() => {
+          this.handleClose()
+          this.getData()
+        })
     },
     /*详情信息关闭二次确认*/
-    handleClose(done) {
+    handleClose() {
       this.dialogVisible = false
     },
   },
@@ -381,6 +345,9 @@ export default {
   border-radius: 15px;
 }
 
+.left-star {
+  margin-top: 10px;
+}
 .goTop {
   height: 100vh;
   overflow-x: hidden;
