@@ -61,7 +61,7 @@
   </div>
 </template>
 <script>
-import { add_archive } from '/src/api/archive.js'
+import {add_archive, get_company_archive} from '/src/api/archive.js'
 import { checkIdNumber, checkTel } from '/src/utils/validator.js'
 import moment from 'moment'
 export default {
@@ -106,6 +106,12 @@ export default {
           add_archive(this.form)
             .then((res) => {
               this.loading = false
+              get_company_archive().then(
+                  (res) => {
+                    this.$store.commit('setArchive', res.data.data)
+                  },
+                  (err) => {}
+              )
               this.$message.success(res.data.msg)
               this.$refs[formName].resetFields()
             })
