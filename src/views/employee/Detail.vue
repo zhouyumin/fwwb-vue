@@ -103,8 +103,7 @@ export default {
           // shape: 'circle',
           name: {
             textStyle: {
-              color: '#fff',
-              backgroundColor: '#999',
+              color: '#7f7f7f'
             },
           },
           indicator: [
