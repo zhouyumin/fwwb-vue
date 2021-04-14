@@ -87,8 +87,20 @@
       </template>
       <!--【查看】按钮-->
       <template #default="scope">
-        <el-button size="mini" @click="employeeDetail(scope.$index, scope.row)">
+        <el-button
+          type="success"
+          size="mini"
+          @click="employeeDetail(scope.$index, scope.row)"
+        >
           详情
+        </el-button>
+        <el-button
+          type="danger"
+          size="mini"
+          :disabled="scope.row.departureDate != null"
+          @click="employeeDepart(scope.$index, scope.row)"
+        >
+          离职
         </el-button>
       </template>
     </el-table-column>
@@ -138,9 +150,13 @@
       <el-form-item label="部门">
         <el-input v-model="employeeInfo.department"></el-input>
       </el-form-item>
-      <!--可更改-->
+      <!--不可更改-->
       <el-form-item label="入职日期">
         <span class="ml10">{{ employeeInfo.hireDate }}</span>
+      </el-form-item>
+      <!--不可更改-->
+      <el-form-item label="离职日期">
+        <span class="ml10">{{ employeeInfo.departureDate }}</span>
       </el-form-item>
       <!--可更改-->
       <el-form-item label="综合等级">
@@ -188,7 +204,14 @@
       </el-form-item>
       <!--可更改-->
       <el-form-item label="出勤">
-        <el-input v-model="employeeInfo.attendance"></el-input>
+        <el-rate
+          v-model="employeeInfo.attendance"
+          allow-half
+          show-score
+          text-color="#ff9900"
+          class="left-star"
+          score-template="{value}"
+        />
       </el-form-item>
       <!--可更改-->
       <el-form-item label="奖惩信息">
@@ -275,6 +298,27 @@ export default {
       this.employeeInfo = JSON.parse(JSON.stringify(row))
       /*---转圈加载--*/
       this.dialogVisible = true
+    },
+    employeeDepart(index, row) {
+      this.$confirm('员工离职后将不能修改此档案, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning',
+      })
+        .then(() => {
+          this.index = index
+          this.employeeInfo = JSON.parse(JSON.stringify(row))
+          this.employeeInfo.departureDate = moment(new Date()).format(
+            'YYYY-MM-DD HH:mm:ss'
+          )
+          this.updateArchive(this.employeeInfo)
+        })
+        .catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消',
+          })
+        })
     },
     /*过滤器方法*/
     filterHandler(value, row, column) {
