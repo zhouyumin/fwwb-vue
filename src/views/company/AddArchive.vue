@@ -125,7 +125,6 @@ export default {
       this.$refs[formName].resetFields()
     },
     setDate(val) {
-      console.log(val)
       val = moment(val).format('YYYY-MM-DD HH:mm:ss')
       this.form.hireDate = val
     },

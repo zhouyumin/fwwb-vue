@@ -464,6 +464,7 @@ export default {
     getJob() {
       this.test = []
       this.ChartData.xAxis[0].data = []
+      this.ChartData.series[0].data = []
       getWeight(this.archive, this.test, 'title')
       for (let i in this.test) {
         this.ChartData.xAxis[0].data.push(this.test[i]['name'])
@@ -483,6 +484,7 @@ export default {
     getDepart() {
       this.test = []
       this.ChartData.xAxis[0].data = []
+      this.ChartData.series[0].data = []
       getWeight(this.archive, this.test, 'department')
       for (let i in this.test) {
         this.ChartData.xAxis[0].data.push(this.test[i]['name'])
