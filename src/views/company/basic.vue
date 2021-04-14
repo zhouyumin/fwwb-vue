@@ -158,12 +158,12 @@ export default {
         radar: {
           // shape: 'circle',
           indicator: [
-            { text: '博士' },
-            { text: '硕士' },
-            { text: '本科' },
-            { text: '专科' },
-            { text: '高中' },
-            { text: '初中' },
+            { text: '博士',min: 0 },
+            { text: '硕士',min: 0 },
+            { text: '本科',min: 0 },
+            { text: '专科' ,min: 0},
+            { text: '高中' ,min: 0},
+            { text: '初中' ,min: 0},
           ],
           radius: 90,
           center: ['47%', '50%'],
@@ -196,62 +196,6 @@ export default {
           },
         ],
 
-        // tooltip: {
-        //   show: true,// 是否显示提示,true/false,默认true
-        //   trigger: "item",// 触发类型, item/axis/none
-        //   backgroundColor: 'rgba(0,0,0,.5)',// 提示框背景
-        //   borderWidth: 1, // 提示框边框大小
-        //   padding: 10,// 提示框内边距
-        //   borderColor: '#ff0000',// 提示框边框颜色
-        //   formatter: "{a} <br/>{b}: {c} ({d}%)",// 提示格式，支持回调函数
-        //   textStyle: {
-        //     color: '#0DB9DF', // 提示文字样式
-        //     fontStyle: 'normal', // 提示文字风格，normal,italic,oblique
-        //     fontWeight: 'normal', // 提示文字粗细， normal,bold,bolder,lighter,100~900
-        //     fontFamily: 'sans-serif', //提示文字字体， 'serif' , 'monospace', 'Arial', 'Courier New', 'Microsoft YaHei', ...
-        //     fontSize: 14, //字体大小
-        //     lineHeight: 28, //字体行高
-        //     rich: {
-        //       a: {
-        //         lineHeight: 28 // 没有设置则继承textStyle的 `lineHeight`，
-        //       }
-        //     }
-        //   }
-        // },
-        // legend: {
-        //   left: 'center'
-        // },
-        // series: [
-        //   {
-        //     name: '教育程度',
-        //     type: 'pie',
-        //     radius: '70%',
-        //
-        //     color: [
-        //       "#5ab1ef",
-        //       "#32dadd",
-        //       "#ffb980",
-        //       "#c8b2f4",
-        //       "#40c9c6",
-        //       "#36a3f7",
-        //       "#f4516c",
-        //     ],
-        //     emphasis: {
-        //       label: {
-        //         show: true,
-        //         fontSize: '15',
-        //         fontWeight: 'bold'
-        //       },
-        //       itemStyle: {
-        //         shadowBlur: 10,
-        //         shadowOffsetX: 0,
-        //         shadowColor: 'rgba(0, 0, 0, 0.5)'
-        //       }
-        //     },
-        //
-        //     data: []
-        //   }
-        // ]
       },
       ChartData: {
         tooltip: {
@@ -409,27 +353,6 @@ export default {
       this.getEdu()
       this.getDepart()
       this.getStar()
-      // get_company_archive().then((res) => {
-      //   this.$store.commit('setArchive',res.data.data)
-      //   //获取全部数据并进行处理操作
-      //   console.log(this.$store.getters.Archive)
-      //   console.log(this.archive)
-      //   let a = this.archive
-      //   this.employeeCount = a.length
-      //   let b = 0
-      //   for(let item of a){
-      //     if (item.departureDate===''){
-      //       b = b+1
-      //     }
-      //   }
-      //   this.departCount = b
-      //   this.zaizhiCount = this.employeeCount - this.departCount
-      //   this.getJob()
-      //   this.getSex()
-      //   this.getEdu()
-      //   this.getDepart()
-      //   this.getStar()
-      // })
     },
     //性别比例
     getSex() {
@@ -457,8 +380,14 @@ export default {
         }
       }
       for (let i = 0; i < 6; i++) {
-        this.eduChartData.series[0].data[0].value.push(this.test[i])
+        if (this.test[i]===undefined){
+          this.eduChartData.series[0].data[0].value.push(0)
+
+        }else{
+          this.eduChartData.series[0].data[0].value.push(this.test[i])
+        }
       }
+      console.log(this.eduChartData.series[0].data[0])
       initChart('eduChart', this.eduChartData)
     },
     getJob() {
