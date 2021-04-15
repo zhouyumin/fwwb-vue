@@ -372,9 +372,11 @@ export default {
       getWeight(this.test, getEdu_a, 'education')
       this.test = []
       let edu = ['博士', '硕士', '本科', '专科', '高中', '初中']
+      let max = 0
       for (let i = 0; i < 6; i++) {
         for (let item of getEdu_a) {
           if (item['name'] === edu[i]) {
+            if (item['value']>max){max = item['value']}
             this.test[i] = item['value']
           }
         }
@@ -386,8 +388,8 @@ export default {
         }else{
           this.eduChartData.series[0].data[0].value.push(this.test[i])
         }
+        this.eduChartData.radar.indicator[i]['max'] = max
       }
-      console.log(this.eduChartData.series[0].data[0])
       initChart('eduChart', this.eduChartData)
     },
     getJob() {
