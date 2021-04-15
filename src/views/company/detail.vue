@@ -173,7 +173,6 @@
       <el-form-item label="团队能力">
         <el-rate
           v-model="employeeInfo.teamAbility"
-          allow-half
           show-score
           text-color="#ff9900"
           class="left-star"
@@ -184,7 +183,6 @@
       <el-form-item label="表现情况">
         <el-rate
           v-model="employeeInfo.performance"
-          allow-half
           show-score
           text-color="#ff9900"
           class="left-star"
@@ -195,7 +193,6 @@
       <el-form-item label="工作态度">
         <el-rate
           v-model="employeeInfo.attitude"
-          allow-half
           show-score
           text-color="#ff9900"
           class="left-star"
@@ -206,7 +203,6 @@
       <el-form-item label="出勤">
         <el-rate
           v-model="employeeInfo.attendance"
-          allow-half
           show-score
           text-color="#ff9900"
           class="left-star"
