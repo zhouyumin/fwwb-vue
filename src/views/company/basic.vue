@@ -347,7 +347,6 @@ export default {
     changeAll() {
       this.tip = '历史员工统计'
       this.allChartIni(this.archive)
-
     },
     changeWork() {
       let a = []
@@ -358,7 +357,6 @@ export default {
       }
       this.tip = '当前员工统计'
       this.allChartIni(a)
-
     },
     changeDepart() {
       let a = []
@@ -367,15 +365,20 @@ export default {
           a.push(this.archive[item])
         }
       }
-      this.tip = '离职员工统计'
+      this.tip='离职员工统计'
       this.allChartIni(a)
-
     },
     //获取全部员工数据
     getData() {
       if (this.$store.getters.Archive.length !== undefined) {
         this.archive = this.$store.getters.Archive
         this.dataProcess(this.archive)
+        if (this.tip==='离职员工统计'){
+          this.changeDepart()
+        }
+        if (this.tip==='当前员工统计'){
+          this.changeWork()
+        }
         this.loading = false
       } else {
         get_company_archive().then(res => {
@@ -392,7 +395,7 @@ export default {
      */
     dataProcess(archive) {
       let a = archive
-      if (a.length !== undefined) {
+      if (a.length!==undefined){
         this.employeeCount = a.length
         //离职人数
         let b = 0
@@ -406,13 +409,12 @@ export default {
         this.allChartIni(a)
       }
     },
-    allChartIni(a) {
+    allChartIni(a){
       this.getEdu(a)
       this.getJob(a)
       this.getSex(a)
       this.getDepart(a)
       this.getStar(a)
-      Msg(this.$message, 'success', this.tip)
     },
     //性别比例
     getSex(archive) {
