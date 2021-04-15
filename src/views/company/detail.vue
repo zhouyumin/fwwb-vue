@@ -4,6 +4,7 @@
       :data="archive.filter((data) =>
         !search || data.name.toLowerCase().includes(search.toLowerCase())).slice((currentPage-1)*pagesize,currentPage*pagesize)
       "
+      stripe
       style="width: 100%"
       v-loading="loading"
       element-loading-text="拼命加载中"
@@ -245,7 +246,7 @@
 import {get_company_archive, update_archive} from '/src/api/archive.js'
 
 import {getObj, Msg, getValue} from '/src/utils/pubMethod'
-import moment from 'moment'
+import moment from "moment";
 
 export default {
   name: 'detail',
@@ -295,6 +296,10 @@ export default {
     employeeDetail(index, row) {
       this.index = index
       this.employeeInfo = JSON.parse(JSON.stringify(row))
+      if (this.employeeInfo.departureDate!==null){
+        this.employeeInfo.departureDate = moment(row.departureDate).format('YYYY年 MM月 DD日')
+      }
+      this.employeeInfo.hireDate = moment(row.hireDate).format('YYYY年 MM月 DD日')
       /*---转圈加载--*/
       this.dialogVisible = true
     },
