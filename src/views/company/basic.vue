@@ -254,15 +254,23 @@ export default {
             type: 'bar',
             barWidth: '60%',
             data: [],
-            color: [
-              '#5ab1ef',
-              '#32dadd',
-              '#ffb980',
-              '#c8b2f4',
-              '#40c9c6',
-              '#36a3f7',
-              '#f4516c',
-            ],
+            itemStyle:{
+              normal:{
+                color:function(params){
+                  let colorList = [
+                    '#5ab1ef',
+                    '#32dadd',
+                    '#ffb980',
+                    '#c8b2f4',
+                    '#40c9c6',
+                    '#36a3f7',
+                    '#f4516c',
+                  ];
+                  return colorList[params.dataIndex%colorList.length];
+                }
+              }
+            },
+            // color: ,
           },
         ],
       },
