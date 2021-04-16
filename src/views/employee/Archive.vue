@@ -23,14 +23,13 @@
               <el-collapse-item
                 style="text-align: left"
                 :title="title"
-                @click="change()"
               >
                 <el-tag style="height: auto; margin-left: 100px">
                   奖惩情况：{{ item.bonusPenalty }}
                   <br />
-                  就职部门：{{ item.bonusPenalty }}
+                  就职部门：{{ item.department }}
                   <br />
-                  所任职位：{{ item.bonusPenalty }}
+                  所任职位：{{ item.title }}
                   <br />
                   出勤情况：{{ item.attendance }}
                   <br />
@@ -99,17 +98,9 @@ export default {
   data() {
     return {
       archive: [],
-      title: '点击查看详情',
     }
   },
   methods: {
-    change() {
-      if (this.title != '') {
-        this.title = ''
-      } else {
-        this.title = '点击查看详情'
-      }
-    },
   },
   created() {
     get_archive().then((res) => {

@@ -174,7 +174,7 @@
         <el-col :span="1"></el-col>
         <el-col :span="10">
           <el-form-item label="入职日期：">
-            <span class="ml10">{{ employeeInfo.hireDate }}</span>
+            <span class="ml10">{{ hireDate }}</span>
           </el-form-item>
         </el-col>
       </el-row>
@@ -339,6 +339,7 @@ export default {
       employeeInfo: {},
       dialogVisible: false,
       form_data: {},
+      hireDate:0,
     }
   },
   methods: {
@@ -375,7 +376,7 @@ export default {
           'YYYY年 MM月 DD日'
         )
       }
-      this.employeeInfo.hireDate = moment(row.hireDate).format(
+      this.hireDate = moment(row.hireDate).format(
         'YYYY年 MM月 DD日'
       )
       /*---转圈加载--*/
@@ -424,6 +425,9 @@ export default {
       })
     },
     updateArchive(data) {
+      this.employeeInfo.hireDate = moment(this.employeeInfo.hireDate).format(
+          'YYYY-MM-DD HH:mm:ss'
+      )
       update_archive(data)
         .then((res) => {
           this.archive[this.index] = JSON.parse(

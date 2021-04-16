@@ -1,7 +1,6 @@
 <template>
-  <archive-info :info="info" ></archive-info>
+  <el-skeleton :rows="12" :loading="1" />
 </template>
-
 <script>
 import {fetch_archive} from '/src/api/archive'
 import {Msg} from '/src/utils/pubMethod.js'
@@ -42,6 +41,8 @@ export default {
           if (result.data.data != null ) {
             this.info = result.data.data
             Msg(this.$message, 'success', '调取成功： ' +data.authorization)
+            this.$store.commit('setAut', this.info)
+            this.$router.push('/fetchA')
             /*******操作********/
           } else{
             this.$alert('授权码无效，请重新输入', '提示', {
@@ -54,7 +55,7 @@ export default {
           }
         })
         .catch(err => {
-          console.log(err)
+          this.getAuthorization()
           Msg(this.$message, 'error', '发生错误')
           return -1
        })
@@ -72,7 +73,7 @@ export default {
     this.getAuthorization()
   }
 }
-
+// 9b1b28ad16da44c4957c630b27c54d32
 
 </script>
 

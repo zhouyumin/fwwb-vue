@@ -57,6 +57,13 @@ const routes = [
         component: () => import('@/company/FetchArchive.vue'),
       },
       {
+        path: '/fetchA',
+        meta: {
+          title: '详细档案',
+        },
+        component: () => import('@/company/components/archiveInfo.vue'),
+      },
+      {
         path: '/detail',
         meta: {
           title: '个人信息',
