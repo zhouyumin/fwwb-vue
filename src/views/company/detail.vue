@@ -19,11 +19,11 @@
     <!--头像-->
     <el-table-column align="center" width="100px" label="  ">
       <template #default="">
-        <img class="head-portrait" src="/img/user.png" />
+        <img class="head-portrait" src="/img/user.png"/>
       </template>
     </el-table-column>
     <!--姓名-->
-    <el-table-column label="姓名" prop="name" align="center">
+    <el-table-column label="姓名" prop="name" align="center" width="120px">
       <template #default="scope">
         <el-popover effect="light" trigger="hover" placement="top">
           <template #default>
@@ -32,7 +32,7 @@
           </template>
           <template #reference>
             <div class="name-wrapper">
-              <el-tag size="mini">{{ scope.row.name }}</el-tag>
+              <el-tag size="medium">{{ scope.row.name }}</el-tag>
             </div>
           </template>
         </el-popover>
@@ -40,35 +40,35 @@
     </el-table-column>
     <!--性别-->
     <el-table-column
-      label="性别"
-      prop="sex"
-      align="center"
-      :filters="sexFilter"
-      :filter-method="filterHandler"
-      sortable
-      width="120px"
+        label="性别"
+        prop="sex"
+        align="center"
+        :filters="sexFilter"
+        :filter-method="filterHandler"
+        sortable
+        width="120px"
     >
     </el-table-column>
     <!--职位--><!--width="220px"-->
     <el-table-column
-      label="职位"
-      prop="title"
-      align="center"
-      :filters="jobFilter"
-      :filter-method="filterHandler"
-      width="150px"
-      sortable
+        label="职位"
+        prop="title"
+        align="center"
+        :filters="jobFilter"
+        :filter-method="filterHandler"
+        width="150px"
+        sortable
     >
     </el-table-column>
     <!--学历-->
     <el-table-column
-      label="学历"
-      prop="education"
-      align="center"
-      width="180px"
-      :filters="eduFilter"
-      :filter-method="filterHandler"
-      sortable
+        label="学历"
+        prop="education"
+        align="center"
+        width="180px"
+        :filters="eduFilter"
+        :filter-method="filterHandler"
+        sortable
     >
     </el-table-column>
     <!--入职日期-->
@@ -139,118 +139,166 @@
   <!--详细信息-->
   <el-dialog
     v-model="dialogVisible"
-    width="33%"
+    width="45%"
     :close-on-click-modal="false"
     :before-close="handleClose"
+    top="20px"
   >
-    <el-form ref="form" :model="employeeInfo" label-width="80px">
-      <el-form-item label="姓名">
+    <el-form ref="form" :model="employeeInfo" label-width="100px">
+      <el-row style="height: 50px;">
+        <el-col :span="10">
+          <el-form-item label="姓名：">
         <span class="ml10">
           {{ employeeInfo.employee.name }}
         </span>
 
-        <!--        <el-input v-model="employeeInfo.employee.name" ></el-input>-->
-      </el-form-item>
-      <el-form-item label="性别">
+            <!--        <el-input v-model="employeeInfo.employee.name" ></el-input>-->
+          </el-form-item>
+        </el-col>
+        <el-col :span="1"></el-col>
+        <el-col :span="10">
+          <el-form-item label="离职日期：" v-if="employeeInfo.departureDate !== null">
+            <span class="ml10">{{ employeeInfo.departureDate }}</span>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row style="height: 50px;">
+        <el-col :span="10">
+          <el-form-item label="性别：">
         <span class="ml10">
           {{ employeeInfo.employee.sex }}
         </span>
-        <!--        <el-input v-model="" :readonly="true"></el-input>-->
-      </el-form-item>
-      <el-form-item label="手机号码">
+            <!--        <el-input v-model="" :readonly="true"></el-input>-->
+          </el-form-item>
+        </el-col>
+        <el-col :span="1"></el-col>
+        <el-col :span="10">
+          <el-form-item label="入职日期：">
+            <span class="ml10">{{ employeeInfo.hireDate }}</span>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row style="height: 50px;" >
+        <el-col :span="10">
+          <el-form-item label="手机号码：">
         <span class="ml10">
           {{ employeeInfo.employee.tel }}
         </span>
-        <!--        <el-input v-model="" :readonly="true"></el-input>-->
-      </el-form-item>
-      <el-form-item label="身份证号">
-        <span class="ml10">
-          {{ employeeInfo.employee.idNumber }}
-        </span>
-        <!--        <el-input v-model="employeeInfo.employee.idNumber"></el-input>-->
-      </el-form-item>
-      <el-form-item label="家庭住址">
-        <span class="ml10">{{ employeeInfo.employee.address }}</span>
-        <!--        <el-input v-model="employeeInfo.employee.address" :readonly="true"></el-input>-->
-      </el-form-item>
+            <!--        <el-input v-model="" :readonly="true"></el-input>-->
+          </el-form-item>
+        </el-col>
+        <el-col :span="1"></el-col>
+        <el-col :span="10">
+          <el-form-item label="综合等级：">
+            <el-rate
+                v-model="employeeInfo.rate"
+                show-score
+                text-color="#ff9900"
+                class="left-star"
+                score-template="{value}"
+            />
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row style="height: 50px;" >
+        <el-col :span="11">
+          <el-form-item label="身份证号：">
+            <span class="ml10">
+              {{ employeeInfo.employee.idNumber }}
+            </span>
+            <!--        <el-input v-model="employeeInfo.employee.idNumber"></el-input>-->
+          </el-form-item>
+        </el-col>
+        <el-col :span="10">
+          <el-form-item label="团队能力：">
+            <el-rate
+                v-model="employeeInfo.teamAbility"
+                show-score
+                text-color="#ff9900"
+                class="left-star"
+                score-template="{value}"
+            />
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row style="height: 50px;">
+        <el-col :span="10">
+          <el-form-item label="家庭住址：">
+            <span class="ml10">{{ employeeInfo.employee.address }}</span>
+            <!--        <el-input v-model="employeeInfo.employee.address" :readonly="true"></el-input>-->
+          </el-form-item>
+        </el-col>
+        <el-col :span="1"></el-col>
+        <el-col :span="10">
+          <el-form-item label="表现情况：">
+            <el-rate
+                v-model="employeeInfo.performance"
+                show-score
+                text-color="#ff9900"
+                class="left-star"
+                score-template="{value}"
+            />
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row style="height: 60px;">
+        <el-col :span="10">
+          <el-form-item label="职位：">
+            <el-input v-model="employeeInfo.title"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="1"></el-col>
+        <el-col :span="10">
+          <el-form-item label="工作态度：">
+            <el-rate
+                v-model="employeeInfo.attitude"
+                show-score
+                text-color="#ff9900"
+                class="left-star"
+                score-template="{value}"
+            />
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row style="height: 60px;">
+        <el-col :span="10">
+          <el-form-item label="部门：">
+            <el-input v-model="employeeInfo.department"></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="1"></el-col>
+        <el-col :span="10">
+          <el-form-item label="出勤：">
+            <el-rate
+                v-model="employeeInfo.attendance"
+                show-score
+                text-color="#ff9900"
+                class="left-star"
+                score-template="{value}"
+            />
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row>
+          <el-col :span="20">
+            <el-form-item label="奖惩信息：" >
+              <el-input
+                  type="textarea"
+                  v-model="employeeInfo.bonusPenalty"
+              ></el-input>
+            </el-form-item>
+          </el-col>
+      </el-row>
+      <el-row>
+
+        <el-col :span="20">
+          <el-form-item label="整体评价：">
+            <el-input type="textarea" v-model="employeeInfo.comment"></el-input>
+          </el-form-item>
+
+        </el-col>
+      </el-row>
       <!--可更改-->
-      <el-form-item label="职位">
-        <el-input v-model="employeeInfo.title"></el-input>
-      </el-form-item>
-      <!--可更改-->
-      <el-form-item label="部门">
-        <el-input v-model="employeeInfo.department"></el-input>
-      </el-form-item>
-      <!--不可更改-->
-      <el-form-item label="入职日期">
-        <span class="ml10">{{ employeeInfo.hireDate }}</span>
-      </el-form-item>
-      <!--不可更改-->
-      <el-form-item label="离职日期" v-if="employeeInfo.departureDate !== null">
-        <span class="ml10">{{ employeeInfo.departureDate }}</span>
-      </el-form-item>
-      <!--可更改-->
-      <el-form-item label="综合等级">
-        <el-rate
-          v-model="employeeInfo.rate"
-          allow-half
-          show-score
-          text-color="#ff9900"
-          class="left-star"
-          score-template="{value}"
-        />
-      </el-form-item>
-      <!--可更改-->
-      <el-form-item label="团队能力">
-        <el-rate
-          v-model="employeeInfo.teamAbility"
-          show-score
-          text-color="#ff9900"
-          class="left-star"
-          score-template="{value}"
-        />
-      </el-form-item>
-      <!--可更改-->
-      <el-form-item label="表现情况">
-        <el-rate
-          v-model="employeeInfo.performance"
-          show-score
-          text-color="#ff9900"
-          class="left-star"
-          score-template="{value}"
-        />
-      </el-form-item>
-      <!--可更改-->
-      <el-form-item label="工作态度">
-        <el-rate
-          v-model="employeeInfo.attitude"
-          show-score
-          text-color="#ff9900"
-          class="left-star"
-          score-template="{value}"
-        />
-      </el-form-item>
-      <!--可更改-->
-      <el-form-item label="出勤">
-        <el-rate
-          v-model="employeeInfo.attendance"
-          show-score
-          text-color="#ff9900"
-          class="left-star"
-          score-template="{value}"
-        />
-      </el-form-item>
-      <!--可更改-->
-      <el-form-item label="奖惩信息">
-        <el-input
-          type="textarea"
-          v-model="employeeInfo.bonusPenalty"
-        ></el-input>
-      </el-form-item>
-      <!--可更改-->
-      <el-form-item label="整体评价">
-        <el-input type="textarea" v-model="employeeInfo.comment"></el-input>
-      </el-form-item>
     </el-form>
     <template #footer>
       <span class="dialog-footer">
