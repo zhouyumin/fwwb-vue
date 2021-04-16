@@ -228,7 +228,6 @@ export default {
       this.allInfo = this.$store.getters.Aut
       this.info = this.allInfo[0]
       this.archive = this.allInfo[1]
-      console.log(this.info.employee.name)
     }else{
       this.$router.replace('/fetch')
     }

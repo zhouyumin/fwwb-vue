@@ -174,20 +174,18 @@ export default {
             name: '职员学历情况',
             type: 'radar',
             areaStyle: {
-              normal: {
-                color: '#5ab1ef',
-              },
-              emphasis: {
-                color: '#32dadd',
-              },
+              color: '#5ab1ef',
             },
             itemStyle: {
-              normal: {
-                color: '#5ab1ef',
-              },
-              emphasis: {
+              color: '#5ab1ef',
+            },
+            emphasis: {
+              areaStyle:{
                 color: '#32dadd',
               },
+              itemStyle: {
+                color: '#32dadd',
+              }
             },
             data: [
               {
@@ -256,22 +254,93 @@ export default {
             barWidth: '60%',
             data: [],
             itemStyle: {
-              normal: {
-                color: function (params) {
-                  let colorList = [
-                    '#5ab1ef',
-                    '#32dadd',
-                    '#ffb980',
-                    '#c8b2f4',
-                    '#40c9c6',
-                    '#36a3f7',
-                    '#f4516c',
-                  ];
-                  return colorList[params.dataIndex % colorList.length];
-                }
+              color: function (params) {
+                let colorList = [
+                  '#5ab1ef',
+                  '#32dadd',
+                  '#ffb980',
+                  '#c8b2f4',
+                  '#40c9c6',
+                  '#36a3f7',
+                  '#f4516c',
+                ];
+                return colorList[params.dataIndex % colorList.length];
               }
             },
-            // color: ,
+          },
+        ],
+      },
+      ChartData1: {
+        tooltip: {
+          trigger: 'axis',
+          axisPointer: {
+            // 坐标轴指示器，坐标轴触发有效
+            type: 'shadow', // 默认为直线，可选为：'line' | 'shadow'
+          },
+          show: true, // 是否显示提示,true/false,默认true
+          // trigger: "item",// 触发类型, item/axis/none
+          backgroundColor: 'rgba(0,0,0,.5)', // 提示框背景
+          borderWidth: 1, // 提示框边框大小
+          padding: 10, // 提示框内边距
+          borderColor: '#ff0000', // 提示框边框颜色
+          textStyle: {
+            color: '#0DB9DF', // 提示文字样式
+            fontStyle: 'normal', // 提示文字风格，normal,italic,oblique
+            fontWeight: 'normal', // 提示文字粗细， normal,bold,bolder,lighter,100~900
+            fontFamily: 'sans-serif', //提示文字字体， 'serif' , 'monospace', 'Arial', 'Courier New', 'Microsoft YaHei', ...
+            fontSize: 14, //字体大小
+            lineHeight: 28, //字体行高
+            rich: {
+              a: {
+                lineHeight: 28, // 没有设置则继承textStyle的 `lineHeight`，
+              },
+            },
+          },
+        },
+        grid: {
+          left: '3%',
+          right: '4%',
+          bottom: '3%',
+          containLabel: true,
+        },
+        // legend: {
+        //   left: 'center'
+        // },
+        xAxis: [
+          {
+            type: 'category',
+            data: [],
+            // axisTick: {
+            //   alignWithLabel: true
+            // }
+          },
+        ],
+        yAxis: [
+          {
+            minInterval: 1,
+            type: 'value',
+          },
+        ],
+        series: [
+          {
+            name: '共有',
+            type: 'bar',
+            barWidth: '60%',
+            data: [],
+            itemStyle: {
+              color: function (params) {
+                let colorList = [
+                  '#5ab1ef',
+                  '#32dadd',
+                  '#ffb980',
+                  '#c8b2f4',
+                  '#40c9c6',
+                  '#36a3f7',
+                  '#f4516c',
+                ];
+                return colorList[params.dataIndex % colorList.length];
+              }
+            },
           },
         ],
       },
@@ -484,7 +553,7 @@ export default {
         this.ChartData.xAxis[0].data.push(this.test[i]['name'])
         this.ChartData.series[0].data.push(this.test[i]['value'])
       }
-      initChart('departChart', this.ChartData)
+      initChart('departChart', this.ChartData1)
     },
     getStar(archive) {
       this.test = []

@@ -101,10 +101,8 @@ export default {
         tooltip: {},
         radar: {
           // shape: 'circle',
-          name: {
-            textStyle: {
+          axisName: {
               color: '#7f7f7f',
-            },
           },
           indicator: [
             { name: '销售', max: 100 },
@@ -118,17 +116,15 @@ export default {
         series: [
           {
             areaStyle: {
-              normal: {
                 color: '#67C23A',
-              },
-              emphasis: {
+            },
+            emphasis:{
+              areaStyle: {
                 color: '#409EFF',
               },
             },
             itemStyle: {
-              normal: {
                 color: '#409EFF',
-              },
             },
             name: '预算 vs 开销（Budget vs spending）',
             type: 'radar',
