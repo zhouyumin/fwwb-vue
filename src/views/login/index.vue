@@ -1,6 +1,6 @@
 <template>
   <div class="login-container full-screen flex">
-    <el-card class="login-card" shadow="hover">
+    <el-card class="login-card">
       <div class="login-head primary text-center">
         <h2>小微企业跨组织人才管理系统</h2>
       </div>

@@ -2,12 +2,7 @@
   <el-empty description="暂无数据!" v-show="archive.length < 1"> </el-empty>
   <div v-show="archive">
     <div class="text-center">
-      <h1
-        class="primary title"
-        style="display: inline-block; font-size: 28px; margin-bottom: 0"
-      >
-        就职经历
-      </h1>
+      <h1 class="primary title">就职经历</h1>
     </div>
     <el-collapse>
       <div class="archive">
@@ -17,8 +12,9 @@
             :timestamp="item.hireDate"
             :key="item"
             placement="top"
+            type="success"
           >
-            <el-card shadow="hover" class="">
+            <el-card>
               <h4>就职于 {{ item.company.name }}</h4>
               <p>
                 就职时间： {{ item.hireDate }} ----- {{ item.departureDate }}
@@ -135,13 +131,10 @@ export default {
   margin: 30px 0 0 50px;
 }
 .title {
-  position: relative;
-  top: 16px;
-  left: 0;
   font-size: 26px;
-  color: #c0c4cc;
   width: 150px;
-  /*pointer-events: none;*/
-  z-index: 999;
+  margin-bottom: 28px;
+  display: inline-block;
+  font-size: 28px;
 }
 </style>

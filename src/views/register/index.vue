@@ -1,6 +1,6 @@
 <template>
   <div class="register-container full-screen flex">
-    <el-card class="card" shadow="hover">
+    <el-card class="card">
       <div class="register-head primary text-center">
         <h2>小微企业跨组织人才管理系统</h2>
       </div>

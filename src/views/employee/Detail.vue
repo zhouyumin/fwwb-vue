@@ -5,7 +5,7 @@
         <el-row>
           <el-col :span="3"></el-col>
           <el-col :span="18">
-            <el-card class="img-card">
+            <el-card class="img-card" shadow="hover">
               <img src="/img/user.jpg" class="image" />
             </el-card>
           </el-col>
@@ -103,7 +103,7 @@ export default {
           // shape: 'circle',
           name: {
             textStyle: {
-              color: '#7f7f7f'
+              color: '#7f7f7f',
             },
           },
           indicator: [

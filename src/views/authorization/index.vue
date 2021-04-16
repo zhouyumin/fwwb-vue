@@ -15,7 +15,7 @@
           <el-input
             v-model="employee.name"
             placeholder="姓名"
-            prefix-icon="el-icon-s-custom"
+            prefix-icon="iconfont iconuser"
           ></el-input>
         </el-form-item>
         <el-form-item prop="sex">
@@ -31,7 +31,7 @@
         <el-form-item prop="idNumber">
           <el-input
             v-model="employee.idNumber"
-            prefix-icon="el-icon-postcard"
+            prefix-icon="iconfont iconid-card-o"
             placeholder="身份证号"
           ></el-input>
         </el-form-item>
@@ -39,21 +39,21 @@
           <el-input
             v-model="employee.tel"
             placeholder="电话"
-            prefix-icon="el-icon-phone"
+            prefix-icon="iconfont icontel2"
           ></el-input>
         </el-form-item>
         <el-form-item prop="address">
           <el-input
             v-model="employee.address"
             placeholder="地址"
-            prefix-icon="el-icon-location"
+            prefix-icon="iconfont iconaddress2"
           ></el-input>
         </el-form-item>
         <el-form-item prop="nation">
           <el-input
             v-model="employee.nation"
             placeholder="民族"
-            prefix-icon="el-icon-user"
+            prefix-icon="iconfont iconpeople1"
           ></el-input>
         </el-form-item>
         <el-form-item prop="education">
@@ -83,27 +83,27 @@
           <el-input
             v-model="company.name"
             placeholder="企业名称"
-            prefix-icon="el-icon-s-custom"
+            prefix-icon="iconfont iconuser"
           ></el-input>
         </el-form-item>
         <el-form-item prop="tel">
           <el-input
             v-model="company.tel"
             placeholder="电话"
-            prefix-icon="el-icon-phone"
+            prefix-icon="iconfont icontel2"
           ></el-input>
         </el-form-item>
         <el-form-item prop="address">
           <el-input
             v-model="company.address"
             placeholder="地址"
-            prefix-icon="el-icon-location"
+            prefix-icon="iconfont iconaddress2"
           ></el-input>
         </el-form-item>
         <el-form-item prop="business_number">
           <el-input
             v-model="company.business_number"
-            prefix-icon="el-icon-s-check"
+            prefix-icon="iconfont iconuf_company"
             placeholder="工商号"
           ></el-input>
         </el-form-item>
