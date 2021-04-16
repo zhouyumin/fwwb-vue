@@ -41,7 +41,7 @@
       <i class="el-icon-folder-add"></i>
       <template #title>添加档案</template>
     </el-menu-item>
-    <el-menu-item index="/fetch">
+    <el-menu-item index="/fetch" @click="fetch">
       <i class="el-icon-search"></i>
       <template #title>调取档案</template>
     </el-menu-item>
@@ -60,7 +60,28 @@ export default {
       archives: [],
     }
   },
-  methods: {},
+  methods: {
+    fetch() {
+      this.$prompt('请输入授权码', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        closeOnClickModal: false,
+      })
+        .then(({ value }) => {
+          this.$router.push({
+            name: 'fetch',
+            params: {
+              authorization: value,
+            },
+          })
+        })
+        .catch(() => {
+          /*取消输入后，跳转至档案管理页面*/
+          this.$message.warning('取消输入')
+          this.$router.push('manage')
+        })
+    },
+  },
   created() {},
 }
 </script>

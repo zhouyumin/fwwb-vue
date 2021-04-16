@@ -23,24 +23,23 @@ const routes = [
         },
 
         component: () => import('@/company/basic.vue'),
-        redirect: '/manage/basic'
+        redirect: '/manage/basic',
       },
       {
         path: '/manage/basic',
         meta: {
           title: '档案管理',
         },
-        component: () => import('@/company/basic.vue')
+        component: () => import('@/company/basic.vue'),
       },
 
-        {
-          path: '/manage/detail',
-          meta: {
-            title: '具体信息',
-          },
-          component: () => import('@/company/detail.vue'),
+      {
+        path: '/manage/detail',
+        meta: {
+          title: '具体信息',
         },
-
+        component: () => import('@/company/detail.vue'),
+      },
 
       {
         path: '/add',
@@ -50,18 +49,12 @@ const routes = [
         component: () => import('@/company/AddArchive.vue'),
       },
       {
-        path: '/fetch',
+        path: '/fetch/:authorization?',
+        name: 'fetch',
         meta: {
           title: '获取档案',
         },
         component: () => import('@/company/FetchArchive.vue'),
-      },
-      {
-        path: '/fetchA',
-        meta: {
-          title: '详细档案',
-        },
-        component: () => import('@/company/components/archiveInfo.vue'),
       },
       {
         path: '/detail',

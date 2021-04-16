@@ -1,22 +1,22 @@
 <template>
-<!--  {{info}}<br>-->
-<!--  {{archive}}-->
-  <div  class="info">
-    <el-row >
+  <!--  {{info}}<br>-->
+  <!--  {{archive}}-->
+  <div class="info">
+    <el-row>
       <el-col :span="6">
         <div class="base-info-left">
-        <img src="/img/user.jpg" class="image" alt=""/>
-        <el-tooltip content="综合评价" placement="bottom" effect="light">
-          <el-rate
+          <img src="/img/user.jpg" class="image" alt="" />
+          <el-tooltip content="综合评价" placement="bottom" effect="light">
+            <el-rate
               v-model="star"
               disabled
               show-score
               text-color="#ff9900"
               class="left-star"
               score-template="{value}"
-          />
-        </el-tooltip>
-      </div>
+            />
+          </el-tooltip>
+        </div>
       </el-col>
       <el-col :span="5" class="info-form">
         <div class="base-info-right">
@@ -24,13 +24,13 @@
             <el-form-item label="姓名：">
               {{ info.employee.name }}
             </el-form-item>
-            <el-form-item  label="性别：">
+            <el-form-item label="性别：">
               {{ info.employee.sex }}
             </el-form-item>
             <el-form-item label="年龄：">
               {{ age }}
             </el-form-item>
-            <el-form-item  label="学历：">
+            <el-form-item label="学历：">
               {{ info.employee.education }}
             </el-form-item>
             <el-form-item label="地址：">
@@ -51,25 +51,25 @@
             <div class="archive">
               <el-timeline>
                 <el-timeline-item
-                    v-for="(item ,index) in archive"
-                    :timestamp="item.hireDate"
-                    :key="item"
-                    placement="top"
-                    type="success"
+                  v-for="item in archive"
+                  :timestamp="item.hireDate"
+                  :key="item"
+                  placement="top"
+                  type="success"
                 >
                   <el-card>
                     <h4>就职于 {{ item.company.name }}</h4>
                     <p>
-                      就职时间： {{ item.hireDate }} ----- {{ item.departureDate }}
+                      就职时间：
+                      {{ myMoment(item.hireDate).format('YYYY年 MM月 DD日') }}
+                      -----
+                      {{
+                        myMoment(item.departureDate).format('YYYY年 MM月 DD日')
+                      }}
                     </p>
 
-                    <el-collapse-item
-                        style="text-align: left"
-                        :title="title"
-                        :name="index"
-                    >
+                    <el-collapse-item style="text-align: left">
                       <el-tag style="height: auto; margin-left: 100px">
-
                         就职部门：{{ item.department }}
                         <br />
                         所任职位：{{ item.title }}
@@ -81,47 +81,54 @@
                         整体评价：{{ item.comment }}
                         <br />
                         <el-tag
-                            style="background-color: #fff; height: auto; width: 600px;margin-bottom: 20px;"
+                          style="
+                            background-color: #fff;
+                            height: auto;
+                            width: 600px;
+                            margin-bottom: 20px;
+                          "
                         >
-                          <el-form-item>
-                            综合等级
-                            <el-rate
+                          <el-form>
+                            <el-form-item>
+                              综合等级
+                              <el-rate
                                 v-model="item.rate"
                                 disabled
                                 show-score
                                 text-color="#ff9900"
-                            />
-                          </el-form-item>
-                          <!--可更改-->
-                          <el-form-item>
-                            团队能力
-                            <el-rate
+                              />
+                            </el-form-item>
+                            <!--可更改-->
+                            <el-form-item>
+                              团队能力
+                              <el-rate
                                 v-model="item.teamAbility"
                                 disabled
                                 text-color="#ff9900"
                                 show-score
-                            />
-                          </el-form-item>
-                          <!--可更改-->
-                          <el-form-item>
-                            表现情况
-                            <el-rate
+                              />
+                            </el-form-item>
+                            <!--可更改-->
+                            <el-form-item>
+                              表现情况
+                              <el-rate
                                 v-model="item.performance"
                                 disabled
                                 show-score
                                 text-color="#ff9900"
-                            />
-                          </el-form-item>
-                          <!--可更改-->
-                          <el-form-item>
-                            工作态度
-                            <el-rate
+                              />
+                            </el-form-item>
+                            <!--可更改-->
+                            <el-form-item>
+                              工作态度
+                              <el-rate
                                 v-model="item.attitude"
                                 disabled
                                 show-score
                                 text-color="#ff9900"
-                            />
-                          </el-form-item>
+                              />
+                            </el-form-item>
+                          </el-form>
                         </el-tag>
                       </el-tag>
                     </el-collapse-item>
@@ -136,16 +143,15 @@
   </div>
 </template>
 <script>
-import {initChart} from '/src/utils/pubMethod.js'
+import { initChart } from '/src/utils/pubMethod.js'
+import moment from 'moment'
 export default {
   name: 'archiveInfo',
+  props: ['allInfo'],
   data() {
     return {
-      allInfo: {},
-      loading: true,
-      activities: [],
       info: {},
-      archive:{},
+      archive: [],
       active: 0,
       star: 3,
       starData: {
@@ -155,10 +161,10 @@ export default {
         radar: {
           // shape: 'circle',
           indicator: [
-            {text: '综合等级', min: 0},
-            {text: '团队能力', min: 0},
-            {text: '表现情况', min: 0},
-            {text: '工作态度', min: 0},
+            { text: '综合等级', min: 0 },
+            { text: '团队能力', min: 0 },
+            { text: '表现情况', min: 0 },
+            { text: '工作态度', min: 0 },
           ],
           radius: 90,
           center: ['47%', '50%'],
@@ -201,16 +207,19 @@ export default {
     },
   },
   methods: {
-    getChart(){
-      const res = [0,0,0,0]
-      const list = ['rate','teamAbility','performance','attitude']
-      for (const item in this.archive ){
-        for(const i in list){
-          if (this.archive[item][list[i]]!==0){
-            if (res[i]===0){
+    myMoment(val) {
+      return moment(val)
+    },
+    getChart() {
+      const res = [0, 0, 0, 0]
+      const list = ['rate', 'teamAbility', 'performance', 'attitude']
+      for (const item in this.archive) {
+        for (const i in list) {
+          if (this.archive[item][list[i]] !== 0) {
+            if (res[i] === 0) {
               res[i] = this.archive[item][list[i]]
-            }else{
-              res[i] = (res[i]+this.archive[item][list[i]])/2
+            } else {
+              res[i] = (res[i] + this.archive[item][list[i]]) / 2
             }
           }
         }
@@ -219,27 +228,21 @@ export default {
       this.starData.series[0].data[0]['value'] = res
       this.ini()
     },
-    ini(){
+    ini() {
       initChart('starChart', this.starData)
-    }
+    },
   },
   created() {
-    if (this.$store.getters.Aut.length!==undefined){
-      this.allInfo = this.$store.getters.Aut
-      this.info = this.allInfo[0]
-      this.archive = this.allInfo[1]
-    }else{
-      this.$router.replace('/fetch')
-    }
+    this.info = this.allInfo[0]
+    this.archive = this.allInfo[1]
   },
   mounted() {
     this.getChart()
-  }
+  },
 }
 </script>
 
 <style scoped>
-
 .info {
   padding: 30px 50px 0 30px;
   background-color: #fff;
@@ -308,6 +311,6 @@ export default {
   max-width: 1200px;
   min-height: 200px;
   display: flex;
-  margin-left: 50px;;
+  margin-left: 50px;
 }
 </style>

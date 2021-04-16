@@ -1,6 +1,6 @@
 import request from '../utils/request.js'
-import * as qs from "qs";
-import da from "element-plus/packages/locale/lang/da";
+import * as qs from 'qs'
+import da from 'element-plus/packages/locale/lang/da'
 
 /***
  * 添加档案
@@ -31,7 +31,7 @@ export const get_company_archive = (data) => {
   return request({
     method: 'get',
     url: '/get_company_archive',
-    data: qs.stringify(data)
+    data: qs.stringify(data),
   })
 }
 
@@ -44,7 +44,9 @@ export const fetch_archive = (data) => {
   return request({
     method: 'get',
     url: '/fetch_archive',
-    params : data
+    params: {
+      authorization: data,
+    },
   })
 }
 
@@ -57,6 +59,6 @@ export const update_archive = (data) => {
   return request({
     method: 'post',
     url: '/update_archive',
-    data : data
+    data: data,
   })
 }
