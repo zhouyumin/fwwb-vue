@@ -284,7 +284,7 @@ export default {
           },
         },
         legend: {
-          data: ['综合评价', '团队能力', '表现情况', '工作态度'],
+          data: ['综合评价', '团队能力', '表现情况', '工作态度','出勤情况'],
         },
         grid: {
           left: '3%',
@@ -309,7 +309,6 @@ export default {
           {
             name: '综合评价',
             type: 'bar',
-
             emphasis: {
               focus: 'series',
             },
@@ -339,6 +338,15 @@ export default {
             },
             data: [150, 232, 201, 154, 190],
           },
+          {
+            name: '出勤情况',
+            type: 'bar',
+
+            emphasis: {
+              focus: 'series',
+            },
+            data: [320, 332, 301, 334, 390],
+          }
         ],
       },
     }
@@ -498,6 +506,12 @@ export default {
       getWeight(archive, this.test, 'attitude')
       this.test = num(this.test, 5)
       this.starData.series[3].data = this.test
+      initChart('starChart', this.starData)
+
+      this.test = []
+      getWeight(archive, this.test, 'attendance')
+      this.test = num(this.test, 5)
+      this.starData.series[4].data = this.test
       initChart('starChart', this.starData)
     },
   },
