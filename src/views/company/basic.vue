@@ -1,8 +1,8 @@
 <template>
   <el-main
-      v-loading="loading"
-      element-loading-text="拼命加载中"
-      element-loading-spinner="el-icon-loading"
+    v-loading="loading"
+    element-loading-text="拼命加载中"
+    element-loading-spinner="el-icon-loading"
   >
     <el-row>
       <el-col :span="8" @click="changeAll()" style="cursor: pointer">
@@ -18,7 +18,12 @@
           </div>
         </el-card>
       </el-col>
-      <el-col :span="7" :offset="1" @click="changeWork()" style="cursor: pointer">
+      <el-col
+        :span="7"
+        :offset="1"
+        @click="changeWork()"
+        style="cursor: pointer"
+      >
         <el-card>
           <div class="zaizhiIcon">
             <i class="el-icon-s-claim icon1 icon"></i>
@@ -31,7 +36,12 @@
           </div>
         </el-card>
       </el-col>
-      <el-col :span="7" :offset="1" @click="changeDepart()" style="cursor: pointer">
+      <el-col
+        :span="7"
+        :offset="1"
+        @click="changeDepart()"
+        style="cursor: pointer"
+      >
         <el-card>
           <div class="departIcon">
             <i class="el-icon-s-release icon2 icon"></i>
@@ -63,12 +73,14 @@
       </el-col>
     </el-row>
     <el-row style="margin-top: 18px">
-      <el-col :span="8">
+      <el-col :span="24">
         <el-card>
           <div id="jobChart" class="rectChart"></div>
         </el-card>
       </el-col>
-      <el-col :span="15" :offset="1">
+    </el-row>
+    <el-row style="margin-top: 18px">
+      <el-col :span="24">
         <el-card>
           <div id="departChart" class="rectChart"></div>
         </el-card>
@@ -78,8 +90,14 @@
 </template>
 
 <script>
-import {getWeight, initChart, getValue, num, Msg} from '/src/utils/pubMethod.js'
-import {get_company_archive} from '../../api/archive'
+import {
+  getWeight,
+  initChart,
+  getValue,
+  num,
+  Msg,
+} from '/src/utils/pubMethod.js'
+import { get_company_archive } from '../../api/archive'
 
 export default {
   name: 'basic',
@@ -90,7 +108,7 @@ export default {
       employeeCount: 0, //员工总数
       departCount: 0,
       zaizhiCount: 0,
-      tip: "历史档案统计",
+      tip: '历史档案统计',
       sex: [],
       test: [],
       employee: [],
@@ -131,7 +149,7 @@ export default {
             color: [
               // "#5ab1ef",
               '#5ab1ef',
-              '#ffb980',
+              '#EE6666',
               // "#c8b2f4",
               // "#40c9c6",
               // "#36a3f7",
@@ -159,12 +177,12 @@ export default {
         radar: {
           // shape: 'circle',
           indicator: [
-            {text: '博士', min: 0},
-            {text: '硕士', min: 0},
-            {text: '本科', min: 0},
-            {text: '专科', min: 0},
-            {text: '高中', min: 0},
-            {text: '初中', min: 0},
+            { text: '博士', min: 0 },
+            { text: '硕士', min: 0 },
+            { text: '本科', min: 0 },
+            { text: '专科', min: 0 },
+            { text: '高中', min: 0 },
+            { text: '初中', min: 0 },
           ],
           radius: 90,
           center: ['47%', '50%'],
@@ -180,12 +198,12 @@ export default {
               color: '#5ab1ef',
             },
             emphasis: {
-              areaStyle:{
+              areaStyle: {
                 color: '#32dadd',
               },
               itemStyle: {
                 color: '#32dadd',
-              }
+              },
             },
             data: [
               {
@@ -194,7 +212,6 @@ export default {
             ],
           },
         ],
-
       },
       ChartData: {
         tooltip: {
@@ -263,9 +280,9 @@ export default {
                   '#40c9c6',
                   '#36a3f7',
                   '#f4516c',
-                ];
-                return colorList[params.dataIndex % colorList.length];
-              }
+                ]
+                return colorList[params.dataIndex % colorList.length]
+              },
             },
           },
         ],
@@ -337,9 +354,9 @@ export default {
                   '#40c9c6',
                   '#36a3f7',
                   '#f4516c',
-                ];
-                return colorList[params.dataIndex % colorList.length];
-              }
+                ]
+                return colorList[params.dataIndex % colorList.length]
+              },
             },
           },
         ],
@@ -353,7 +370,7 @@ export default {
           },
         },
         legend: {
-          data: ['综合评价', '团队能力', '表现情况', '工作态度','出勤情况'],
+          data: ['综合评价', '团队能力', '表现情况', '工作态度', '出勤情况'],
         },
         grid: {
           left: '3%',
@@ -371,7 +388,6 @@ export default {
           {
             type: 'value',
             minInterval: 1,
-
           },
         ],
         series: [
@@ -415,7 +431,7 @@ export default {
               focus: 'series',
             },
             data: [320, 332, 301, 334, 390],
-          }
+          },
         ],
       },
     }
@@ -442,7 +458,7 @@ export default {
           a.push(this.archive[item])
         }
       }
-      this.tip='离职员工统计'
+      this.tip = '离职员工统计'
       this.allChartIni(a)
     },
     //获取全部员工数据
@@ -450,21 +466,23 @@ export default {
       if (this.$store.getters.Archive.length !== undefined) {
         this.archive = this.$store.getters.Archive
         this.dataProcess(this.archive)
-        if (this.tip==='离职员工统计'){
+        if (this.tip === '离职员工统计') {
           this.changeDepart()
         }
-        if (this.tip==='当前员工统计'){
+        if (this.tip === '当前员工统计') {
           this.changeWork()
         }
         this.loading = false
       } else {
-        get_company_archive().then(res => {
-          this.$store.commit('setArchive', res.data.data)
-          this.archive = this.$store.getters.Archive
-          this.dataProcess(this.archive)
-          this.loading = false
-        }, err => {
-        })
+        get_company_archive().then(
+          (res) => {
+            this.$store.commit('setArchive', res.data.data)
+            this.archive = this.$store.getters.Archive
+            this.dataProcess(this.archive)
+            this.loading = false
+          },
+          (err) => {}
+        )
       }
     },
     /***
@@ -472,7 +490,7 @@ export default {
      */
     dataProcess(archive) {
       let a = archive
-      if (a.length!==undefined){
+      if (a.length !== undefined) {
         this.employeeCount = a.length
         //离职人数
         let b = 0
@@ -486,7 +504,7 @@ export default {
         this.allChartIni(a)
       }
     },
-    allChartIni(a){
+    allChartIni(a) {
       this.getEdu(a)
       this.getJob(a)
       this.getSex(a)
@@ -525,7 +543,6 @@ export default {
       for (let i = 0; i < 6; i++) {
         if (this.test[i] === undefined) {
           this.eduChartData.series[0].data[0].value.push(0)
-
         } else {
           this.eduChartData.series[0].data[0].value.push(this.test[i])
         }
@@ -546,12 +563,12 @@ export default {
     },
     getDepart(archive) {
       this.test = []
-      this.ChartData.xAxis[0].data = []
-      this.ChartData.series[0].data = []
+      this.ChartData1.xAxis[0].data = []
+      this.ChartData1.series[0].data = []
       getWeight(archive, this.test, 'department')
       for (let i in this.test) {
-        this.ChartData.xAxis[0].data.push(this.test[i]['name'])
-        this.ChartData.series[0].data.push(this.test[i]['value'])
+        this.ChartData1.xAxis[0].data.push(this.test[i]['name'])
+        this.ChartData1.series[0].data.push(this.test[i]['value'])
       }
       initChart('departChart', this.ChartData1)
     },
@@ -575,7 +592,6 @@ export default {
       getWeight(archive, this.test, 'attitude')
       this.test = num(this.test, 5)
       this.starData.series[3].data = this.test
-      initChart('starChart', this.starData)
 
       this.test = []
       getWeight(archive, this.test, 'attendance')
@@ -587,7 +603,7 @@ export default {
   activated() {
     // 如果存在store，不存在重新请求
     this.getData()
-  }
+  },
 }
 </script>
 

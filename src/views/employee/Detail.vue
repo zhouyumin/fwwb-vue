@@ -3,13 +3,11 @@
     <div class="Info-left">
       <div class="Info-left-top">
         <el-row>
-          <el-col :span="3"></el-col>
-          <el-col :span="18">
+          <el-col :span="18" :offset="3">
             <el-card class="img-card" shadow="hover">
               <img src="/img/user.jpg" class="image" />
             </el-card>
           </el-col>
-          <el-col :span="3"></el-col>
           <el-col :span="24">
             <el-tooltip content="综合评价" placement="bottom" effect="light">
               <el-rate
@@ -26,11 +24,9 @@
       </div>
       <div class="Info-left-bottom">
         <el-row>
-          <el-col :span="3"></el-col>
-          <el-col :span="18">
+          <el-col :span="23" :offset="1">
             <div id="user-img" class="user-img"></div>
           </el-col>
-          <el-col :span="3"></el-col>
         </el-row>
       </div>
     </div>
@@ -91,48 +87,42 @@
 <script>
 import { Msg, initChart } from '/src/utils/pubMethod.js'
 import { getUserProfile } from '/src/api/user.js'
-// import {getInfo} from 'src/api/employee/employee.js'
+import { get_archive } from '/src/api/archive.js'
 export default {
   data() {
     return {
       employee: {},
+      archive: [],
       star: 3,
       option: {
-        tooltip: {},
+        tooltip: {
+          trigger: 'item',
+        },
         radar: {
           // shape: 'circle',
-          axisName: {
-              color: '#7f7f7f',
-          },
           indicator: [
-            { name: '销售', max: 100 },
-            { name: '管理', max: 100 },
-            { name: '技术', max: 100 },
-            { name: '客服', max: 100 },
-            { name: '研发', max: 100 },
-            { name: '市场', max: 100 },
+            { text: '综合等级', min: 0 },
+            { text: '团队能力', min: 0 },
+            { text: '表现情况', min: 0 },
+            { text: '工作态度', min: 0 },
+            { text: '出勤情况', min: 0 },
           ],
+          radius: 90,
+          center: ['47%', '50%'],
         },
         series: [
           {
+            name: '职员学历情况',
+            type: 'radar',
             areaStyle: {
-                color: '#67C23A',
-            },
-            emphasis:{
-              areaStyle: {
-                color: '#409EFF',
-              },
+              color: '#32dadd',
             },
             itemStyle: {
-                color: '#409EFF',
+              color: '#32dadd',
             },
-            name: '预算 vs 开销（Budget vs spending）',
-            type: 'radar',
-            // areaStyle: {normal: {}},
             data: [
               {
-                value: [32, 43, 63, 67, 92, 35],
-                name: '预算分配（Allocated Budget）',
+                value: [0, 0, 0, 0, 0],
               },
             ],
           },
@@ -152,8 +142,30 @@ export default {
     reAuthor() {
       this.$router.push('/authorization/Employee')
     },
+    setChart() {
+      const list = [
+        'rate',
+        'teamAbility',
+        'performance',
+        'attitude',
+        'attendance',
+      ]
+      let res = [0, 0, 0, 0, 0]
+      for (const i in this.archive) {
+        for (const index in list) {
+          let num = this.archive[i][list[index]]
+          res[index] += num == null ? 5 : num
+        }
+      }
+      for (const i in res) {
+        res[i] /= this.archive.length
+      }
+      this.star = res[0]
+      this.option.series[0].data[0]['value'] = res
+      initChart('user-img', this.option)
+    },
   },
-  mounted() {
+  created() {
     this.employee = this.$store.getters.Employee
     if (JSON.stringify(this.employee) == '{}') {
       getUserProfile()
@@ -168,9 +180,23 @@ export default {
           this.$message.error('网络错误')
         })
     }
-
-    initChart('user-img', this.option)
+    this.archive = this.$store.getters.Archive
+    if (JSON.stringify(this.archive) == '{}') {
+      get_archive()
+        .then((res) => {
+          const data = res.data.data
+          this.$store.commit('setArchive', data)
+        })
+        .then(() => {
+          this.archive = this.$store.getters.Archive
+          this.setChart()
+        })
+        .catch((err) => {
+          this.$message.error('网络错误')
+        })
+    }
   },
+  mounted() {},
 }
 </script>
 
@@ -215,8 +241,8 @@ export default {
 #user-img {
   margin: auto;
   padding-top: 16px;
-  width: 200px;
-  height: 250px;
+  width: 320px;
+  height: 320px;
 }
 
 .Info-left-bottom {

@@ -75,9 +75,12 @@ function getValue(attr, newObj, obj) {
  * @param data  数据源
  */
 function initChart(id, data) {
-  let chart = echarts.init(document.getElementById(id))
+  let instance = echarts.getInstanceByDom(document.getElementById(id))
+  if (instance == undefined) {
+    instance = echarts.init(document.getElementById(id))
+  }
   //注入数据
-  chart.setOption(data)
+  instance.setOption(data)
 }
 
 //消息提示，内容，种类，消息

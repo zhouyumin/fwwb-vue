@@ -17,13 +17,17 @@
             <el-card>
               <h4>就职于 {{ item.company.name }}</h4>
               <p>
-                就职时间： {{ item.hireDate }} ----- {{ item.departureDate }}
+                就职时间：
+                {{ myMoment(item.hireDate).format('YYYY年 MM月 DD日') }}
+                -----
+                {{
+                  item.departureDate == null
+                    ? '至今'
+                    : myMoment(item.departureDate).format('YYYY年 MM月 DD日')
+                }}
               </p>
 
-              <el-collapse-item
-                style="text-align: left"
-                :title="title"
-              >
+              <el-collapse-item style="text-align: left">
                 <el-tag style="height: auto; margin-left: 100px">
                   奖惩情况：{{ item.bonusPenalty }}
                   <br />
@@ -38,48 +42,50 @@
                   <el-tag
                     style="background-color: #fff; height: auto; width: 600px"
                   >
-                    <el-form-item>
-                      等级
-                      <el-rate
-                        v-model="item.rate"
-                        disabled
-                        show-score
-                        text-color="#ff9900"
-                      />
-                    </el-form-item>
-                    <!--可更改-->
-                    <el-form-item>
-                      团队能力
-                      <el-rate
-                        v-model="item.teamAbility"
-                        disabled
-                        text-color="#ff9900"
-                        show-score
-                        class="left-star"
-                      />
-                    </el-form-item>
-                    <!--可更改-->
-                    <el-form-item>
-                      表现
-                      <el-rate
-                        v-model="item.performance"
-                        disabled
-                        show-score
-                        text-color="#ff9900"
-                        class="left-star"
-                      />
-                    </el-form-item>
-                    <!--可更改-->
-                    <el-form-item>
-                      态度
-                      <el-rate
-                        v-model="item.attitude"
-                        disabled
-                        show-score
-                        text-color="#ff9900"
-                        class="left-star"
-                      />
-                    </el-form-item>
+                    <el-form>
+                      <el-form-item>
+                        等级
+                        <el-rate
+                          v-model="item.rate"
+                          disabled
+                          show-score
+                          text-color="#ff9900"
+                        />
+                      </el-form-item>
+                      <!--可更改-->
+                      <el-form-item>
+                        团队能力
+                        <el-rate
+                          v-model="item.teamAbility"
+                          disabled
+                          text-color="#ff9900"
+                          show-score
+                          class="left-star"
+                        />
+                      </el-form-item>
+                      <!--可更改-->
+                      <el-form-item>
+                        表现
+                        <el-rate
+                          v-model="item.performance"
+                          disabled
+                          show-score
+                          text-color="#ff9900"
+                          class="left-star"
+                        />
+                      </el-form-item>
+                      <!--可更改-->
+                      <el-form-item>
+                        态度
+                        <el-rate
+                          v-model="item.attitude"
+                          disabled
+                          show-score
+                          text-color="#ff9900"
+                          class="left-star"
+                        />
+                      </el-form-item>
+                    </el-form>
                   </el-tag>
                 </el-tag>
               </el-collapse-item>
@@ -93,6 +99,7 @@
 
 <script>
 import { get_archive } from '/src/api/archive.js'
+import moment from 'moment'
 export default {
   name: 'index',
   data() {
@@ -101,11 +108,25 @@ export default {
     }
   },
   methods: {
+    myMoment(val) {
+      return moment(val)
+    },
   },
   created() {
-    get_archive().then((res) => {
-      this.archive = res.data.data
-    })
+    this.archive = this.$store.getters.Archive
+    if (JSON.stringify(this.archive) == '{}') {
+      get_archive()
+        .then((res) => {
+          const data = res.data.data
+          this.$store.commit('setArchive', data)
+        })
+        .then(() => {
+          this.archive = this.$store.getters.Archive
+        })
+        .catch((err) => {
+          this.$message.error('网络错误')
+        })
+    }
   },
   updated() {},
 }

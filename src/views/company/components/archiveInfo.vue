@@ -64,7 +64,11 @@
                       {{ myMoment(item.hireDate).format('YYYY年 MM月 DD日') }}
                       -----
                       {{
-                        myMoment(item.departureDate).format('YYYY年 MM月 DD日')
+                        item.departureDate == null
+                          ? '至今'
+                          : myMoment(item.departureDate).format(
+                              'YYYY年 MM月 DD日'
+                            )
                       }}
                     </p>
 
@@ -73,8 +77,6 @@
                         就职部门：{{ item.department }}
                         <br />
                         所任职位：{{ item.title }}
-                        <br />
-                        出勤情况：{{ item.attendance }}
                         <br />
                         奖惩情况：{{ item.bonusPenalty }}
                         <br />
@@ -113,6 +115,15 @@
                               表现情况
                               <el-rate
                                 v-model="item.performance"
+                                disabled
+                                show-score
+                                text-color="#ff9900"
+                              />
+                            </el-form-item>
+                            <el-form-item>
+                              出勤情况
+                              <el-rate
+                                v-model="item.attendance"
                                 disabled
                                 show-score
                                 text-color="#ff9900"
@@ -165,6 +176,7 @@ export default {
             { text: '团队能力', min: 0 },
             { text: '表现情况', min: 0 },
             { text: '工作态度', min: 0 },
+            { text: '出勤情况', min: 0 },
           ],
           radius: 90,
           center: ['47%', '50%'],
@@ -174,24 +186,14 @@ export default {
             name: '职员学历情况',
             type: 'radar',
             areaStyle: {
-              normal: {
-                color: '#5ab1ef',
-              },
-              emphasis: {
-                color: '#32dadd',
-              },
+              color: '#32dadd',
             },
             itemStyle: {
-              normal: {
-                color: '#5ab1ef',
-              },
-              emphasis: {
-                color: '#32dadd',
-              },
+              color: '#32dadd',
             },
             data: [
               {
-                value: [32, 43, 63, 67],
+                value: [32, 43, 63, 67, 62],
               },
             ],
           },
@@ -211,18 +213,22 @@ export default {
       return moment(val)
     },
     getChart() {
-      const res = [0, 0, 0, 0]
-      const list = ['rate', 'teamAbility', 'performance', 'attitude']
-      for (const item in this.archive) {
-        for (const i in list) {
-          if (this.archive[item][list[i]] !== 0) {
-            if (res[i] === 0) {
-              res[i] = this.archive[item][list[i]]
-            } else {
-              res[i] = (res[i] + this.archive[item][list[i]]) / 2
-            }
-          }
+      const list = [
+        'rate',
+        'teamAbility',
+        'performance',
+        'attitude',
+        'attendance',
+      ]
+      let res = [0, 0, 0, 0, 0]
+      for (const i in this.archive) {
+        for (const index in list) {
+          let num = this.archive[i][list[index]]
+          res[index] += num == null ? 5 : num
         }
+      }
+      for (const i in res) {
+        res[i] /= this.archive.length
       }
       this.star = res[0]
       this.starData.series[0].data[0]['value'] = res
