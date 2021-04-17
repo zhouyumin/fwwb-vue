@@ -17,7 +17,7 @@
             prefix-icon="iconfont iconpassword"
             v-model="user.password"
             type="password"
-            placeholder="请输入密码，必须包含大小写字母，长度为6-18"
+            placeholder="请输入密码，必须包含大小写字母和数字，长度为6-18"
           ></el-input>
         </el-form-item>
         <el-form-item prop="confirm">
