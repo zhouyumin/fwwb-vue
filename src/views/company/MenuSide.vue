@@ -77,7 +77,7 @@ export default {
         })
         .catch(() => {
           /*取消输入后，跳转至档案管理页面*/
-          this.$message.warning('取消输入')
+          this.$message.info('取消输入')
         })
     },
   },
