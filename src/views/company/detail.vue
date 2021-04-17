@@ -105,7 +105,7 @@
       <!--【查看】按钮-->
       <template #default="scope">
         <el-button
-          type="success"
+          type="primary"
           size="mini"
           @click="employeeDetail(scope.$index, scope.row)"
         >
