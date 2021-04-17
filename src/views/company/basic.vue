@@ -144,7 +144,7 @@ export default {
           {
             name: '男女比例',
             type: 'pie',
-            radius: '70%',
+            radius: '60%',
             data: [],
             color: [
               // "#5ab1ef",
@@ -597,7 +597,6 @@ export default {
       getWeight(archive, this.test, 'attendance')
       this.test = num(this.test, 5)
       this.starData.series[4].data = this.test
-      console.log(this.starData)
       initChart('starChart', this.starData)
     },
   },
@@ -612,7 +611,6 @@ export default {
 .rectChart {
   height: 280px;
 }
-
 .squareChart {
   width: 280px;
   height: 280px;

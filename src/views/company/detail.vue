@@ -332,7 +332,7 @@ export default {
       search: '',
       loading: true,
       currentPage: 1,
-      pagesize: 10,
+      pagesize: 12,
       eduFilter: [],
       jobFilter: [],
       sexFilter: [],

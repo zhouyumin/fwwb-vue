@@ -1,5 +1,5 @@
 <template>
-  <el-skeleton :rows="12" :loading="archives.length < 1" />
+  <el-skeleton :rows="12" animated :loading="archives.length < 1" />
   <archive-info :allInfo="archives" v-if="archives.length > 1" />
 </template>
 <script>
@@ -25,7 +25,9 @@ export default {
               this.archives = result.data.data
             }
           })
-          .catch(() => {})
+          .catch(() => {
+            this.archives = []
+          })
       }
     },
   },
@@ -40,7 +42,6 @@ export default {
     this.getInfo()
   },
 }
-// 9b1b28ad16da44c4957c630b27c54d32
 </script>
 
 <style scoped></style>
