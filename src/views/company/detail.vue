@@ -90,6 +90,11 @@
       :filter-method="filterHandler"
       sortable
     >
+      <template #default="scope">
+        <el-tag :type="scope.row.isDepart == '离职' ? 'danger' : 'success'">
+          {{ scope.row.isDepart }}
+        </el-tag>
+      </template>
     </el-table-column>
     <!--操作-->
     <el-table-column align="center">
