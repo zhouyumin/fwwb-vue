@@ -148,8 +148,8 @@ export default {
             data: [],
             color: [
               // "#5ab1ef",
-              '#5ab1ef',
               '#EE6666',
+              '#5ab1ef',
               // "#c8b2f4",
               // "#40c9c6",
               // "#36a3f7",
@@ -597,6 +597,7 @@ export default {
       getWeight(archive, this.test, 'attendance')
       this.test = num(this.test, 5)
       this.starData.series[4].data = this.test
+      console.log(this.starData)
       initChart('starChart', this.starData)
     },
   },
