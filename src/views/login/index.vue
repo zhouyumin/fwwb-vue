@@ -124,11 +124,11 @@ export default {
   background-size: cover;
   flex-direction: column;
   align-items: center;
-  padding-top: 140px;
 }
 
 .login-card {
   opacity: 0.9;
+  margin: auto;
   width: 450px;
 }
 
