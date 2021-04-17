@@ -514,9 +514,13 @@ export default {
     //性别比例
     getSex(archive) {
       this.test = []
-      this.sexChartData.series[0].data = []
+      const data = this.sexChartData.series[0]
+      data.data = []
       getValue(archive, this.test, 'employee')
-      getWeight(this.test, this.sexChartData.series[0].data, 'sex')
+      getWeight(this.test, data.data, 'sex')
+      if (data.data[0]['name'] == '男') {
+        ;[data.data[0], data.data[1]] = [data.data[1], data.data[0]]
+      }
       //初始化图表
       initChart('sexChart', this.sexChartData)
     },
