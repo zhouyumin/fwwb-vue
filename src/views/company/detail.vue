@@ -133,6 +133,7 @@
     <el-pagination
       background
       layout="prev, pager, next"
+      :page-size="pagesize"
       :total="archive.length"
       @current-change="current_change"
     >
