@@ -7,6 +7,12 @@ const store = createStore({
     archive: {},
   },
   mutations: {
+    USER_OUT(state,n){
+      state.identify = n
+      state.company = n
+      state.employee = n
+      state.archive = n
+    },
     setIdentify(state, identify) {
       state.identify = identify
     },

@@ -92,6 +92,7 @@ export default {
           logout().then(() => {
             window.localStorage.removeItem('authorization')
           })
+          this.$store.commit('USER_OUT',{})
           this.$router.push('/login')
           this.$message({
             type: 'success',
