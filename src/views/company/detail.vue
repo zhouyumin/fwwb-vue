@@ -107,7 +107,7 @@
         <el-button
           type="primary"
           size="mini"
-          @click="employeeDetail(scope.$index, scope.row)"
+          @click="employeeDetail(scope.$index, scope.row, '修改')"
         >
           详情
         </el-button>
@@ -309,10 +309,10 @@
       <span class="dialog-footer">
         <el-button @click="handleClose">取 消</el-button>
         <el-button
-          type="primary"
-          @click="handlerChange"
+          :type="button_content == '离职' ? 'danger' : 'primary'"
+          @click="onSubmit(button_content)"
           :disabled="employeeInfo.departureDate != null"
-          >修改</el-button
+          >{{ button_content }}</el-button
         >
       </span>
     </template>
@@ -345,6 +345,7 @@ export default {
       dialogVisible: false,
       form_data: {},
       hireDate: 0,
+      button_content: '修改',
     }
   },
   methods: {
@@ -373,7 +374,8 @@ export default {
       getObj('sex', this.sexFilter, this.archive)
     },
     /*【查看】点击事件*/
-    employeeDetail(index, row) {
+    employeeDetail(index, row, button_content) {
+      this.button_content = button_content
       this.index = index
       this.employeeInfo = JSON.parse(JSON.stringify(row))
       if (this.employeeInfo.departureDate !== null) {
@@ -386,25 +388,8 @@ export default {
       this.dialogVisible = true
     },
     employeeDepart(index, row) {
-      this.$confirm('员工离职后将不能修改此档案, 是否继续?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning',
-      })
-        .then(() => {
-          this.index = index
-          this.employeeInfo = JSON.parse(JSON.stringify(row))
-          this.employeeInfo.departureDate = moment(new Date()).format(
-            'YYYY-MM-DD HH:mm:ss'
-          )
-          this.updateArchive(this.employeeInfo)
-        })
-        .catch(() => {
-          this.$message({
-            type: 'info',
-            message: '已取消',
-          })
-        })
+      this.$message.warning('请进行总评')
+      this.employeeDetail(index, row, '离职')
     },
     /*过滤器方法*/
     filterHandler(value, row, column) {
@@ -412,20 +397,41 @@ export default {
       return row[property] === value
     },
     /*修改按钮二次确认*/
-    handlerChange(done) {
-      this.$confirm('确认修改？', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'success',
-      }).then(() => {
-        this.employeeInfo.departureDate =
-          this.employeeInfo.departureDate != null
-            ? moment(this.employeeInfo.departureDate).format(
-                'YYYY-MM-DD HH:mm:ss'
-              )
-            : null
-        this.updateArchive(this.employeeInfo)
-      })
+    onSubmit(done) {
+      if (done == '离职') {
+        this.$confirm('员工离职后将不能修改此档案, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning',
+        })
+          .then(() => {
+            this.employeeInfo.departureDate = moment(new Date()).format(
+              'YYYY-MM-DD HH:mm:ss'
+            )
+            this.updateArchive(this.employeeInfo)
+          })
+          .catch((err) => {
+            console.log(err)
+            this.$message({
+              type: 'info',
+              message: '已取消',
+            })
+          })
+      } else {
+        this.$confirm('确认修改？', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'success',
+        }).then(() => {
+          this.employeeInfo.departureDate =
+            this.employeeInfo.departureDate != null
+              ? moment(this.employeeInfo.departureDate).format(
+                  'YYYY-MM-DD HH:mm:ss'
+                )
+              : null
+          this.updateArchive(this.employeeInfo)
+        })
+      }
     },
     updateArchive(data) {
       this.employeeInfo.hireDate = moment(this.employeeInfo.hireDate).format(
@@ -436,10 +442,10 @@ export default {
           this.archive[this.index] = JSON.parse(
             JSON.stringify(this.employeeInfo)
           )
-          Msg(this.$message, 'success', '修改成功')
+          Msg(this.$message, 'success', '操作成功')
         })
         .catch((_) => {
-          Msg(this.$message, 'warning', '修改失败')
+          Msg(this.$message, 'warning', '操作失败')
         })
         .then(() => {
           this.handleClose()
