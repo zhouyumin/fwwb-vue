@@ -82,7 +82,7 @@
     </el-table-column>
     <!--情况-->
     <el-table-column
-      label="情况"
+      label="在职情况"
       prop="isDepart"
       align="center"
       width="120px"
@@ -100,7 +100,22 @@
     <el-table-column align="center">
       <!--搜索框-->
       <template #header>
-        <el-input v-model="search" size="mini" placeholder="输入姓名进行搜索" />
+        <el-input
+          prefix-icon="iconfont iconuser"
+          v-model="search"
+          size="medium"
+          style="width: 60%; margin-right: 5%"
+          placeholder="输入姓名进行搜索"
+        />
+        <el-button
+          type="primary"
+          size="medium"
+          style="width: 35%"
+          @click="exportExcel"
+        >
+          <i class="el-icon-document"></i>
+          <span>导出excel</span>
+        </el-button>
       </template>
       <!--【查看】按钮-->
       <template #default="scope">
@@ -346,6 +361,7 @@ export default {
       form_data: {},
       hireDate: 0,
       button_content: '修改',
+      excel: [],
     }
   },
   methods: {
@@ -368,6 +384,7 @@ export default {
         this.archive[item]['hireDate'] = moment(
           this.archive[item]['hireDate']
         ).format('YYYY-MM-DD')
+        this.excel.push(JSON.parse(JSON.stringify(this.archive[item])))
       }
       getObj('education', this.eduFilter, this.archive)
       getObj('title', this.jobFilter, this.archive)
@@ -458,6 +475,62 @@ export default {
     },
     current_change: function (currentPage) {
       this.currentPage = currentPage
+    },
+    exportExcel() {
+      import('/src/utils/Export2Excel.js').then((excel) => {
+        const data = []
+        const keys = [
+          'name',
+          'sex',
+          'education',
+          'title',
+          'department',
+          'isDepart',
+          'hireDate',
+          'departureDate',
+          'rate',
+          'attitude',
+          'teamAbility',
+          'performance',
+          'attendance',
+          'bonusPenalty',
+          'comment',
+        ]
+        for (let each in this.excel) {
+          delete this.excel[each]['company']
+          delete this.excel[each]['employee']
+          delete this.excel[each]['uid']
+          let value = []
+          for (let key in keys) {
+            value.push(this.excel[each][keys[key]])
+          }
+          data.push(value)
+        }
+        const tHeader = [
+          '姓名',
+          '性别',
+          '学历',
+          '职位',
+          '部门',
+          '在职情况',
+          '入职日期',
+          '离职日期',
+          '总评',
+          '工作态度',
+          '团队能力',
+          '表现',
+          '出勤',
+          '奖惩情况',
+          '评价',
+        ]
+        excel.export_json_to_excel({
+          header: tHeader, //表头 必填
+          data, //具体数据 必填
+          filename: '档案导出', //非必填
+          autoWidth: true, //非必填
+          bookType: 'xlsx', //非必填
+        })
+      })
     },
   },
   activated() {
