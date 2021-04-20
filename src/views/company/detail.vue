@@ -1,6 +1,6 @@
 <template>
   <el-table
-    :data="
+      :data="
       archive
         .filter(
           (data) =>
@@ -8,18 +8,18 @@
         )
         .slice((currentPage - 1) * pagesize, currentPage * pagesize)
     "
-    stripe
-    style="width: 100%"
-    v-loading="loading"
-    element-loading-text="拼命加载中"
-    element-loading-spinner="el-icon-loading"
-    element-loading-background="rgba(0, 0, 0, 0.8)"
-    ref="filterTable"
+      stripe
+      style="width: 100%"
+      v-loading="loading"
+      element-loading-text="拼命加载中"
+      element-loading-spinner="el-icon-loading"
+      element-loading-background="rgba(0, 0, 0, 0.8)"
+      ref="filterTable"
   >
     <!--头像-->
     <el-table-column align="center" width="100px" label="  ">
       <template #default="">
-        <img class="head-portrait" src="/img/user.png" />
+        <img class="head-portrait" src="/img/user.png"/>
       </template>
     </el-table-column>
     <!--姓名-->
@@ -40,55 +40,55 @@
     </el-table-column>
     <!--性别-->
     <el-table-column
-      label="性别"
-      prop="sex"
-      align="center"
-      :filters="sexFilter"
-      :filter-method="filterHandler"
-      sortable
-      width="120px"
+        label="性别"
+        prop="sex"
+        align="center"
+        :filters="sexFilter"
+        :filter-method="filterHandler"
+        sortable
+        width="120px"
     >
     </el-table-column>
     <!--职位--><!--width="220px"-->
     <el-table-column
-      label="职位"
-      prop="title"
-      align="center"
-      :filters="jobFilter"
-      :filter-method="filterHandler"
-      width="150px"
-      sortable
+        label="职位"
+        prop="title"
+        align="center"
+        :filters="jobFilter"
+        :filter-method="filterHandler"
+        width="150px"
+        sortable
     >
     </el-table-column>
     <!--学历-->
     <el-table-column
-      label="学历"
-      prop="education"
-      align="center"
-      width="180px"
-      :filters="eduFilter"
-      :filter-method="filterHandler"
-      sortable
+        label="学历"
+        prop="education"
+        align="center"
+        width="180px"
+        :filters="eduFilter"
+        :filter-method="filterHandler"
+        sortable
     >
     </el-table-column>
     <!--入职日期-->
     <el-table-column
-      label="入职日期"
-      prop="hireDate"
-      align="center"
-      width="180px"
-      sortable
+        label="入职日期"
+        prop="hireDate"
+        align="center"
+        width="180px"
+        sortable
     >
     </el-table-column>
     <!--情况-->
     <el-table-column
-      label="在职情况"
-      prop="isDepart"
-      align="center"
-      width="120px"
-      :filters="departFilter"
-      :filter-method="filterHandler"
-      sortable
+        label="在职情况"
+        prop="isDepart"
+        align="center"
+        width="120px"
+        :filters="departFilter"
+        :filter-method="filterHandler"
+        sortable
     >
       <template #default="scope">
         <el-tag :type="scope.row.isDepart == '离职' ? 'danger' : 'success'">
@@ -101,17 +101,17 @@
       <!--搜索框-->
       <template #header>
         <el-input
-          prefix-icon="iconfont iconuser"
-          v-model="search"
-          size="medium"
-          style="width: 60%; margin-right: 5%"
-          placeholder="输入姓名进行搜索"
+            prefix-icon="iconfont iconuser"
+            v-model="search"
+            size="medium"
+            style="width: 60%; margin-right: 5%"
+            placeholder="输入姓名进行搜索"
         />
         <el-button
-          type="primary"
-          size="medium"
-          style="width: 35%"
-          @click="exportExcel"
+            type="primary"
+            size="medium"
+            style="width: 35%"
+            @click="exportExcel"
         >
           <i class="el-icon-document"></i>
           <span>导出excel</span>
@@ -120,17 +120,17 @@
       <!--【查看】按钮-->
       <template #default="scope">
         <el-button
-          type="primary"
-          size="mini"
-          @click="employeeDetail(scope.$index, scope.row, '修改')"
+            type="primary"
+            size="mini"
+            @click="employeeDetail(scope.$index, scope.row, '修改')"
         >
           详情
         </el-button>
         <el-button
-          type="danger"
-          size="mini"
-          :disabled="scope.row.departureDate != null"
-          @click="employeeDepart(scope.$index, scope.row)"
+            type="danger"
+            size="mini"
+            :disabled="scope.row.departureDate != null"
+            @click="employeeDepart(scope.$index, scope.row)"
         >
           离职
         </el-button>
@@ -138,7 +138,7 @@
     </el-table-column>
   </el-table>
   <div
-    style="
+      style="
       text-align: center;
       background-color: #fff;
       padding-top: 20px;
@@ -146,22 +146,22 @@
     "
   >
     <el-pagination
-      background
-      layout="prev, pager, next"
-      :page-size="pagesize"
-      :total="archive.length"
-      @current-change="current_change"
+        background
+        layout="prev, pager, next"
+        :page-size="pagesize"
+        :total="archive.length"
+        @current-change="current_change"
     >
     </el-pagination>
   </div>
 
   <!--详细信息-->
   <el-dialog
-    v-model="dialogVisible"
-    width="45%"
-    :close-on-click-modal="false"
-    :before-close="handleClose"
-    top="20px"
+      v-model="dialogVisible"
+      width="45%"
+      :close-on-click-modal="false"
+      :before-close="handleClose"
+      top="20px"
   >
     <el-form ref="form" :model="employeeInfo" label-width="100px">
       <el-row style="height: 50px">
@@ -177,8 +177,8 @@
         <el-col :span="1"></el-col>
         <el-col :span="10">
           <el-form-item
-            label="离职日期："
-            v-if="employeeInfo.departureDate !== null"
+              label="离职日期："
+              v-if="employeeInfo.departureDate !== null"
           >
             <span class="ml10">{{ employeeInfo.departureDate }}</span>
           </el-form-item>
@@ -213,11 +213,11 @@
         <el-col :span="10">
           <el-form-item label="综合等级：">
             <el-rate
-              v-model="employeeInfo.rate"
-              show-score
-              text-color="#ff9900"
-              class="left-star"
-              score-template="{value}"
+                v-model="employeeInfo.rate"
+                show-score
+                text-color="#ff9900"
+                class="left-star"
+                score-template="{value}"
             />
           </el-form-item>
         </el-col>
@@ -234,11 +234,11 @@
         <el-col :span="10">
           <el-form-item label="团队能力：">
             <el-rate
-              v-model="employeeInfo.teamAbility"
-              show-score
-              text-color="#ff9900"
-              class="left-star"
-              score-template="{value}"
+                v-model="employeeInfo.teamAbility"
+                show-score
+                text-color="#ff9900"
+                class="left-star"
+                score-template="{value}"
             />
           </el-form-item>
         </el-col>
@@ -254,11 +254,11 @@
         <el-col :span="10">
           <el-form-item label="表现情况：">
             <el-rate
-              v-model="employeeInfo.performance"
-              show-score
-              text-color="#ff9900"
-              class="left-star"
-              score-template="{value}"
+                v-model="employeeInfo.performance"
+                show-score
+                text-color="#ff9900"
+                class="left-star"
+                score-template="{value}"
             />
           </el-form-item>
         </el-col>
@@ -273,11 +273,11 @@
         <el-col :span="10">
           <el-form-item label="工作态度：">
             <el-rate
-              v-model="employeeInfo.attitude"
-              show-score
-              text-color="#ff9900"
-              class="left-star"
-              score-template="{value}"
+                v-model="employeeInfo.attitude"
+                show-score
+                text-color="#ff9900"
+                class="left-star"
+                score-template="{value}"
             />
           </el-form-item>
         </el-col>
@@ -292,11 +292,11 @@
         <el-col :span="10">
           <el-form-item label="出勤：">
             <el-rate
-              v-model="employeeInfo.attendance"
-              show-score
-              text-color="#ff9900"
-              class="left-star"
-              score-template="{value}"
+                v-model="employeeInfo.attendance"
+                show-score
+                text-color="#ff9900"
+                class="left-star"
+                score-template="{value}"
             />
           </el-form-item>
         </el-col>
@@ -305,8 +305,8 @@
         <el-col :span="20">
           <el-form-item label="奖惩信息：">
             <el-input
-              type="textarea"
-              v-model="employeeInfo.bonusPenalty"
+                type="textarea"
+                v-model="employeeInfo.bonusPenalty"
             ></el-input>
           </el-form-item>
         </el-col>
@@ -324,19 +324,19 @@
       <span class="dialog-footer">
         <el-button @click="handleClose">取 消</el-button>
         <el-button
-          :type="button_content == '离职' ? 'danger' : 'primary'"
-          @click="onSubmit(button_content)"
-          :disabled="employeeInfo.departureDate != null"
-          >{{ button_content }}</el-button
+            :type="button_content == '离职' ? 'danger' : 'primary'"
+            @click="onSubmit(button_content)"
+            :disabled="employeeInfo.departureDate != null"
+        >{{ button_content }}</el-button
         >
       </span>
     </template>
   </el-dialog>
 </template>
 <script>
-import { get_company_archive, update_archive } from '/src/api/archive.js'
+import {get_company_archive, update_archive} from '/src/api/archive.js'
 
-import { getObj, Msg, getValue } from '/src/utils/pubMethod'
+import {getObj, Msg, getValue} from '/src/utils/pubMethod'
 import moment from 'moment'
 
 export default {
@@ -353,8 +353,8 @@ export default {
       jobFilter: [],
       sexFilter: [],
       departFilter: [
-        { text: '离职', value: '离职' },
-        { text: '在职', value: '在职' },
+        {text: '离职', value: '离职'},
+        {text: '在职', value: '在职'},
       ],
       employeeInfo: {},
       dialogVisible: false,
@@ -373,8 +373,8 @@ export default {
       for (let item in this.archive) {
         this.archive[item]['name'] = this.archive[item]['employee']['name']
         this.archive[item]['education'] = this.archive[item]['employee'][
-          'education'
-        ]
+            'education'
+            ]
         this.archive[item]['sex'] = this.archive[item]['employee']['sex']
         if (this.archive[item]['departureDate'] === null) {
           this.archive[item]['isDepart'] = '在职'
@@ -382,7 +382,7 @@ export default {
           this.archive[item]['isDepart'] = '离职'
         }
         this.archive[item]['hireDate'] = moment(
-          this.archive[item]['hireDate']
+            this.archive[item]['hireDate']
         ).format('YYYY-MM-DD')
         this.excel.push(JSON.parse(JSON.stringify(this.archive[item])))
       }
@@ -397,7 +397,7 @@ export default {
       this.employeeInfo = JSON.parse(JSON.stringify(row))
       if (this.employeeInfo.departureDate !== null) {
         this.employeeInfo.departureDate = moment(row.departureDate).format(
-          'YYYY年 MM月 DD日'
+            'YYYY年 MM月 DD日'
         )
       }
       this.hireDate = moment(row.hireDate).format('YYYY年 MM月 DD日')
@@ -415,25 +415,25 @@ export default {
     },
     /*修改按钮二次确认*/
     onSubmit(done) {
-      if (done == '离职') {
+      if (done === '离职') {
         this.$confirm('员工离职后将不能修改此档案, 是否继续?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning',
         })
-          .then(() => {
-            this.employeeInfo.departureDate = moment(new Date()).format(
-              'YYYY-MM-DD HH:mm:ss'
-            )
-            this.updateArchive(this.employeeInfo)
-          })
-          .catch((err) => {
-            console.log(err)
-            this.$message({
-              type: 'info',
-              message: '已取消',
+            .then(() => {
+              this.employeeInfo.departureDate = moment(new Date()).format(
+                  'YYYY-MM-DD HH:mm:ss'
+              )
+              this.updateArchive(this.employeeInfo)
             })
-          })
+            .catch((err) => {
+              console.log(err)
+              this.$message({
+                type: 'info',
+                message: '已取消',
+              })
+            })
       } else {
         this.$confirm('确认修改？', '提示', {
           confirmButtonText: '确定',
@@ -441,33 +441,39 @@ export default {
           type: 'success',
         }).then(() => {
           this.employeeInfo.departureDate =
-            this.employeeInfo.departureDate != null
-              ? moment(this.employeeInfo.departureDate).format(
+              this.employeeInfo.departureDate != null
+                  ? moment(this.employeeInfo.departureDate).format(
                   'YYYY-MM-DD HH:mm:ss'
-                )
-              : null
+                  )
+                  : null
           this.updateArchive(this.employeeInfo)
         })
       }
     },
     updateArchive(data) {
       this.employeeInfo.hireDate = moment(this.employeeInfo.hireDate).format(
-        'YYYY-MM-DD HH:mm:ss'
+          'YYYY-MM-DD HH:mm:ss'
       )
       update_archive(data)
-        .then((res) => {
-          this.archive[this.index] = JSON.parse(
-            JSON.stringify(this.employeeInfo)
-          )
-          Msg(this.$message, 'success', '操作成功')
-        })
-        .catch((_) => {
-          Msg(this.$message, 'warning', '操作失败')
-        })
-        .then(() => {
-          this.handleClose()
-          this.getData()
-        })
+          .then((res) => {
+            let item = 0
+            for (item in this.archive) {
+              if (this.archive[item].employee.idNumber === this.employeeInfo.employee.idNumber) {
+                this.index = item
+              }
+            }
+            this.archive[this.index] = JSON.parse(
+                JSON.stringify(this.employeeInfo)
+            )
+            Msg(this.$message, 'success', '操作成功')
+          })
+          .catch((_) => {
+            Msg(this.$message, 'warning', '操作失败')
+          })
+          .then(() => {
+            this.handleClose()
+            this.getData()
+          })
     },
     /*详情信息关闭二次确认*/
     handleClose() {
@@ -497,9 +503,6 @@ export default {
           'comment',
         ]
         for (let each in this.excel) {
-          delete this.excel[each]['company']
-          delete this.excel[each]['employee']
-          delete this.excel[each]['uid']
           let value = []
           for (let key in keys) {
             value.push(this.excel[each][keys[key]])
@@ -540,13 +543,14 @@ export default {
       this.loading = false
     } else {
       get_company_archive().then(
-        (res) => {
-          this.$store.commit('setArchive', res.data.data)
-          this.archive = this.$store.getters.Archive
-          this.getData()
-          this.loading = false
-        },
-        (err) => {}
+          (res) => {
+            this.$store.commit('setArchive', res.data.data)
+            this.archive = this.$store.getters.Archive
+            this.getData()
+            this.loading = false
+          },
+          (err) => {
+          }
       )
     }
   },
@@ -565,30 +569,9 @@ export default {
   margin-top: 10px;
 }
 
-.goTop {
-  height: 100vh;
-  overflow-x: hidden;
-}
-
-.ml50 {
-  padding-left: 150px;
-}
 
 .ml10 {
   margin-left: 10px;
 }
 
-.cancel {
-  background-color: #fff;
-}
-
-.el-message-box {
-  width: 500px;
-}
-
-.form {
-  width: 200px;
-  height: 200px;
-  background-color: red;
-}
 </style>

@@ -107,6 +107,7 @@ export default {
               this.loading = false
               this.$store.commit('addArchive', res.data.data)
               this.$message.success(res.data.msg)
+              this.form = {}
               this.$refs[formName].resetFields()
             })
             .catch((err) => {
