@@ -58,7 +58,7 @@
                   type="success"
                 >
                   <el-card>
-                    <h4>就职于 {{ item.company.name }}</h4>
+                    <h3>就职于 {{ item.company.name }}</h3>
                     <p>
                       就职时间：
                       {{ myMoment(item.hireDate).format('YYYY年 MM月 DD日') }}
