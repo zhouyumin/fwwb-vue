@@ -73,6 +73,9 @@
                     </p>
 
                     <el-collapse-item style="text-align: left">
+                      <template #title>
+                        <h3 class="primary">点击查看更多</h3>
+                      </template>
                       <el-tag style="height: auto; margin-left: 100px">
                         就职部门：{{ item.department }}
                         <br />
