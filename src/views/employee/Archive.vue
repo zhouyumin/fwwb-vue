@@ -28,14 +28,15 @@
               </p>
 
               <el-collapse-item style="text-align: left">
+                <template #title>
+                  <h3 class="primary">点击查看更多</h3>
+                </template>
                 <el-tag style="height: auto; margin-left: 100px">
                   奖惩情况：{{ item.bonusPenalty }}
                   <br />
                   就职部门：{{ item.department }}
                   <br />
                   所任职位：{{ item.title }}
-                  <br />
-                  出勤情况：{{ item.attendance }}
                   <br />
                   整体评价：{{ item.comment }}
                   <br />
@@ -74,7 +75,16 @@
                           class="left-star"
                         />
                       </el-form-item>
-                      <!--可更改-->
+                      <el-form-item>
+                        出勤情况
+                        <el-rate
+                          v-model="item.attendance"
+                          disabled
+                          show-score
+                          text-color="#ff9900"
+                          class="left-star"
+                        />
+                      </el-form-item>
                       <el-form-item>
                         态度
                         <el-rate
