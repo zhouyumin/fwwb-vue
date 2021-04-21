@@ -245,6 +245,12 @@ export default {
     this.info = this.allInfo[0]
     this.archive = this.allInfo[1]
   },
+  watch: {
+    allInfo(n, o) {
+      this.info = n[0]
+      this.archive = n[1]
+    },
+  },
   mounted() {
     this.getChart()
   },
