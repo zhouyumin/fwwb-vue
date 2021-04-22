@@ -149,9 +149,21 @@ export default {
         name: [{ required: true, message: '请输入姓名', trigger: 'blur' }],
         sex: [{ required: true, message: '请选择性别', trigger: 'change' }],
         idNumber: [
-          { required: true, validator: checkIdNumber, trigger: 'blur' },
+          {
+            required: true,
+            validator: checkIdNumber,
+            message: '请输入正确的身份证号',
+            trigger: 'blur',
+          },
         ],
-        tel: [{ required: true, validator: checkTel, trigger: 'blur' }],
+        tel: [
+          {
+            required: true,
+            validator: checkTel,
+            message: '请输入正确的电话',
+            trigger: 'blur',
+          },
+        ],
         education: [{ required: true, message: '请输入学历', trigger: 'blur' }],
       },
       company_rule: {

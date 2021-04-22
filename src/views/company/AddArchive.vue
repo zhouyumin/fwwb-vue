@@ -83,9 +83,21 @@ export default {
         ],
         name: [{ required: true, message: '请输入员工姓名', trigger: 'blur' }],
         idNumber: [
-          { required: true, validator: checkIdNumber, trigger: 'blur' },
+          {
+            required: true,
+            validator: checkIdNumber,
+            message: '请输入正确的身份证',
+            trigger: 'blur',
+          },
         ],
-        tel: [{ required: true, validator: checkTel, trigger: 'blur' }],
+        tel: [
+          {
+            required: true,
+            validator: checkTel,
+            message: '请输入正确的电话',
+            trigger: 'blur',
+          },
+        ],
         hireDate: [
           {
             type: 'date',
